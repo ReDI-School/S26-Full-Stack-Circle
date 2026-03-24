@@ -1,374 +1,296 @@
-# Prisma REST API - Learning Project
+# ReDi Events - Backend
 
-This project is designed to help students learn backend development using modern technologies. It's a REST API built with TypeScript, Prisma ORM, and Express framework.
+This is the backend API for **ReDi Events**. It is a REST API built with Express, TypeScript, and Prisma ORM that connects to a PostgreSQL database.
 
-## 🚀 Tech Stack
+## What is the tech stack?
 
-- **TypeScript** - For type-safe code
-- **Prisma** - Modern ORM for database operations
-- **Express** - Fast, lightweight web framework
-- **Node.js** - JavaScript runtime
-- **CORS** - Cross-Origin Resource Sharing support
-- **Helmet** - Enhanced security headers
+| Tool | What it does |
+|------|-------------|
+| [Express](https://expressjs.com/) | A web framework for handling HTTP requests |
+| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors early |
+| [Prisma 7](https://www.prisma.io/) | An ORM that makes it easy to talk to the database |
+| [PostgreSQL](https://www.postgresql.org/) | A relational database where we store our data |
+| [Docker](https://www.docker.com/) | Runs the database in a container so you don't have to install PostgreSQL on your machine |
 
-## 📋 Prerequisites
+## Project structure
 
-Before you begin, ensure you have the following installed:
+```
+backend/
+├── prisma/
+│   ├── schema.prisma     # Defines the database tables (models)
+│   └── seed.ts           # Script to add test data to the database
+├── prisma.config.ts      # Prisma configuration (database URL, migrations)
+├── generated/prisma/     # Auto-generated Prisma client (don't edit this!)
+├── src/
+│   ├── index.ts          # Entry point - starts the Express server
+│   ├── routes/           # Defines the API endpoints (URLs)
+│   │   └── userRoutes.ts
+│   ├── controllers/      # Handles requests and sends responses
+│   │   └── userController.ts
+│   ├── services/         # Business logic and database queries
+│   │   └── userService.ts
+│   └── libs/
+│       └── prisma.ts     # Creates and exports the Prisma client
+├── .nvmrc                # Node.js version for nvm (v22)
+├── package.json
+├── tsconfig.json
+└── .env                  # Your local environment variables (not in git)
+```
 
-- Node.js v22
-- npm
-- PostgreSQL database
+## Getting started
 
-## 🛠️ Setup
+### What you need
 
-### 1. Install dependencies
+- **Node.js** version 22 or higher (check with `node -v`)
+- **Docker** installed and running
+
+> For detailed installation instructions for Node.js and Docker on your OS, see the [main README](../README.md#prerequisites).
+
+### Step 1: Use the correct Node.js version
+
+```bash
+cd backend
+nvm use
+```
+
+This reads the `.nvmrc` file in this folder and switches to the correct Node.js version (v22). If you see an error saying the version is not installed, run `nvm install` first.
+
+### Step 2: Start the database
+
+From the **project root** (not the backend folder), run:
+
+```bash
+docker compose up -d
+```
+
+This starts a PostgreSQL database inside a Docker container. You can check it's running with:
+
+```bash
+docker compose ps
+```
+
+You should see a container with status "Up".
+
+> **What does `docker compose up -d` do?** It reads the `docker-compose.yml` file and starts the services described in it. The `-d` flag means "detached" -- it runs in the background so you can keep using your terminal.
+
+### Step 3: Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Set up your database
+### Step 4: Create your `.env` file
 
-- Set up a PostgreSQL database (see [POSTGRESQL_SETUP.md](./POSTGRESQL_SETUP.md) for detailed instructions)
-- Copy `env.example` to `.env` and update the `DATABASE_URL`
-- Example format: `postgresql://username:password@localhost:5432/database_name`
+```bash
+cp .env.example .env
+```
 
-### 3. Initialize the database
+The `.env.example` already has the correct values to connect to the Docker database. You don't need to change anything.
+
+### Step 5: Push the database schema
+
+This creates the tables in your database based on the Prisma schema:
 
 ```bash
 npm run prisma:push
 ```
 
-## 🏃‍♂️ Running the Project
+### Step 6: (Optional) Add test data
 
-### Development mode
+```bash
+npm run prisma:seed
+```
+
+This creates a test user in the database so you have some data to work with.
+
+### Step 7: Start the server
 
 ```bash
 npm run dev
 ```
 
-### Build and run in production
+You should see:
 
-```bash
-npm run build
-npm start
+```
+Server is running on http://localhost:4000
 ```
 
-## 📁 Project Structure
+Open `http://localhost:4000` in your browser -- you should see `{"status":"ReDi Events API is running"}`.
 
-```bash
-src/
-├── controllers/    # Business logic handlers
-├── routes/         # API route definitions
-├── services/       # Business logic and data access
-├── libs/          # Shared utilities and helpers
-└── index.ts       # Application entry point
+## How the code is organized
+
+When a request comes in, it flows through three layers:
+
+```
+Request → Route → Controller → Service → Database
+                                              ↓
+Response ← Route ← Controller ← Service ← Database
 ```
 
-## 📝 Creating New Endpoints
+### Routes (`src/routes/`)
 
-When creating a new feature, you'll need to create files in multiple directories following the project's architecture. Here's a complete example of creating a user management feature:
+Routes define **which URLs** your API responds to. They connect URLs to controller methods:
 
-### 1. First, create a service in `src/services/userService.ts`
-
-```typescript
-// src/services/userService.ts
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-export class UserService {
-  async getAllUsers() {
-    return await prisma.user.findMany();
-  }
-
-  async getUserById(id: number) {
-    return await prisma.user.findUnique({
-      where: { id },
-    });
-  }
-
-  async createUser(data: any) {
-    return await prisma.user.create({
-      data,
-    });
-  }
-
-  async updateUser(id: number, data: any) {
-    return await prisma.user.update({
-      where: { id },
-      data,
-    });
-  }
-
-  async deleteUser(id: number) {
-    return await prisma.user.delete({
-      where: { id },
-    });
-  }
-}
-```
-
-### 2. Create a controller in `src/controllers/userController.ts`
-
-```typescript
-// src/controllers/userController.ts
-import { Request, Response } from 'express';
-import { UserService } from '../services/userService';
-
-export class UserController {
-  private userService: UserService;
-
-  constructor() {
-    this.userService = new UserService();
-  }
-
-  async getAllUsers(req: Request, res: Response) {
-    try {
-      const users = await this.userService.getAllUsers();
-      res.json({ users });
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      res.status(500).json({ error: 'Failed to fetch users' });
-    }
-  }
-
-  async getUserById(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      const user = await this.userService.getUserById(id);
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      res.json({ user });
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      res.status(500).json({ error: 'Failed to fetch user' });
-    }
-  }
-
-  async createUser(req: Request, res: Response) {
-    try {
-      const data = req.body;
-      const user = await this.userService.createUser(data);
-      res.status(201).json({ user });
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ error: 'Failed to create user' });
-    }
-  }
-
-  async updateUser(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      const data = req.body;
-      const user = await this.userService.updateUser(id, data);
-      res.json({ user });
-    } catch (error) {
-      console.error('Error updating user:', error);
-      res.status(500).json({ error: 'Failed to update user' });
-    }
-  }
-
-  async deleteUser(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      await this.userService.deleteUser(id);
-      res.json({ message: 'User deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      res.status(500).json({ error: 'Failed to delete user' });
-    }
-  }
-}
-```
-
-### 3. Create a route in `src/routes/userRoutes.ts`
-
-```typescript
-// src/routes/userRoutes.ts
-import { Router } from 'express';
-import { UserController } from '../controllers/userController';
-
-const userRouter = Router();
-const userController = new UserController();
-
-// GET /api/users
+```ts
+// "When someone visits GET /users, call getAllUsers on the controller"
 userRouter.get('/', (req, res) => userController.getAllUsers(req, res));
-
-// GET /api/users/:id
-userRouter.get('/:id', (req, res) => userController.getUserById(req, res));
-
-// POST /api/users
-userRouter.post('/', (req, res) => userController.createUser(req, res));
-
-// PUT /api/users/:id
-userRouter.put('/:id', (req, res) => userController.updateUser(req, res));
-
-// DELETE /api/users/:id
-userRouter.delete('/:id', (req, res) => userController.deleteUser(req, res));
-
-export default userRouter;
 ```
 
-### 4. Finally, register the route in `src/index.ts`
+### Controllers (`src/controllers/`)
 
-```typescript
-import userRouter from './routes/userRoutes';
-app.use('/users', userRouter);
+Controllers handle the **HTTP request and response**. They read data from the request, call the service, and send back a response:
+
+```ts
+async getAllUsers(req: Request, res: Response) {
+  try {
+    const users = await this.userService.getAllUsers();
+    res.json({ users });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+}
 ```
 
-This structure follows the separation of concerns principle:
+### Services (`src/services/`)
 
-- **Services**: Handle business logic and database operations
-- **Controllers**: Handle HTTP requests and responses
-- **Routes**: Define API endpoints and connect them to controllers
+Services contain the **business logic** and talk to the database through Prisma:
 
-The flow of a request is:
+```ts
+async getAllUsers() {
+  return await prisma.user.findMany();
+}
+```
 
-1. Request comes to a route
-2. Route calls the appropriate controller method
-3. Controller uses the service to perform business logic
-4. Service interacts with the database through Prisma
-5. Response flows back through the same chain
+### The Prisma client (`src/libs/prisma.ts`)
 
-## 🗄️ Database Models and Schemas
+This file creates a single Prisma client that the whole app shares:
 
-The project uses Prisma as its ORM, and all database models are defined in the `prisma/schema.prisma` file. Here's how to work with models:
+```ts
+import { PrismaClient } from '../../generated/prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 
-### Creating New Models
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+});
 
-Open `prisma/schema.prisma` and add your new model. Here's an example:
+const prisma = new PrismaClient({ adapter });
+```
+
+In Prisma 7, you need a **driver adapter** to connect to the database. The adapter tells Prisma how to talk to PostgreSQL.
+
+## The database schema
+
+The database tables are defined in `prisma/schema.prisma`:
 
 ```prisma
-// prisma/schema.prisma
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String?
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]   // Relation to Post model
-}
-
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 ```
 
-### Model Features
+**What each line means:**
 
-- **Fields**: Define columns with types and modifiers
-- **Relations**: Define relationships between models
-- **Modifiers**: Use `@id`, `@unique`, `@default`, etc.
-- **Timestamps**: Use `@default(now())` and `@updatedAt`
+- `id Int @id @default(autoincrement())` -- a unique number that increases automatically
+- `email String @unique` -- a text field that must be different for every user
+- `name String?` -- an optional text field (the `?` means it can be empty)
+- `createdAt DateTime @default(now())` -- automatically set to the current time when created
+- `updatedAt DateTime @updatedAt` -- automatically updated every time the record changes
 
-### Updating the Database
+### Changing the schema
 
-After modifying the schema, you need to update the database:
-
-### 1. Generate the Prisma Client
+When you add or change a model in `schema.prisma`, you need to update the database:
 
 ```bash
+# Push the changes to the database
+npm run prisma:push
+
+# Regenerate the Prisma client so your code knows about the changes
 npm run prisma:generate
 ```
 
-### 2. Push the changes to the database
+### Browsing the database
+
+Prisma Studio gives you a visual interface to see and edit your data:
 
 ```bash
-npm run prisma:push
+npm run prisma:studio
 ```
 
-Or, if you want to create a migration:
+This opens a browser window at `http://localhost:5555`.
+
+## API endpoints
+
+The current API has these endpoints:
+
+| Method | URL | What it does |
+|--------|-----|-------------|
+| GET | `/` | Health check (is the server running?) |
+| GET | `/users` | Get all users |
+| GET | `/users/:id` | Get a single user by ID |
+| POST | `/users` | Create a new user |
+| PUT | `/users/:id` | Update a user |
+| DELETE | `/users/:id` | Delete a user |
+
+### Testing your API with Bruno
+
+To test your API endpoints, we recommend using [Bruno](https://www.usebruno.com/) -- a free, easy-to-use app for sending HTTP requests.
+
+1. Download and install Bruno from [usebruno.com](https://www.usebruno.com/)
+2. Open Bruno and create a new request
+3. Set the URL to `http://localhost:4000/users` and the method to `GET`
+4. Click **Send** -- you should see the list of users as JSON
+
+Bruno lets you visually pick the HTTP method (GET, POST, PUT, DELETE), type in the URL, add a JSON body, and see the response -- no terminal commands needed.
+
+## Available scripts
+
+Run these from the `backend/` folder:
+
+| Command | What it does |
+|---------|-------------|
+| `npm run dev` | Starts the server with auto-reload |
+| `npm run build` | Builds the project for production |
+| `npm start` | Runs the production build |
+| `npm run lint` | Checks your code for problems |
+| `npm run format` | Formats your code with Prettier |
+| `npm run prisma:generate` | Regenerates the Prisma client |
+| `npm run prisma:push` | Pushes schema changes to the database |
+| `npm run prisma:migrate` | Creates and runs a migration |
+| `npm run prisma:studio` | Opens the database browser |
+| `npm run prisma:seed` | Adds test data to the database |
+
+## Adding a new feature (step by step)
+
+When you want to add a new endpoint (for example, events), follow this pattern:
+
+1. **Add the model** to `prisma/schema.prisma` and run `npm run prisma:push`
+2. **Create a service** in `src/services/eventService.ts` with the database queries
+3. **Create a controller** in `src/controllers/eventController.ts` to handle requests
+4. **Create a route** in `src/routes/eventRoutes.ts` to define the URLs
+5. **Register the route** in `src/index.ts` with `app.use('/events', eventRouter)`
+
+## Stopping the database
+
+When you're done working, you can stop the Docker container:
 
 ```bash
-npm run prisma:migrate dev --name your_migration_name
+# From the project root
+docker compose down
 ```
 
-> [!NOTE] > `prisma migrate` is Prisma's CLI tool used to manage and apply database schema changes in a structured and version-controlled way. So it will create a new migration file and apply it to the database, keeping your local database in sync with the schema and creating a backup of the previous state of the database to be able to rollback if needed. you can read more about it [here](https://www.prisma.io/docs/concepts/components/prisma-migrate).
+To also delete the stored data (start fresh):
 
-### Using Models in Your Code
-
-After generating the client, you can use the models in your services:
-
-```typescript
-// src/services/userService.ts
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-export class UserService {
-  async createUser(data: { email: string; name?: string; password: string }) {
-    return await prisma.user.create({
-      data: {
-        email: data.email,
-        name: data.name,
-        password: data.password, // Remember to hash passwords!
-      },
-    });
-  }
-
-  async getUserWithPosts(id: number) {
-    return await prisma.user.findUnique({
-      where: { id },
-      include: {
-        posts: true, // Include related posts
-      },
-    });
-  }
-}
+```bash
+docker compose down -v
 ```
 
-### Best Practices
+## Helpful resources
 
-1. **Type Safety**: Use TypeScript types generated by Prisma
-2. **Relations**: Define clear relationships between models
-3. **Indexes**: Add indexes for frequently queried fields
-4. **Validation**: Use Prisma's built-in validation features
-5. **Migrations**: Use migrations for production deployments
-
-### Common Commands
-
-- `npm run prisma:generate` - Generate Prisma Client
-- `npm run prisma:push` - Push schema changes to database
-- `npm run prisma:migrate dev` - Create and apply migrations
-- `npm run prisma:studio` - Open Prisma Studio for database management
-
-## 🔧 Available Scripts
-
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build the project
-- `npm start` - Run the built project
-- `npm run prisma:generate` - Generate Prisma client
-- `npm run prisma:migrate` - Run database migrations
-- `npm run prisma:push` - Push schema changes to database
-- `npm run prisma:studio` - Open Prisma Studio for database management
-
-## 🔒 Security Features
-
-- CORS configuration with environment-based origins
-- Helmet.js for secure headers implementation
-- Environment variable configuration
-- Health check endpoint for monitoring
-
-## 📚 Learning Resources
-
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [Express.js Documentation](https://expressjs.com/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-
-## 🤝 Contributing
-
-Feel free to submit issues and enhancement requests!
-
-## 📄 License
-
-This project is licensed under the MIT License.
+- [Express Documentation](https://expressjs.com/) -- routing, middleware, requests/responses
+- [Prisma Documentation](https://www.prisma.io/docs) -- database queries, schema, migrations
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) -- types and interfaces
+- [Docker Getting Started](https://docs.docker.com/get-started/) -- containers and compose

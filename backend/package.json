@@ -4,15 +4,15 @@
   "description": "Rest API in TS using Prisma",
   "main": "dist/index.js",
   "keywords": [],
-  "author": "Fabio Rodrigues",
+  "author": "ReDi School",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabiorodriguesdev/redi-fsc-template.git"
+    "url": "git@github.com:ReDI-School/S26-Full-Stack-Circle.git"
   },
   "scripts": {
     "dev": "prisma generate && tsx watch src/index.ts",
-    "build": "prisma generate && prisma db push && tsc && tsc-alias",
+    "build": "prisma generate && tsc && tsc-alias",
     "start": "node dist/index.js",
     "lint": "eslint src/ prisma/seed.ts",
     "format": "prettier --write .",
@@ -21,14 +21,16 @@
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate && prisma db push"
+    "postinstall": "prisma generate"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.6.0",
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
     "@types/cors": "^2.8.19",
+    "dotenv": "^16.5.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "helmet": "^8.1.0"
@@ -43,7 +45,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "prettier": "^3.6.2",
-    "prisma": "^6.6.0",
+    "prisma": "^7.5.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.7.1",
     "typescript": "^5.4.2"

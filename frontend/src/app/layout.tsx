@@ -1,12 +1,20 @@
 import type { Metadata } from 'next';
+import { Roboto } from 'next/font/google';
 
 import '../assets/css/reset.css';
 import '../assets/css/global.css';
 
 import { Layout } from '../components';
 
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'REDIFLIX - Your Personalized Video Streaming Platform',
+  title: 'ReDi Events - Bringing People Together',
 };
 
 interface RootLayoutProps {
@@ -15,7 +23,7 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en">
+    <html lang="en" className={roboto.variable}>
       <body>
         <Layout>{children}</Layout>
       </body>

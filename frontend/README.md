@@ -1,323 +1,289 @@
-# 🎬 Rediflix - Full Stack Circle Project
+# ReDi Events - Frontend
 
-Welcome to **Rediflix**, a full-stack web application built with React and Node.js! This project is designed to help you understand how modern web applications work by combining frontend and backend technologies.
+Welcome to the **ReDi Events** frontend! This is a web application built with **Next.js** and **React**. It will let users create, join, and manage events.
 
-## 📚 What You'll Learn
+This README will help you understand how the project is set up and how to start working on it.
 
-This project will teach you:
+## What is the tech stack?
 
-- **Frontend**: React components, routing, state management, and API calls
-- **Backend**: Node.js with Express, REST APIs, and database operations
-- **Database**: PostgreSQL with Prisma ORM
-- **Full-Stack Integration**: How frontend and backend communicate
-- **Modern Development Tools**: TypeScript, Vite, Storybook, and more
+Here is a quick overview of the main tools we use:
 
-## 🏗️ Project Structure
+| Tool | What it does |
+|------|-------------|
+| [Next.js 15](https://nextjs.org/) | A React framework that handles routing, server-side rendering, and more |
+| [React 19](https://react.dev/) | A library for building user interfaces with components |
+| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors before running the code |
+| [Tailwind CSS v4](https://tailwindcss.com/) | A CSS framework that lets you style elements using class names |
+| [Storybook 9](https://storybook.js.org/) | A tool to build and preview components in isolation |
+| [Vitest](https://vitest.dev/) | A test runner for writing unit tests |
 
-```text
-F25-Full-Stack-Circle/
-├── frontend/          # React application (what you're looking at!)
-├── backend/           # Node.js server with Express and Prisma
-└── README.md          # Main project documentation
+## Project structure
+
 ```
-
-### Frontend Structure (`frontend/` folder)
-
-```text
 frontend/
 ├── src/
-│   ├── components/    # Reusable UI components
-│   ├── pages/         # Page components (Home, SignIn)
-│   ├── hooks/         # Custom React hooks
-│   ├── assets/        # CSS, images
-│   └── config/        # Configuration files
-├── public/            # Static files (such as fonts)
-├── package.json       # Dependencies and scripts
-└── vite.config.ts     # Vite build configuration
+│   ├── app/                  # Pages and layout (Next.js App Router)
+│   │   ├── layout.tsx        # The root layout (wraps every page)
+│   │   ├── page.tsx          # Home page (/)
+│   │   └── sign-in/
+│   │       └── page.tsx      # Sign In page (/sign-in)
+│   ├── assets/
+│   │   ├── css/
+│   │   │   ├── global.css    # Design tokens and global styles
+│   │   │   └── reset.css     # Browser reset styles
+│   │   └── images/
+│   │       └── logo.svg      # ReDi Events logo
+│   ├── components/           # Reusable UI components
+│   │   ├── Button/
+│   │   │   ├── Button.tsx        # The component itself
+│   │   │   ├── Button.types.ts   # TypeScript types for the props
+│   │   │   ├── Button.styles.ts  # Tailwind styles using tailwind-variants
+│   │   │   └── Button.stories.tsx # Storybook stories
+│   │   └── Layout/
+│   │       └── Layout.tsx    # Layout wrapper component
+│   ├── config/
+│   │   └── index.ts          # API URL configuration
+│   └── hooks/
+│       └── useConfig.ts      # Hook to load the config
+├── .storybook/               # Storybook configuration
+├── .nvmrc                    # Node.js version for nvm (v22)
+├── package.json              # Dependencies and scripts
+├── tsconfig.json             # TypeScript configuration
+├── next.config.ts            # Next.js configuration
+└── postcss.config.mjs        # PostCSS configuration (needed by Tailwind)
 ```
 
-## 🚀 Getting Started
+## Getting started
 
-### Prerequisites
+### What you need
 
-Before you begin, make sure you have:
+- **Node.js** version 22 or higher (check with `node -v`)
+- **npm** as a package manager (comes with Node.js)
 
-- **Node.js** version 22.0.0 or higher
-- **npm** as a package manager
-- Basic understanding of HTML, CSS, and JavaScript
+> If you need to install Node.js, see the [main README](../README.md#1-nodejs-version-22-or-higher) for instructions.
 
-### Step 1: Install Dependencies
-
-Open your terminal and navigate to the frontend folder:
+### Step 1: Use the correct Node.js version
 
 ```bash
 cd frontend
+nvm use
+```
+
+This reads the `.nvmrc` file in this folder and switches to the correct Node.js version (v22). If you see an error saying the version is not installed, run `nvm install` first.
+
+### Step 2: Install dependencies
+
+```bash
 npm install
 ```
 
-This will install all the packages listed in `package.json`, including:
+This downloads all the packages listed in `package.json`.
 
-- **React 19**: The main UI library
-- **React Router**: For navigation between pages
-- **TypeScript**: For type-safe JavaScript
-- **Vite**: For fast development and building
-
-### Step 2: Start the Development Server
+### Step 3: Start the development server
 
 ```bash
 npm run dev
 ```
 
-This command starts the development server. You should see output like:
+You should see something like:
 
-```bash
-  VITE v7.1.2  ready in 123 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
+```
+  ▲ Next.js 15.x
+  - Local:   http://localhost:3000
 ```
 
-Open your browser and go to `http://localhost:5173/` to see your app!
+Open `http://localhost:3000` in your browser to see the app.
 
-> [!NOTE]
-> Make sure you run the backend server before running the frontend server so you can see the data in the frontend. [See Backend README here](../backend/README.md)
+> **Note:** The frontend talks to the backend API. Make sure the backend is running too, otherwise you won't see any data. [See the Backend README](../backend/README.md).
 
-## 🎯 How the App Works
+## How the app is organized
 
-### 1. **Entry Point** (`src/main.tsx`)
+### Pages and routing
 
-This is where your React app starts. Think of it as the "main door" to your application:
+Next.js uses the **App Router**. Each folder inside `src/app/` becomes a URL route:
 
-```tsx
-// main.tsx - The starting point of your app
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      {/* Enables routing */}
-      <Layout>
-        {/* Wraps all pages */}
-        <Routes>
-          {/* Defines available routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SignIn />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
-  </StrictMode>
-);
-```
+| File | URL | What it shows |
+|------|-----|--------------|
+| `src/app/page.tsx` | `/` | Home page |
+| `src/app/sign-in/page.tsx` | `/sign-in` | Sign In page |
 
-**What this means:**
+You don't need to set up routing manually. Just create a new folder inside `src/app/` with a `page.tsx` file, and Next.js creates the route for you.
 
-- `<StrictMode>`: Helps catch potential problems during development
-- `<BrowserRouter>`: Enables navigation between pages using URLs
-- `<Layout>`: Provides a consistent structure for all pages
-- `<Routes>`: Defines which component to show for each URL path
+### The root layout (`src/app/layout.tsx`)
 
-### 2. **Routing System**
-
-The app has two main pages:
-
-- **Home page** (`/`): Shows the main content and a list of users
-- **Sign In page** (`/signin`): A form for user authentication
-
-When you click the "Sign In" button on the home page, React Router navigates you to `/signin`.
-
-### 3. **Components** (`src/components/`)
-
-Components are like building blocks for your UI. Let's look at the Button component:
+This file wraps **every** page. It loads the font, the CSS files, and the `<Layout>` component:
 
 ```tsx
-// Button.tsx - A reusable button component
-const Button = ({ children, onClick, stretch = false, disabled = false }) => {
+import { Roboto } from 'next/font/google';
+
+// Load the Roboto font from Google Fonts
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <button className={styledButton({ stretch })} onClick={onClick} disabled={disabled}>
-      {children}
-    </button>
+    <html lang="en" className={roboto.variable}>
+      <body>
+        <Layout>{children}</Layout>
+      </body>
+    </html>
   );
 };
 ```
 
-**What this means:**
+**What is happening here:**
 
-- `children`: The text or content inside the button
-- `onClick`: What happens when the button is clicked
-- `stretch`: Whether the button should stretch to fill its container
-- `disabled`: Whether the button is clickable
+- `Roboto` is imported from `next/font/google` -- Next.js downloads and serves the font automatically, no external requests needed
+- `variable: '--font-roboto'` creates a CSS variable so Tailwind can use the font
+- `className={roboto.variable}` applies that CSS variable to the whole page
+- `<Layout>` is our own wrapper component that centers the content
 
-### 4. **Pages** (`src/pages/`)
+### Components
 
-Pages are full-screen components that represent different views in your app.
+Components are reusable pieces of UI. Each component lives in its own folder under `src/components/` and is made up of several files:
 
-#### Home Page (`src/pages/Home/Home.tsx`)
+```
+Button/
+├── Button.tsx          # The component (what it renders)
+├── Button.types.ts     # The TypeScript types (what props it accepts)
+├── Button.styles.ts    # The styles (how it looks)
+├── Button.stories.tsx  # The Storybook stories (previews)
+└── index.ts            # Barrel file (re-exports for cleaner imports)
+```
 
-The home page demonstrates several important React concepts:
+This pattern keeps things organized. When you need to create a new component, follow the same structure.
+
+## Styling
+
+### How Tailwind CSS works
+
+Instead of writing CSS in separate files, you add class names directly to your HTML/JSX elements. Tailwind provides utility classes for almost everything:
 
 ```tsx
-const Home = () => {
-  // State management - data that can change
-  const [users, setUsers] = useState<User[]>([]);
-  const [loadingUsers, setLoadingUsers] = useState<boolean>(false);
+// Instead of writing CSS like this:
+// .card { display: flex; padding: 16px; border-radius: 8px; }
 
-  // Custom hook for configuration
-  const { config, loadingConfig } = useConfig();
-
-  // Navigation hook
-  const navigate = useNavigate();
-
-  // Event handler - what happens when button is clicked
-  const handleSignIn = () => {
-    navigate('/signin'); // Navigate to sign-in page
-  };
-
-  // Side effect - fetch data when component loads
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch(`${config?.apiUrl}/users`);
-      const data = await response.json();
-      setUsers(data.users);
-    };
-
-    fetchUsers();
-  }, [config, loadingConfig, loadingUsers]);
-
-  return (
-    <div className={styles.home}>
-      <img src={logo} alt="Rediflix Logo" width={500} />
-
-      {/* Conditional rendering based on loading state */}
-      {loadingUsers ? (
-        <div>Loading users...</div>
-      ) : (
-        <>
-          {/* Conditional rendering based on data */}
-          {users.length > 0 ? (
-            users.map((user) => <div key={user.id}>{user.email}</div>)
-          ) : (
-            <div>No users found</div>
-          )}
-        </>
-      )}
-
-      <Button onClick={handleSignIn}>Sign In</Button>
-    </div>
-  );
-};
+// You write class names like this:
+<div className="flex p-4 rounded-lg">
 ```
 
-**Key Concepts Demonstrated:**
+### Design tokens (`src/assets/css/global.css`)
 
-- **State**: `useState` manages data that can change (users, loading states)
-- **Effects**: `useEffect` runs code when the component loads or when dependencies change
-- **Conditional Rendering**: Different content shows based on conditions
-- **Event Handling**: Button clicks trigger functions
-- **API Calls**: Fetching data from a backend server
+Design tokens are the colors, fonts, and sizes that define how the app looks. They are defined in `global.css` using the `@theme` directive:
 
-### 5. **Styling** (`src/assets/css/`)
+```css
+@theme {
+  /* The main brand color (teal) */
+  --color-primary: #2E8B8B;
+  --color-primary-dark: #236B6B;    /* For hover states */
+  --color-primary-light: #3AA9A9;   /* For accents */
 
-The app uses CSS modules for styling:
+  /* Status colors */
+  --color-success: #28A745;   /* Green - for success messages */
+  --color-warning: #FFC107;   /* Yellow - for warnings */
+  --color-error: #DC3545;     /* Red - for errors */
+  --color-danger: #E8614D;    /* Orange-red - for destructive actions */
 
-- `reset.css`: Removes default browser styles
-- `global.css`: Applies styles across the entire app
-- Component-specific CSS files (e.g., `Button.module.css`)
+  /* Background colors */
+  --color-bg-primary: #FFFFFF;     /* White - main background */
+  --color-bg-secondary: #F5F5F5;   /* Light grey - secondary areas */
 
-### 6. **Configuration** (`src/config/`)
-
-The app uses a configuration system to manage settings like API URLs. This makes it easy to switch between development and production environments.
-
-## 🔧 Available Scripts
-
-In the `frontend` folder, you can run these commands:
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Check code quality
-npm run format       # Format code with Prettier
-npm run storybook    # Open Storybook (component library)
+  /* Text colors */
+  --color-text-primary: #333333;    /* Dark grey - main text */
+  --color-text-secondary: #666666;  /* Medium grey - secondary text */
+  --color-text-inverse: #FFFFFF;    /* White - text on dark backgrounds */
+}
 ```
 
-## 📖 Understanding the Backend
+Once defined, you can use these tokens as Tailwind classes. For example:
 
-The backend is a Node.js server that provides:
+```tsx
+<div className="bg-primary text-text-inverse">  // Teal background, white text
+<p className="text-text-secondary">              // Medium grey text
+<div className="bg-bg-secondary">               // Light grey background
+```
 
-- **REST API endpoints** for user management
-- **Database operations** using PostgreSQL and Prisma
-- **User authentication** (you will implement this ❤️)
+### tailwind-variants
 
-> [!NOTE]
-> [See Backend README here](../backend/README.md)
+For components with multiple states (hover, disabled, variants), we use [tailwind-variants](https://www.tailwind-variants.org/). It lets you group Tailwind classes in a clean way:
 
-### How Frontend and Backend Connect
+```ts
+// Button.styles.ts
+import { tv } from 'tailwind-variants';
 
-1. **Frontend makes a request**: When the Home page loads, it calls `fetch(`${config?.apiUrl}/users`)`
-2. **Backend receives the request**: The Express server handles the `/users` endpoint
-3. **Database query**: Prisma queries the PostgreSQL database
-4. **Response**: Data is sent back to the frontend
-5. **Frontend updates**: The `setUsers(data.users)` updates the UI with the received data
+export const buttonStyles = tv({
+  base: [
+    'bg-primary text-text-inverse',     // Teal background, white text
+    'py-3 px-6 rounded-base',           // Padding and rounded corners
+    'hover:bg-primary-dark',            // Darker teal on hover
+    'disabled:bg-grey-300 disabled:opacity-60',
+  ],
+  variants: {
+    stretch: {
+      true: 'w-full',  // Takes the full width of its container
+    },
+  },
+});
+```
 
-## 🎨 Styling and Design
+## Available scripts
 
-The app uses a Netflix-inspired design with:
+Run these from the `frontend/` folder:
 
-- **Custom fonts**: Netflix Sans font family
-- **Modern UI**: Clean, responsive design
-- **CSS Modules**: Scoped styling to prevent conflicts
-- **Responsive design**: Works on different screen sizes
+| Command | What it does |
+|---------|-------------|
+| `npm run dev` | Starts the development server at `http://localhost:3000` |
+| `npm run build` | Builds the app for production |
+| `npm run start` | Runs the production build |
+| `npm run lint` | Checks your code for problems |
+| `npm run format` | Formats your code with Prettier |
+| `npm run storybook` | Opens Storybook at `http://localhost:6006` |
 
-## 🧪 Testing and Development Tools
+## Storybook
 
-### Storybook
-
-Storybook lets you develop and test components in isolation so you don't have to add the components to the a page to see how they look.
+Storybook lets you develop and preview components without needing to add them to a page first. This is useful for building and testing UI components in isolation.
 
 ```bash
 npm run storybook
 ```
 
-This opens a component library where you can see all your components and test them individually.
+This opens a browser window where you can see all your components and interact with them.
 
-> [!NOTE]
-> [See Storybook documentation here](https://storybook.js.org/docs/react/get-started/introduction)
+## How frontend and backend connect
 
-### ESLint and Prettier
+1. The frontend loads and calls `fetch('http://localhost:4000/users')`
+2. The backend receives the request and queries the database
+3. The backend sends back the data as JSON
+4. The frontend receives the data and shows it on the page
 
-- **ESLint**: Finds and fixes code quality issues
-- **Prettier**: Automatically formats your code
+The API URL is configured in `src/config/index.ts` and loaded via the `useConfig` hook.
 
-### TypeScript
+## Next steps
 
-TypeScript adds type safety to JavaScript, helping catch errors before they happen.
+Once you are comfortable with the project, try:
 
-## 🚀 Next Steps
+1. Create a new page by adding a folder inside `src/app/`
+2. Build a new component following the `Button/` folder pattern
+3. Add your component to Storybook with a `.stories.tsx` file
+4. Connect your component to the backend API
 
-Once you're comfortable with the basics, try:
+## Helpful resources
 
-1. **Add a new page**: Create a new route and component
-2. **Modify the Button component**: Add new variants or styles
-3. **Create new components**: Build reusable UI elements
-4. **Connect to the backend**: Add more API calls
-5. **Add user authentication**: Implement login/logout functionality
+- [Next.js Documentation](https://nextjs.org/docs) -- how routing, layouts, and pages work
+- [React Documentation](https://react.dev/) -- components, state, and hooks
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs) -- all available utility classes
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) -- types and interfaces
+- [Storybook Documentation](https://storybook.js.org/docs) -- writing stories for your components
 
-## 🆘 Getting Help
+## Getting help
 
-If you get stuck:
+If something is not working:
 
-1. Check the browser console for error messages
-2. Look at the terminal where you ran `npm run dev`
-3. Check the Network tab in browser DevTools to see API calls
-4. Review the React and TypeScript documentation
-
-## 📚 Additional Resources
-
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-- [Vite Guide](https://vitejs.dev/guide/)
-- [React Router Documentation](https://reactrouter.com/)
-
----
-
-**Happy coding! 🎉**
-
-This project is designed to grow with you. Start simple, experiment, and don't be afraid to break things - that's how you learn!
+1. Check the **terminal** where you ran `npm run dev` for error messages
+2. Check the **browser console** (right-click > Inspect > Console tab)
+3. Check the **Network tab** in browser DevTools to see if API calls are failing
+4. Ask your teacher or classmates for help

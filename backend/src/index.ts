@@ -41,7 +41,7 @@ app.use('/users', userRouter);
 
 // Health check
 app.get('/', (req: Request, res: Response) => {
-  res.json({ status: 'Rediflix API is running' });
+  res.json({ status: 'ReDi Events API is running' });
 });
 
 const protocol = process.env.PROTOCOL ?? 'http';

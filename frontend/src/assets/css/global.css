@@ -1,97 +1,52 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   Custom Font Faces
-   ============================================================ */
-@font-face {
-  font-family: 'Netflix Sans';
-  src: url('/fonts/NetflixSans-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Netflix Sans';
-  src: url('/fonts/NetflixSans-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Netflix Sans';
-  src: url('/fonts/NetflixSans-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Netflix Sans';
-  src: url('/fonts/NetflixSans-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-}
-
-/* ============================================================
-   Tailwind v4 Theme -- maps existing design tokens
+   Tailwind v4 Theme -- ReDi Events design tokens
    ============================================================ */
 @theme {
-  /* Font Family */
-  --font-sans: 'Netflix Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Font Family -- Roboto is loaded via next/font/google in layout.tsx */
+  --font-sans:
+    var(--font-roboto), 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Colors -- Primary */
-  --color-primary-red: #E50914;
-  --color-primary-black: #000000;
-  --color-primary-white: #FFFFFF;
+  /* Colors -- Primary (Teal) */
+  --color-primary: #2e8b8b;
+  --color-primary-dark: #236b6b;
+  --color-primary-light: #3aa9a9;
 
-  /* Colors -- Secondary */
-  --color-secondary-blue-100: #0071EB;
-  --color-secondary-blue-200: #448EF4;
-  --color-secondary-blue-300: #54B9C5;
-  --color-secondary-red-100: #EB3942;
-  --color-secondary-red-200: #C11119;
-  --color-secondary-red-300: #F50723;
-  --color-secondary-green: #46D369;
+  /* Colors -- Neutral */
+  --color-white: #ffffff;
+  --color-black: #1a1a1a;
 
   /* Colors -- Grey Scale */
-  --color-grey-10: #E5E5E5;
-  --color-grey-20: #DCDCDC;
-  --color-grey-25: #D2D2D2;
-  --color-grey-50: #BCBCBC;
-  --color-grey-100: #B3B3B3;
-  --color-grey-150: #979797;
-  --color-grey-200: #808080;
-  --color-grey-250: #777777;
-  --color-grey-300: #6D6D6E;
-  --color-grey-350: #545454;
-  --color-grey-400: #414141;
-  --color-grey-450: #404040;
-  --color-grey-500: #3A3A3A;
-  --color-grey-550: #363636;
-  --color-grey-600: #333333;
-  --color-grey-650: #2F2F2F;
-  --color-grey-700: #2A2A2A;
-  --color-grey-750: #262626;
-  --color-grey-800: #232323;
-  --color-grey-850: #181818;
-  --color-grey-900: #141414;
+  --color-grey-50: #f9f9f9;
+  --color-grey-100: #f0f0f0;
+  --color-grey-200: #e5e5e5;
+  --color-grey-300: #d4d4d4;
+  --color-grey-400: #a3a3a3;
+  --color-grey-500: #737373;
+  --color-grey-600: #525252;
+  --color-grey-700: #404040;
+  --color-grey-800: #262626;
+  --color-grey-900: #171717;
 
   /* Colors -- Semantic */
-  --color-success: #28A745;
-  --color-warning: #FFC107;
-  --color-error: #DC3545;
-  --color-info: #17A2B8;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-error: #dc3545;
+  --color-info: #17a2b8;
+  --color-danger: #e8614d;
 
   /* Colors -- Background */
-  --color-bg-primary: #000000;
-  --color-bg-secondary: #141414;
-  --color-bg-tertiary: #333333;
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #e5e5e5;
 
   /* Colors -- Text */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #B3B3B3;
-  --color-text-tertiary: #808080;
-  --color-text-disabled: #4D4D4D;
-  --color-text-inverse: #000000;
+  --color-text-primary: #333333;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-text-disabled: #cccccc;
+  --color-text-inverse: #ffffff;
 
   /* Font Sizes */
   --text-xs: 0.75rem;
@@ -137,24 +92,39 @@
   }
 
   body {
-    font-family: var(--font-sans);
     font-size: var(--text-base);
     line-height: 1.5;
     color: var(--color-text-primary);
     background-color: var(--color-bg-primary);
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sans);
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 700;
     line-height: 1.25;
     color: var(--color-text-primary);
   }
 
-  h1 { font-size: var(--text-5xl); }
-  h2 { font-size: var(--text-4xl); }
-  h3 { font-size: var(--text-3xl); }
-  h4 { font-size: var(--text-2xl); }
-  h5 { font-size: var(--text-xl); }
-  h6 { font-size: var(--text-lg); }
+  h1 {
+    font-size: var(--text-5xl);
+  }
+  h2 {
+    font-size: var(--text-4xl);
+  }
+  h3 {
+    font-size: var(--text-3xl);
+  }
+  h4 {
+    font-size: var(--text-2xl);
+  }
+  h5 {
+    font-size: var(--text-xl);
+  }
+  h6 {
+    font-size: var(--text-lg);
+  }
 }
