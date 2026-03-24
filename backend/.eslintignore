@@ -1,0 +1,14 @@
+node_modules/
+generated/
+dist/
+build/
+coverage/
+prisma/generated/
+prisma/runtime/
+*.js
+*.d.ts
+prisma/*.js
+prisma/*.d.ts
+generated/**/*
+prisma/generated/**/*
+prisma/runtime/**/*
