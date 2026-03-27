@@ -73,19 +73,21 @@ You should see a container with status "Up".
 
 > **What does `docker compose up -d` do?** It reads the `docker-compose.yml` file and starts the services described in it. The `-d` flag means "detached" -- it runs in the background so you can keep using your terminal.
 
-### Step 3: Install dependencies
-
-```bash
-npm install
-```
-
-### Step 4: Create your `.env` file
+### Step 3: Create your `.env` file
 
 ```bash
 cp .env.example .env
 ```
 
 The `.env.example` already has the correct values to connect to the Docker database. You don't need to change anything.
+
+> **Why do this before installing?** The backend uses Prisma, which needs the `.env` file during installation (it runs a `postinstall` script that reads the database URL).
+
+### Step 4: Install dependencies
+
+```bash
+npm install
+```
 
 ### Step 5: Push the database schema
 
@@ -184,7 +186,7 @@ The database tables are defined in `prisma/schema.prisma`:
 
 ```prisma
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   email     String   @unique
   name      String?
   createdAt DateTime @default(now())
@@ -194,7 +196,8 @@ model User {
 
 **What each line means:**
 
-- `id Int @id @default(autoincrement())` -- a unique number that increases automatically
+- `id String @id @default(uuid())` -- a unique string ID generated automatically (e.g. `"a1b2c3d4-..."`)
+
 - `email String @unique` -- a text field that must be different for every user
 - `name String?` -- an optional text field (the `?` means it can be empty)
 - `createdAt DateTime @default(now())` -- automatically set to the current time when created

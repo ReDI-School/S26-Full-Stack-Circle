@@ -10,12 +10,12 @@ Here is a quick overview of the main tools we use:
 
 | Tool | What it does |
 |------|-------------|
-| [Next.js 15](https://nextjs.org/) | A React framework that handles routing, server-side rendering, and more |
+| [Next.js 16](https://nextjs.org/) | A React framework that handles routing, server-side rendering, and more |
 | [React 19](https://react.dev/) | A library for building user interfaces with components |
 | [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors before running the code |
 | [Tailwind CSS v4](https://tailwindcss.com/) | A CSS framework that lets you style elements using class names |
-| [Storybook 9](https://storybook.js.org/) | A tool to build and preview components in isolation |
-| [Vitest](https://vitest.dev/) | A test runner for writing unit tests |
+| [Storybook 10](https://storybook.js.org/) | A tool to build and preview components in isolation |
+| [Vitest 4](https://vitest.dev/) | A test runner for writing unit tests |
 
 ## Project structure
 
