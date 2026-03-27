@@ -2,7 +2,7 @@
 
 Welcome to the **ReDi Events** project! This is a full-stack web application where users can create, join, and manage events.
 
-The project has two parts:
+The project has three parts:
 
 - **Frontend** -- a Next.js + React app (what users see in the browser)
 - **Backend** -- an Express + Prisma API (handles data and talks to the database)
@@ -172,24 +172,33 @@ This starts a PostgreSQL database inside a Docker container. You only need to do
 
 > **How do I know it's working?** Run `docker compose ps` -- you should see a container with status "Up".
 
-### 2. Install all dependencies
+### 2. Set up the backend environment
+
+```bash
+cd backend
+cp .env.example .env
+cd ..
+```
+
+This creates your `.env` file (with the database connection). You need this before installing dependencies because the backend uses Prisma, which requires the `.env` file during installation.
+
+### 3. Install all dependencies
 
 ```bash
 npm run install:all
 ```
 
-### 3. Set up the backend environment
+### 4. Set up the database tables
 
 ```bash
 cd backend
-cp .env.example .env
 npm run prisma:push
 cd ..
 ```
 
-This creates your `.env` file (with the database connection) and sets up the database tables.
+This creates the database tables based on the Prisma schema.
 
-### 4. Start both servers
+### 5. Start both servers
 
 Open **two separate terminal windows**:
 
@@ -226,13 +235,13 @@ S26-Full-Stack-Circle/
 
 ## Available scripts (from project root)
 
-| Command | What it does |
-|---------|-------------|
-| `npm run db:up` | Start the PostgreSQL database |
-| `npm run db:down` | Stop the PostgreSQL database |
-| `npm run install:all` | Install dependencies for both frontend and backend |
-| `npm run start:backend` | Start the backend server |
-| `npm run start:frontend` | Start the frontend server |
+| Command                  | What it does                                       |
+| ------------------------ | -------------------------------------------------- |
+| `npm run db:up`          | Start the PostgreSQL database                      |
+| `npm run db:down`        | Stop the PostgreSQL database                       |
+| `npm run install:all`    | Install dependencies for both frontend and backend |
+| `npm run start:backend`  | Start the backend server                           |
+| `npm run start:frontend` | Start the frontend server                          |
 
 ## More details
 
