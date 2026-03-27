@@ -49,6 +49,9 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      DATABASE_URL: postgresql://redi:redi@localhost:5432/redi_events
+
     steps:
       - uses: actions/checkout@v4
 
@@ -68,6 +71,4 @@ jobs:
 
       - name: Build
         working-directory: backend
-        env:
-          DATABASE_URL: postgresql://redi:redi@localhost:5432/redi_events
         run: npm run build
