@@ -10,6 +10,7 @@ const Home = () => {
       <Image src={logo} alt="ReDi Events Logo" width={500} height={135} />
       <Link href="/sign-in">
         <Button>Sign In</Button>
+        <p>small change to test show PR</p>
       </Link>
     </div>
   );
