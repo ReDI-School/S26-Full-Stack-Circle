@@ -48,6 +48,13 @@
   --color-text-disabled: #cccccc;
   --color-text-inverse: #ffffff;
 
+  /* Colors - Form/Input Field */
+  --color-input-label: #949ea8;
+  --color-input-text: #707070;
+  --color-input-placeholder: #b9b9b9;
+  --color-input-error: #f54343;
+  --color-input-warning: #ff5710;
+
   /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
