@@ -18,7 +18,7 @@ const InputField = ({
         id={label}
         required={required}
         {...rest}
-        className={`${error ? "input-error" : ""} text-input-text border border-input-label rounded-base p-5 placeholder:text-input-placeholder`}
+        className={`${error ? "border-input-warning" : ""}  border rounded-base p-5 placeholder:text-input-placeholder`}
       />
       {error && <p className="text-input-error text-xs">{error}</p>}
     </div>
