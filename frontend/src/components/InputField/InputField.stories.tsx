@@ -33,14 +33,14 @@ export const EmailError: Story = {
     label: 'E-mail',
     placeholder: 'Enter your email',
     type: 'email',
-    error: "error message",
+    error: 'This field is mandatory.',
     required: true,
   },
 };
 export const PasswordDefault: Story = {
   args: {
     label: 'Password',
-    placeholder: 'Enter your Password',
+    placeholder: 'Enter your password',
     type: 'password',
     required: true,
   },
@@ -49,35 +49,17 @@ export const PasswordDefault: Story = {
 export const PasswordError: Story = {
   args: {
     label: 'Password',
-    placeholder: 'Enter your Password',
+    placeholder: 'Enter your password',
     type: 'password',
-    error: "error message",
+    error: 'This field is mandatory.',
     required: true,
   },
 };
 
-export const TextDefault: Story = {
-  args: {
-    label : "name",
-    placeholder: 'Enter your Name',
-    type: 'text',
-    required: true,
-  },
-};
-
-export const TextError: Story = {
-  args: {
-    label : "name",
-    placeholder: 'Enter your Name',
-    type: 'text',
-    error: "error message",
-    required: true,
-  },
-};
 export const TextareaDefault: Story = {
   args: {
     label: 'Descriptipon',
-    placeholder: 'Enter your Textarea',
+    placeholder: 'Enter event description here...',
     type: 'textarea',
     required: true,
   },
@@ -86,9 +68,17 @@ export const TextareaDefault: Story = {
 export const TextareaError: Story = {
   args: {
     label: 'Descriptipon',
-    placeholder: 'Enter your Textarea',
+    placeholder: 'Enter event description here...',
     type: 'textarea',
-    error: "error message",
+    error: 'This field is mandatory.',
     required: true,
+  },
+};
+
+export const TextDefault: Story = {
+  args: {
+    label: 'Name',
+    placeholder: 'Enter your name',
+    type: 'text',
   },
 };
