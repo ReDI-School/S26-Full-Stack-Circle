@@ -3,7 +3,6 @@ import {} from './InputField.styles';
 
 const InputField = ({
   label,
-  state,
   error,
   required,
   showPasswordToggle = false,
@@ -19,9 +18,9 @@ const InputField = ({
         id={label}
         required={required}
         {...rest}
-        className="text-input-text border border-input-label rounded-base p-5 placeholder:text-input-placeholder"
+        className={`${error ? "input-error" : ""} text-input-text border border-input-label rounded-base p-5 placeholder:text-input-placeholder`}
       />
-      {state === 'error' && error && <p className="text-input-error text-xs">{error}</p>}
+      {error && <p className="text-input-error text-xs">{error}</p>}
     </div>
   );
 };
