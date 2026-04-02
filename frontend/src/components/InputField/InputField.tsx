@@ -1,12 +1,10 @@
 import type { InputFieldProps } from './InputField.types';
 import {} from './InputField.styles';
 
-const ERROR_MESSAGE = 'This field is mandatory.';
-
 const InputField = ({
   label,
   state,
-  error = ERROR_MESSAGE,
+  error,
   required,
   showPasswordToggle = false,
   ...rest // type, placeholder, value, onChange, onBlur...
