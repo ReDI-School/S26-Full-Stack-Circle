@@ -1,6 +1,6 @@
 import type { InputFieldProps } from './InputField.types';
 import { inputFieldStyles } from './InputField.styles';
-import { EyeSlashIcon , EyeIcon } from "@phosphor-icons/react";
+import { EyeSlashIcon, EyeIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 const InputField = ({
@@ -15,7 +15,9 @@ const InputField = ({
   const isPassword = type === 'password';
 
   // retrieving individual component styles
-  const { wrapper, inputContainer, input, errorText, asterisk, visibilityIcon } = inputFieldStyles({ hasError: !!error });
+  const { wrapper, inputContainer, input, errorText, asterisk, visibilityIcon } = inputFieldStyles({
+    hasError: !!error,
+  });
 
   const passwordToggle = () => {
     setPasswordVisiblity(!passwordVisiblity);
@@ -29,27 +31,30 @@ const InputField = ({
         {required && <span className={asterisk()}>*</span>}
       </label>
       <div className={inputContainer()}>
-        {type === 'textarea' ? 
-        <textarea 
-          id={label}
-          required={required}
-          className={input()}
-          {...rest}/> : (
-        <>
-          <input
-            id={label}
-            required={required}
-            type={isPassword ? textType : type}
-            className={input()}
-            {...rest}
-          />
+        {type === 'textarea' ? (
+          <textarea id={label} required={required} className={input()} {...rest} />
+        ) : (
+          <>
+            <input
+              id={label}
+              required={required}
+              type={isPassword ? textType : type}
+              className={input()}
+              {...rest}
+            />
 
-          {type === 'password' && (
-            <span onClick={() => passwordToggle()} className={visibilityIcon()}>
-              {passwordVisiblity ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
-            </span>
-          )}
-        </>
+            {type === 'password' && (
+              <button
+                type="button"
+                aria-label={passwordVisiblity ? 'Hide password' : 'Show password'}
+                aria-pressed={passwordVisiblity}
+                onClick={() => passwordToggle()}
+                className={visibilityIcon()}
+              >
+                {passwordVisiblity ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
+              </button>
+            )}
+          </>
         )}
       </div>
 
