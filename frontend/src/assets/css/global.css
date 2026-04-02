@@ -49,9 +49,9 @@
   --color-text-inverse: #ffffff;
 
   /* Colors - Form/Input Field */
-  --color-input-label: #949ea8;
-  --color-input-text: #707070;
-  --color-input-placeholder: #b9b9b9;
+  --color-input-primary: #707070;
+  --color-input-secondary: #949ea8;
+  --color-input-tertiary: #b9b9b9;
   --color-input-error: #f54343;
   --color-input-warning: #ff5710;
 
