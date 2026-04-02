@@ -3,7 +3,7 @@ import { tv } from 'tailwind-variants';
 export const inputFieldStyles = tv({
   slots: {
     wrapper: 'flex flex-col gap-2.5 text-input-label relative',
-    input: 'border rounded-base p-5 placeholder:text-input-placeholder',
+    input: 'border rounded-base px-5 py-3 placeholder:text-input-placeholder',
     errorText: 'text-input-error text-xs',
     asterisk: 'text-input-error text-lg',
     faEye: 'absolute bottom-6 right-4',
