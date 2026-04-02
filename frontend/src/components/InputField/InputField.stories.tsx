@@ -82,3 +82,13 @@ export const TextDefault: Story = {
     type: 'text',
   },
 };
+
+export const TextError: Story = {
+  args: {
+    label: 'Name',
+    placeholder: 'Enter event name',
+    type: 'text',
+    error: 'This field is mandatory.',
+    required: true,
+  },
+};

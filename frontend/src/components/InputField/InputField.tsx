@@ -1,6 +1,6 @@
 import type { InputFieldProps } from './InputField.types';
 import { inputFieldStyles } from './InputField.styles';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { EyeSlashIcon , EyeIcon } from "@phosphor-icons/react";
 import { useState } from 'react';
 
 const InputField = ({
@@ -15,7 +15,7 @@ const InputField = ({
   const isPassword = type === 'password';
 
   // retrieving individual component styles
-  const { wrapper, input, errorText, asterisk, faEye } = inputFieldStyles({ hasError: !!error });
+  const { wrapper, inputContainer, input, errorText, asterisk, visibilityIcon } = inputFieldStyles({ hasError: !!error });
 
   const passwordToggle = () => {
     setPasswordVisiblity(!passwordVisiblity);
@@ -28,19 +28,30 @@ const InputField = ({
         {label}
         {required && <span className={asterisk()}>*</span>}
       </label>
-      <input
-        id={label}
-        required={required}
-        type={isPassword ? textType : type}
-        className={input()}
-        {...rest}
-      />
+      <div className={inputContainer()}>
+        {type === 'textarea' ? 
+        <textarea 
+          id={label}
+          required={required}
+          className={input()}
+          {...rest}/> : (
+        <>
+          <input
+            id={label}
+            required={required}
+            type={isPassword ? textType : type}
+            className={input()}
+            {...rest}
+          />
 
-      {type === 'password' && (
-        <span onClick={() => passwordToggle()} className={faEye()}>
-          {passwordVisiblity ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      )}
+          {type === 'password' && (
+            <span onClick={() => passwordToggle()} className={visibilityIcon()}>
+              {passwordVisiblity ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
+            </span>
+          )}
+        </>
+        )}
+      </div>
 
       {error && <p className={errorText()}>{error}</p>}
     </div>
