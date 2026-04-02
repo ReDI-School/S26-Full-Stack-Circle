@@ -28,6 +28,16 @@ export const EmailDefault: Story = {
   },
 };
 
+export const EmailValue: Story = {
+  args: {
+    label: 'E-mail',
+    placeholder: 'Enter your email',
+    type: 'email',
+    required: true,
+    value: 'daria@redi.org',
+  },
+};
+
 export const EmailError: Story = {
   args: {
     label: 'E-mail',

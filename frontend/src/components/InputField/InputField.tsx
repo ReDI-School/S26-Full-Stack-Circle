@@ -24,6 +24,8 @@ const InputField = ({
     setTextType(textType === 'password' ? 'text' : 'password');
   };
 
+  const errorId = error ? `${label}-error` : undefined;
+
   return (
     <div className={wrapper()}>
       <label htmlFor={label}>
@@ -32,7 +34,13 @@ const InputField = ({
       </label>
       <div className={inputContainer()}>
         {type === 'textarea' ? (
-          <textarea id={label} required={required} className={input()} {...rest} />
+          <textarea
+            id={label}
+            required={required}
+            className={input()}
+            aria-describedby={errorId}
+            {...rest}
+          />
         ) : (
           <>
             <input
@@ -40,6 +48,7 @@ const InputField = ({
               required={required}
               type={isPassword ? textType : type}
               className={input()}
+              aria-describedby={errorId}
               {...rest}
             />
 
@@ -58,7 +67,11 @@ const InputField = ({
         )}
       </div>
 
-      {error && <p className={errorText()}>{error}</p>}
+      {error && (
+        <p id={errorId} className={errorText()} role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
