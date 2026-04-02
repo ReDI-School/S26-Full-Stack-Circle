@@ -9,6 +9,10 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
    * The content to be displayed inside the card
    */
   children: React.ReactNode;
+
+  className?: string;
+
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export type { CardProps };

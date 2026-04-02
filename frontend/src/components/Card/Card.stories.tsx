@@ -76,9 +76,9 @@ export const WithCustomStyles: Story = {
     // Testing if our tv() setup correctly merges one-off Tailwind classes
     className: 'bg-blue-50 border-blue-200 shadow-blue-100 max-w-sm',
     children: (
-      <div className="text-blue-900">
         <h3 className="font-bold">Custom Blue Card</h3>
         <p className="text-sm">Testing if className injection works via tailwind-merge.</p>
+        <button>JOIN</button>
       </div>
     ),
   },
