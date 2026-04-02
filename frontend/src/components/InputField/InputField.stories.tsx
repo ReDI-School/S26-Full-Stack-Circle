@@ -5,6 +5,14 @@ import InputField from './InputField';
 const meta: Meta<typeof InputField> = {
   title: 'Components/InputField',
   component: InputField,
+  argTypes: {
+    type: {
+      options: ['email', 'password', 'text'],
+      control: {
+        type: 'select',
+      },
+    },
+  },
   tags: ['autodocs'],
 };
 
