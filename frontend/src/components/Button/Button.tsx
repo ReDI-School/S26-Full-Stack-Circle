@@ -3,11 +3,7 @@ import { buttonStyles } from './Button.styles';
 
 const Button = ({ children, onClick, stretch = false, disabled = false }: ButtonProps) => {
   return (
-    <button
-      className={buttonStyles({ stretch })}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={buttonStyles({ stretch })} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

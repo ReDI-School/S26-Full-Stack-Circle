@@ -8,14 +8,14 @@ This README will help you understand how the project is set up and how to start 
 
 Here is a quick overview of the main tools we use:
 
-| Tool | What it does |
-|------|-------------|
-| [Next.js 16](https://nextjs.org/) | A React framework that handles routing, server-side rendering, and more |
-| [React 19](https://react.dev/) | A library for building user interfaces with components |
-| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors before running the code |
-| [Tailwind CSS v4](https://tailwindcss.com/) | A CSS framework that lets you style elements using class names |
-| [Storybook 10](https://storybook.js.org/) | A tool to build and preview components in isolation |
-| [Vitest 4](https://vitest.dev/) | A test runner for writing unit tests |
+| Tool                                          | What it does                                                            |
+| --------------------------------------------- | ----------------------------------------------------------------------- |
+| [Next.js 16](https://nextjs.org/)             | A React framework that handles routing, server-side rendering, and more |
+| [React 19](https://react.dev/)                | A library for building user interfaces with components                  |
+| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors before running the code      |
+| [Tailwind CSS v4](https://tailwindcss.com/)   | A CSS framework that lets you style elements using class names          |
+| [Storybook 10](https://storybook.js.org/)     | A tool to build and preview components in isolation                     |
+| [Vitest 4](https://vitest.dev/)               | A test runner for writing unit tests                                    |
 
 ## Project structure
 
@@ -102,10 +102,10 @@ Open `http://localhost:3000` in your browser to see the app.
 
 Next.js uses the **App Router**. Each folder inside `src/app/` becomes a URL route:
 
-| File | URL | What it shows |
-|------|-----|--------------|
-| `src/app/page.tsx` | `/` | Home page |
-| `src/app/sign-in/page.tsx` | `/sign-in` | Sign In page |
+| File                       | URL        | What it shows |
+| -------------------------- | ---------- | ------------- |
+| `src/app/page.tsx`         | `/`        | Home page     |
+| `src/app/sign-in/page.tsx` | `/sign-in` | Sign In page  |
 
 You don't need to set up routing manually. Just create a new folder inside `src/app/` with a `page.tsx` file, and Next.js creates the route for you.
 
@@ -178,24 +178,24 @@ Design tokens are the colors, fonts, and sizes that define how the app looks. Th
 ```css
 @theme {
   /* The main brand color (teal) */
-  --color-primary: #2E8B8B;
-  --color-primary-dark: #236B6B;    /* For hover states */
-  --color-primary-light: #3AA9A9;   /* For accents */
+  --color-primary: #2e8b8b;
+  --color-primary-dark: #236b6b; /* For hover states */
+  --color-primary-light: #3aa9a9; /* For accents */
 
   /* Status colors */
-  --color-success: #28A745;   /* Green - for success messages */
-  --color-warning: #FFC107;   /* Yellow - for warnings */
-  --color-error: #DC3545;     /* Red - for errors */
-  --color-danger: #E8614D;    /* Orange-red - for destructive actions */
+  --color-success: #28a745; /* Green - for success messages */
+  --color-warning: #ffc107; /* Yellow - for warnings */
+  --color-error: #dc3545; /* Red - for errors */
+  --color-danger: #e8614d; /* Orange-red - for destructive actions */
 
   /* Background colors */
-  --color-bg-primary: #FFFFFF;     /* White - main background */
-  --color-bg-secondary: #F5F5F5;   /* Light grey - secondary areas */
+  --color-bg-primary: #ffffff; /* White - main background */
+  --color-bg-secondary: #f5f5f5; /* Light grey - secondary areas */
 
   /* Text colors */
-  --color-text-primary: #333333;    /* Dark grey - main text */
-  --color-text-secondary: #666666;  /* Medium grey - secondary text */
-  --color-text-inverse: #FFFFFF;    /* White - text on dark backgrounds */
+  --color-text-primary: #333333; /* Dark grey - main text */
+  --color-text-secondary: #666666; /* Medium grey - secondary text */
+  --color-text-inverse: #ffffff; /* White - text on dark backgrounds */
 }
 ```
 
@@ -217,14 +217,14 @@ import { tv } from 'tailwind-variants';
 
 export const buttonStyles = tv({
   base: [
-    'bg-primary text-text-inverse',     // Teal background, white text
-    'py-3 px-6 rounded-base',           // Padding and rounded corners
-    'hover:bg-primary-dark',            // Darker teal on hover
+    'bg-primary text-text-inverse', // Teal background, white text
+    'py-3 px-6 rounded-base', // Padding and rounded corners
+    'hover:bg-primary-dark', // Darker teal on hover
     'disabled:bg-grey-300 disabled:opacity-60',
   ],
   variants: {
     stretch: {
-      true: 'w-full',  // Takes the full width of its container
+      true: 'w-full', // Takes the full width of its container
     },
   },
 });
@@ -234,14 +234,14 @@ export const buttonStyles = tv({
 
 Run these from the `frontend/` folder:
 
-| Command | What it does |
-|---------|-------------|
-| `npm run dev` | Starts the development server at `http://localhost:3000` |
-| `npm run build` | Builds the app for production |
-| `npm run start` | Runs the production build |
-| `npm run lint` | Checks your code for problems |
-| `npm run format` | Formats your code with Prettier |
-| `npm run storybook` | Opens Storybook at `http://localhost:6006` |
+| Command             | What it does                                             |
+| ------------------- | -------------------------------------------------------- |
+| `npm run dev`       | Starts the development server at `http://localhost:3000` |
+| `npm run build`     | Builds the app for production                            |
+| `npm run start`     | Runs the production build                                |
+| `npm run lint`      | Checks your code for problems                            |
+| `npm run format`    | Formats your code with Prettier                          |
+| `npm run storybook` | Opens Storybook at `http://localhost:6006`               |
 
 ## Storybook
 
