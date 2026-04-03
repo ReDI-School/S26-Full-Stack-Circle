@@ -1,3 +1,4 @@
+'use client';
 import type { InputFieldProps } from './InputField.types';
 import { inputFieldStyles } from './InputField.styles';
 import { EyeSlashIcon, EyeIcon } from '@phosphor-icons/react';
