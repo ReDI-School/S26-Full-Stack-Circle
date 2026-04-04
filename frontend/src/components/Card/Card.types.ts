@@ -5,9 +5,8 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
   interactive?: boolean;
 
-  /**
-   * The content to be displayed inside the card
-   */
+  loading?: boolean;
+
   children: React.ReactNode;
 
   className?: string;
