@@ -4,6 +4,7 @@ import { InfoBox } from './InfoBox';
 const meta: Meta<typeof InfoBox> = {
   title: 'Components/InfoBox',
   component: InfoBox,
+  tags: ['autodocs'],
 };
 
 export default meta;
