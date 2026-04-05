@@ -56,12 +56,17 @@ const InputField = ({
             {type === 'password' && (
               <button
                 type="button"
+                title={passwordVisiblity ? 'Hide password' : 'Show password'}
                 aria-label={passwordVisiblity ? 'Hide password' : 'Show password'}
                 aria-pressed={passwordVisiblity}
                 onClick={() => passwordToggle()}
                 className={visibilityIcon()}
               >
-                {passwordVisiblity ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
+                {passwordVisiblity ? (
+                  <EyeIcon size={20} aria-hidden="true" focusable="false" />
+                ) : (
+                  <EyeSlashIcon size={20} aria-hidden="true" focusable="false" />
+                )}
               </button>
             )}
           </>
