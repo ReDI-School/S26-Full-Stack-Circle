@@ -24,8 +24,8 @@ export const InfoBox = ({ variant, message }: InfoBoxProps) => {
 
   return (
     <div role={config.role} className={infoBoxStyles({ variant })}>
-      <div className="infoBox_icon">{config.icon}</div>
-      <p className="text-[14px]">{message}</p>
+      <div>{config.icon}</div>
+      <p>{message}</p>
     </div>
   );
 };

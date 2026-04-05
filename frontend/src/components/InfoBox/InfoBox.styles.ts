@@ -12,10 +12,10 @@ export const infoBoxStyles = tv({
   ],
   variants: {
     variant: {
-      info: 'bg-[#DFF7FF] border-[#88C6FF] text-[#448CBB]',
-      error: 'bg-[#FFDFDF] border-[#FF8989] text-[#D86666]',
-      warning: 'bg-[#FFF6DF] border-[#FFCA4E] text-[#BB7844]',
-      success: 'bg-[#E2FFC9] border-[#99C763] text-[#4F854C]',
+      info: 'bg-bg-info border-outline-info text-text-info',
+      error: 'bg-bg-error border-outline-error text-text-error',
+      warning: 'bg-bg-warning border-outline-warning text-text-warning',
+      success: 'bg-bg-success border-outline-success text-text-success',
     },
   },
 });
