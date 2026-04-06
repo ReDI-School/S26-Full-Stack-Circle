@@ -11,22 +11,162 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
+export const primary: Story = {
   args: {
-    children: 'Button',
+    children: 'TEST',
+    variant: 'primary',
   },
 };
 
-export const Stretch: Story = {
+export const secondary: Story = {
   args: {
-    children: 'Button',
-    stretch: true,
+    children: 'TEST',
+    variant: 'secondary',
   },
 };
 
-export const Disabled: Story = {
+export const idle: Story = {
   args: {
-    children: 'Button',
-    disabled: true,
+    children: 'TEST',
+    variant: 'idle',
+  },
+};
+
+export const negative: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+  },
+};
+
+export const positive: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+  },
+};
+
+export const primarySmall: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'primary',
+    size: 'small',
+  },
+};
+
+export const secondarySmall: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'secondary',
+    size: 'small',
+  },
+};
+
+export const idleSmall: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'idle',
+    size: 'small',
+  },
+};
+
+export const negativeSmall: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+    size: 'small',
+  },
+};
+
+export const positiveSmall: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+    size: 'small',
+  },
+};
+
+export const primaryDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'primary',
+    state: 'disabled',
+  },
+};
+
+export const secondaryDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'secondary',
+    state: 'disabled',
+  },
+};
+
+export const idleDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'idle',
+    state: 'disabled',
+  },
+};
+
+export const negativeDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+    state: 'disabled',
+  },
+};
+
+export const positiveDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+    state: 'disabled',
+  },
+};
+
+export const primarySmallDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'primary',
+    size: 'small',
+    state: 'disabled',
+  },
+};
+
+export const secondarySmallDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'secondary',
+    size: 'small',
+    state: 'disabled',
+  },
+};
+
+export const idleSmallDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'idle',
+    size: 'small',
+    state: 'disabled',
+  },
+};
+
+export const negativeSmallDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+    size: 'small',
+    state: 'disabled',
+  },
+};
+
+export const positiveSmallDisabled: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+    size: 'small',
+    state: 'disabled',
   },
 };
