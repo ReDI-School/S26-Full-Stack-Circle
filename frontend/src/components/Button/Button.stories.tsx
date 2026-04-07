@@ -13,42 +13,42 @@ type Story = StoryObj<typeof Button>;
 
 export const primary: Story = {
   args: {
-    children: 'TEST',
+    children: 'Primary Button',
     variant: 'primary',
   },
 };
 
 export const secondary: Story = {
   args: {
-    children: 'TEST',
+    children: 'Secondary Button',
     variant: 'secondary',
   },
 };
 
 export const idle: Story = {
   args: {
-    children: 'TEST',
+    children: 'Idle Button',
     variant: 'idle',
   },
 };
 
 export const negative: Story = {
   args: {
-    children: 'TEST',
+    children: 'Delete',
     variant: 'negative',
   },
 };
 
 export const positive: Story = {
   args: {
-    children: 'TEST',
+    children: 'Confirm',
     variant: 'positive',
   },
 };
 
 export const primarySmall: Story = {
   args: {
-    children: 'TEST',
+    children: 'Primary',
     variant: 'primary',
     size: 'small',
   },
@@ -56,7 +56,7 @@ export const primarySmall: Story = {
 
 export const secondarySmall: Story = {
   args: {
-    children: 'TEST',
+    children: 'Secondary',
     variant: 'secondary',
     size: 'small',
   },
@@ -64,7 +64,7 @@ export const secondarySmall: Story = {
 
 export const idleSmall: Story = {
   args: {
-    children: 'TEST',
+    children: 'Idle',
     variant: 'idle',
     size: 'small',
   },
@@ -72,7 +72,7 @@ export const idleSmall: Story = {
 
 export const negativeSmall: Story = {
   args: {
-    children: 'TEST',
+    children: 'Delete',
     variant: 'negative',
     size: 'small',
   },
@@ -80,7 +80,7 @@ export const negativeSmall: Story = {
 
 export const positiveSmall: Story = {
   args: {
-    children: 'TEST',
+    children: 'Confirm',
     variant: 'positive',
     size: 'small',
   },
@@ -88,7 +88,7 @@ export const positiveSmall: Story = {
 
 export const primaryDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'primary',
     state: 'disabled',
   },
@@ -96,7 +96,7 @@ export const primaryDisabled: Story = {
 
 export const secondaryDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'secondary',
     state: 'disabled',
   },
@@ -104,7 +104,7 @@ export const secondaryDisabled: Story = {
 
 export const idleDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'idle',
     state: 'disabled',
   },
@@ -112,7 +112,7 @@ export const idleDisabled: Story = {
 
 export const negativeDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'negative',
     state: 'disabled',
   },
@@ -120,7 +120,7 @@ export const negativeDisabled: Story = {
 
 export const positiveDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'positive',
     state: 'disabled',
   },
@@ -128,7 +128,7 @@ export const positiveDisabled: Story = {
 
 export const primarySmallDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'primary',
     size: 'small',
     state: 'disabled',
@@ -137,7 +137,7 @@ export const primarySmallDisabled: Story = {
 
 export const secondarySmallDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'secondary',
     size: 'small',
     state: 'disabled',
@@ -146,7 +146,7 @@ export const secondarySmallDisabled: Story = {
 
 export const idleSmallDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'idle',
     size: 'small',
     state: 'disabled',
@@ -155,7 +155,7 @@ export const idleSmallDisabled: Story = {
 
 export const negativeSmallDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'negative',
     size: 'small',
     state: 'disabled',
@@ -164,7 +164,7 @@ export const negativeSmallDisabled: Story = {
 
 export const positiveSmallDisabled: Story = {
   args: {
-    children: 'TEST',
+    children: 'Disabled',
     variant: 'positive',
     size: 'small',
     state: 'disabled',
