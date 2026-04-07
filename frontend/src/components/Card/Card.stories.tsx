@@ -11,11 +11,15 @@ const meta: Meta<typeof Card> = {
       control: 'boolean',
       description: 'Enables hover, active, and focus states.',
     },
+    loading: {
+      control: 'boolean',
+      description: 'Shows skeleton loading state when true.',
+    },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof meta>;
 
 // 1. Realistic Content Test
 export const Default: Story = {
