@@ -3,16 +3,10 @@ import Image from 'next/image';
 
 interface LogoProps {
   className?: string;
-  size?: 'sm'|'md'|'lg'|'xl';
+  size?: 'full'| 'compact';
 }
 
-export function Logo({className = "", size = "md"}: LogoProps) {
-  const sizeClasses = {
-    sm: 'text-2xl',
-    md: 'text-4xl',
-    lg: 'text-5xl',
-    xl: 'text-6xl',
-  };
+export function Logo({className = "", size = "full"}: LogoProps) {
 
   return (
     <div className={`inline-flex items-center ${className}`}>

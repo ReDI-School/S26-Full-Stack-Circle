@@ -112,3 +112,4 @@ generated/
 *.generated.*
 *storybook.log
 storybook-static
+package-lock.json
