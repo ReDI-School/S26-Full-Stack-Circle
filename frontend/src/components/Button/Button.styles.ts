@@ -17,6 +17,7 @@ export const buttonStyles = tv({
     state: {
       default: '',
       disabled: 'opacity-50 cursor-not-allowed disabled:pointer-events-none',
+      loading: 'opacity-70 cursor-wait pointer-events-none',
     },
   },
   compoundVariants: [

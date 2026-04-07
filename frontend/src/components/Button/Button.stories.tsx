@@ -170,3 +170,89 @@ export const positiveSmallDisabled: Story = {
     state: 'disabled',
   },
 };
+
+export const primaryLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'primary',
+    state: 'loading',
+  },
+};
+
+export const secondaryLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'secondary',
+    state: 'loading',
+  },
+};
+
+export const idleLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'idle',
+    state: 'loading',
+  },
+};
+
+export const negativeLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+    state: 'loading',
+  },
+};
+
+export const positiveLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+    state: 'loading',
+  },
+};
+
+export const primarySmallLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'primary',
+    size: 'small',
+    state: 'loading',
+  },  
+};
+
+export const secondarySmallLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'secondary',
+    size: 'small',
+    state: 'loading',
+  },  
+};
+
+export const idleSmallLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'idle',
+    size: 'small',
+    state: 'loading',
+  },  
+};
+
+export const negativeSmallLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'negative',
+    size: 'small',
+    state: 'loading',
+  },  
+};
+
+export const positiveSmallLoading: Story = {
+  args: {
+    children: 'TEST',
+    variant: 'positive',
+    size: 'small',
+    state: 'loading',
+  },  
+};
+
