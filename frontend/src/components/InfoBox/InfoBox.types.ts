@@ -6,6 +6,14 @@ export type VariantConfig = {
 };
 
 export interface InfoBoxProps {
-  variant: InfoBoxVariant;
+  /**
+  * The variant of the component
+  * @default info
+  */
+  variant?: InfoBoxVariant;
+  
+  /**
+  * The content of the component
+  */
   message: string;
 }

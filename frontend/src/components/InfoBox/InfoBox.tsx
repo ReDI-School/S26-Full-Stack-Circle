@@ -19,7 +19,7 @@ const VARIANT_CONFIG: Record<InfoBoxVariant, VariantConfig> = {
   },
 };
 
-export const InfoBox = ({ variant, message }: InfoBoxProps) => {
+export const InfoBox = ({ variant = "info", message }: InfoBoxProps) => {
   const config = VARIANT_CONFIG[variant];
 
   return (
