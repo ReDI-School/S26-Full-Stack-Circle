@@ -1,9 +1,4 @@
-interface StickyButtonProps {
-  /**
-   * The function to be called when the button is clicked
-   */
-  onClick?: () => void;
-
+interface StickyButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   /**
    * Text displayed on the button
    */
