@@ -12,6 +12,7 @@
   --color-primary: #2e8b8b;
   --color-primary-dark: #236b6b;
   --color-primary-light: #3aa9a9;
+  --color-primary-redi: #2fafc7;
 
   /* Colors -- Neutral */
   --color-white: #ffffff;
@@ -28,6 +29,7 @@
   --color-grey-700: #404040;
   --color-grey-800: #262626;
   --color-grey-900: #171717;
+  --color-grey-redi: #f3f3f3;
 
   /* Colors -- Semantic */
   --color-success: #28a745;
@@ -35,6 +37,7 @@
   --color-error: #dc3545;
   --color-info: #17a2b8;
   --color-danger: #e8614d;
+  --color-logo-border: #8a38f5;
 
   /* Colors -- Background */
   --color-bg-primary: #ffffff;
