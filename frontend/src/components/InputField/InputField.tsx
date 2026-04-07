@@ -1,31 +1,16 @@
 'use client';
-import type { InputFieldProps } from './InputField.types';
+
+import type { BaseProps, InputProps, TextareaProps, InputWrapperProps } from './InputField.types';
 import { inputFieldStyles } from './InputField.styles';
 import { EyeSlashIcon, EyeIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 
-const InputField = ({
-  label,
-  error,
-  required,
-  type,
-  ...rest // placeholder, value, onChange, onBlur...
-}: InputFieldProps) => {
-  const [passwordVisiblity, setPasswordVisiblity] = useState(false);
-  const [textType, setTextType] = useState(type);
-  const isPassword = type === 'password';
+const InputWrapper = ({ label, required, error, children }: InputWrapperProps) => {
+  const errorId = error ? `${label}-error` : undefined;
 
-  // retrieving individual component styles
-  const { wrapper, inputContainer, input, errorText, asterisk, visibilityIcon } = inputFieldStyles({
+  const { wrapper, asterisk, errorText } = inputFieldStyles({
     hasError: !!error,
   });
-
-  const passwordToggle = () => {
-    setPasswordVisiblity(!passwordVisiblity);
-    setTextType(textType === 'password' ? 'text' : 'password');
-  };
-
-  const errorId = error ? `${label}-error` : undefined;
 
   return (
     <div className={wrapper()}>
@@ -33,45 +18,8 @@ const InputField = ({
         {label}
         {required && <span className={asterisk()}>*</span>}
       </label>
-      <div className={inputContainer()}>
-        {type === 'textarea' ? (
-          <textarea
-            id={label}
-            required={required}
-            className={input()}
-            aria-describedby={errorId}
-            {...rest}
-          />
-        ) : (
-          <>
-            <input
-              id={label}
-              required={required}
-              type={isPassword ? textType : type}
-              className={input()}
-              aria-describedby={errorId}
-              {...rest}
-            />
 
-            {type === 'password' && (
-              <button
-                type="button"
-                title={passwordVisiblity ? 'Hide password' : 'Show password'}
-                aria-label={passwordVisiblity ? 'Hide password' : 'Show password'}
-                aria-pressed={passwordVisiblity}
-                onClick={() => passwordToggle()}
-                className={visibilityIcon()}
-              >
-                {passwordVisiblity ? (
-                  <EyeIcon size={20} aria-hidden="true" focusable="false" />
-                ) : (
-                  <EyeSlashIcon size={20} aria-hidden="true" focusable="false" />
-                )}
-              </button>
-            )}
-          </>
-        )}
-      </div>
+      {children}
 
       {error && (
         <p id={errorId} className={errorText()} role="alert">
@@ -81,5 +29,74 @@ const InputField = ({
     </div>
   );
 };
+
+const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps | TextareaProps>(
+  (props, ref) => {
+    const { error, label } = props;
+
+    const as = props.as ?? 'input';
+
+    const type = as === 'input' ? ((props as InputProps).type ?? 'text') : undefined;
+    const isPassword = as === 'input' && type === 'password';
+
+    const [passwordVisibility, setPasswordVisibility] = useState(false);
+
+    const textType = passwordVisibility ? 'text' : type;
+
+    const passwordToggle = () => {
+      setPasswordVisibility((prev) => !prev);
+    };
+
+    const { inputContainer, input, visibilityIcon } = inputFieldStyles({
+      hasError: !!error,
+    });
+
+    const errorId = error ? `${label}-error` : undefined;
+
+    const renderField = () => {
+      if (as === 'textarea') {
+        return (
+          <textarea
+            ref={ref as React.Ref<HTMLTextAreaElement>}
+            className={input()}
+            aria-describedby={errorId}
+            {...(props as TextareaProps)}
+          />
+        );
+      }
+
+      return (
+        <>
+          <input
+            ref={ref as React.Ref<HTMLInputElement>}
+            type={isPassword ? textType : type}
+            className={input()}
+            aria-describedby={errorId}
+            {...(props as InputProps)}
+          />
+
+          {isPassword && (
+            <button
+              type="button"
+              aria-label={passwordVisibility ? 'Hide password' : 'Show password'}
+              aria-pressed={passwordVisibility}
+              onClick={passwordToggle}
+              className={visibilityIcon()}
+            >
+              {passwordVisibility ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
+            </button>
+          )}
+        </>
+      );
+    };
+
+    return (
+      <InputWrapper {...(props as BaseProps)}>
+        <div className={inputContainer()}>{renderField()}</div>
+      </InputWrapper>
+    );
+  }
+);
+InputField.displayName = 'InputField';
 
 export default InputField;
