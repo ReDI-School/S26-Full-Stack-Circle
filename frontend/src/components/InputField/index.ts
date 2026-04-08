@@ -1,2 +1,2 @@
 export { default as InputField } from './InputField';
-export type { InputFieldProps } from './InputField.types';
+export type { BaseProps, InputProps, TextareaProps, InputWrapperProps } from './InputField.types';
