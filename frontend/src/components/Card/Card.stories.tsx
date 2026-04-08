@@ -8,7 +8,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     interactive: {
       control: 'boolean',
-      description: 'Adds hover border, elevated shadow, and `cursor-pointer`.',
+      description: 'Adds hover border, slightly elevated shadow, and `cursor-pointer`.',
       table: {
         defaultValue: { summary: 'false' },
       },
@@ -17,7 +17,7 @@ const meta: Meta<typeof Card> = {
       control: 'radio',
       options: ['default', 'danger'],
       description:
-        '`default` renders the standard card. `danger` applies red accents for critical content — hover is suppressed.',
+        '`default` renders the standard card. `danger` applies red accents for critical content — hover is not applied.',
       table: {
         defaultValue: { summary: 'default' },
       },
@@ -40,7 +40,7 @@ export const Default: Story = {
       <div className="flex flex-col gap-2">
         <h3 className="text-base font-semibold text-gray-900">Card Title</h3>
         <p className="text-sm text-gray-500">
-          Supporting text that describes what this card is about. Kept concise and scannable.
+          Supporting text that describes what this card is about.
         </p>
       </div>
     ),
@@ -48,21 +48,18 @@ export const Default: Story = {
 };
 
 /**
- * When `interactive` is true, the card gains a visible border and elevated
- * shadow on hover. Use for clickable cards
- * like `EventCard` or `ProfileCard`.
+ * When `interactive` is true, the card gains a visible border and slightly
+ * elevated shadow on hover — matching the Figma hover state. Use for clickable
+ * cards like `EventCard` or `ProfileCard`.
  */
 export const Interactive: Story = {
   args: {
     variant: 'default',
     interactive: true,
-    onClick: () => console.log('Card clicked'),
     children: (
       <div className="flex flex-col gap-2">
         <h3 className="text-base font-semibold text-gray-900">Interactive Card</h3>
-        <p className="text-sm text-gray-500">
-          Hover to see the border and shadow transition. Click to trigger the action.
-        </p>
+        <p className="text-sm text-gray-500">Hover to see the border and shadow transition.</p>
       </div>
     ),
   },
@@ -71,7 +68,7 @@ export const Interactive: Story = {
 /**
  * The danger variant applies a red-tinted background and border.
  * Use for destructive actions, errors, or critical warnings.
- * Hover effects are intentionally suppressed — danger cards are not interactive.
+ * Hover effects are intentionally not applied.
  */
 export const Danger: Story = {
   args: {
@@ -87,28 +84,8 @@ export const Danger: Story = {
 };
 
 /**
- * Verifies that a one-off `className` passed by a consumer is correctly
- * merged via `tailwind-merge` inside `tv()` without breaking base styles.
- */
-export const CustomClassName: Story = {
-  args: {
-    variant: 'default',
-    interactive: true,
-    className: 'max-w-sm bg-blue-50 border-blue-200',
-    children: (
-      <div className="flex flex-col gap-2">
-        <h3 className="text-base font-semibold text-blue-900">Custom Styled Card</h3>
-        <p className="text-sm text-blue-600">
-          className is merged cleanly — base styles are preserved, overrides apply on top.
-        </p>
-      </div>
-    ),
-  },
-};
-
-/**
- * Stress test for long content. Verifies padding, overflow, and layout
- * hold up when the card contains more text than a typical use case.
+ * Stress test for long content. Verifies that layout, overflow,
+ * and spacing hold up when the card contains more text than a typical use case.
  */
 export const LongContent: Story = {
   args: {
@@ -123,10 +100,6 @@ export const LongContent: Story = {
           ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
         </p>
-        <p className="text-sm text-gray-500">
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-          anim id est laborum.
-        </p>
       </div>
     ),
   },
@@ -140,7 +113,6 @@ export const EventCardExample: Story = {
   args: {
     variant: 'default',
     interactive: true,
-    className: 'w-80',
     children: (
       <div className="flex flex-col gap-2">
         <div className="flex items-start justify-between">

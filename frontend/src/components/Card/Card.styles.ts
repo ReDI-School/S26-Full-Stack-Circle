@@ -14,11 +14,7 @@ export const cardStyles = tv({
   ],
   variants: {
     interactive: {
-      true: [
-        'cursor-pointer',
-        'hover:border-[#CBCBCB]',
-        'hover:shadow-[0px_2px_4px_0px_#00000026]',
-      ],
+      true: ['hover:border-[#CBCBCB]', 'hover:shadow-[0px_2px_4px_0px_#00000026]'],
       false: [],
     },
     variant: {

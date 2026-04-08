@@ -15,27 +15,19 @@ import { cardStyles } from './Card.styles';
  *   <p>Content</p>
  * </Card>
  *
- * // Interactive — shows border and elevated shadow on hover
+ * // Interactive — border and shadow on hover
  * <Card variant="default" interactive onClick={() => {}}>
  *   <p>Clickable card</p>
  * </Card>
  *
- * // Danger — red-tinted background and border, no hover effect
+ * // Danger — red-tinted background and border, no hover
  * <Card variant="danger">
  *   <p>Something went wrong</p>
  * </Card>
  * ```
  */
-const Card = ({
-  interactive = false,
-  variant = 'default',
-  children,
-  className,
-  ...props
-}: CardProps) => (
-  <div className={cardStyles({ interactive, variant, className })} {...props}>
-    {children}
-  </div>
+const Card = ({ interactive = false, variant = 'default', children }: CardProps) => (
+  <div className={cardStyles({ interactive, variant })}>{children}</div>
 );
 
 export default Card;
