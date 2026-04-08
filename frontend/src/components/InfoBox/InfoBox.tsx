@@ -19,12 +19,12 @@ const VARIANT_CONFIG: Record<InfoBoxVariant, VariantConfig> = {
   },
 };
 
-export const InfoBox = ({ variant = "info", message }: InfoBoxProps) => {
+export const InfoBox = ({ variant = 'info', message }: InfoBoxProps) => {
   const config = VARIANT_CONFIG[variant];
 
   return (
     <div role={config.role} className={infoBoxStyles({ variant })}>
-      <div>{config.icon}</div>
+      <div aria-hidden="true">{config.icon}</div>
       <p>{message}</p>
     </div>
   );
