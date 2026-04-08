@@ -19,3 +19,10 @@ export const Default: Story = {
     alt: 'Authentication sidebar illustration',
   },
 };
+
+export const Custom: Story = {
+  args: {
+    imageSrc: sidebarImage,
+    alt: 'Custom sidebar illustration',
+  },
+};
