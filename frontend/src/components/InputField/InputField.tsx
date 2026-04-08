@@ -34,9 +34,10 @@ const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
   (props, ref) => {
     const { error, label } = props;
 
-    const as = props.as ?? 'input';
+    const rawType = (props as InputProps).type;
+    const as = props.as ?? (rawType === 'textarea' ? 'textarea' : 'input');
 
-    const type = as === 'input' ? ((props as InputProps).type ?? 'text') : undefined;
+    const type = as === 'input' ? (rawType ?? 'text') : undefined;
     const isPassword = as === 'input' && type === 'password';
 
     const [passwordVisibility, setPasswordVisibility] = useState(false);
