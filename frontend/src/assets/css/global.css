@@ -62,6 +62,13 @@
   --color-outline-warning: #FFCA4E;
   --color-outline-success: #99C763;
 
+  /* Colors - Form/Input Field */
+  --color-input-primary: #707070;
+  --color-input-secondary: #949ea8;
+  --color-input-tertiary: #b9b9b9;
+  --color-input-error: #f54343;
+  --color-input-warning: #ff5710;
+
   /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
