@@ -7,6 +7,16 @@ const meta: Meta<typeof StickyButton> = {
   title: 'Components/StickyButton',
   component: StickyButton,
   tags: ['autodocs'],
+  globals: {
+    viewport: { value: 'mobile1' },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Note: This component is only visible on mobile screens (viewport < 640px).',
+      },
+    },
+  },
 };
 
 export default meta;
