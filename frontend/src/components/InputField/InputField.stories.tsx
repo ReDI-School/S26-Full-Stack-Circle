@@ -43,7 +43,7 @@ export const EmailError: Story = {
     label: 'E-mail',
     placeholder: 'Enter your email',
     type: 'email',
-    error: 'This field is mandatory.',
+    error: 'E-mail is required.',
     required: true,
   },
 };
@@ -61,14 +61,14 @@ export const PasswordError: Story = {
     label: 'Password',
     placeholder: 'Enter your password',
     type: 'password',
-    error: 'This field is mandatory.',
+    error: 'Password is required.',
     required: true,
   },
 };
 
 export const TextareaDefault: Story = {
   args: {
-    label: 'Descriptipon',
+    label: 'Description',
     placeholder: 'Enter event description here...',
     type: 'textarea',
     required: true,
@@ -77,10 +77,10 @@ export const TextareaDefault: Story = {
 
 export const TextareaError: Story = {
   args: {
-    label: 'Descriptipon',
+    label: 'Description',
     placeholder: 'Enter event description here...',
     type: 'textarea',
-    error: 'This field is mandatory.',
+    error: 'Description is required.',
     required: true,
   },
 };
@@ -98,7 +98,7 @@ export const TextError: Story = {
     label: 'Name',
     placeholder: 'Enter event name',
     type: 'text',
-    error: 'This field is mandatory.',
+    error: 'Name is required.',
     required: true,
   },
 };
