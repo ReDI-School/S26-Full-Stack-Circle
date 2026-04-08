@@ -3,10 +3,12 @@ import { sidebarStyles } from './Sidebar.styles';
 
 const Sidebar = ({ imageSrc, alt }: SidebarProps) => {
   const styles = sidebarStyles();
+  const imageUrl =
+    typeof imageSrc === 'string' ? imageSrc : imageSrc.src;
   return (
     <aside className={styles.container()}>
       <img 
-        src={imageSrc} 
+        src={imageUrl} 
         alt={alt} 
         className={styles.image()} 
       />
