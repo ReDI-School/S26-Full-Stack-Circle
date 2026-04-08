@@ -11,42 +11,42 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const primary: Story = {
+export const Primary: Story = {
   args: {
     children: 'Primary Button',
     variant: 'primary',
   },
 };
 
-export const secondary: Story = {
+export const Secondary: Story = {
   args: {
     children: 'Secondary Button',
     variant: 'secondary',
   },
 };
 
-export const idle: Story = {
+export const Idle: Story = {
   args: {
     children: 'Idle Button',
     variant: 'idle',
   },
 };
 
-export const negative: Story = {
+export const Negative: Story = {
   args: {
     children: 'Delete',
     variant: 'negative',
   },
 };
 
-export const positive: Story = {
+export const Positive: Story = {
   args: {
     children: 'Confirm',
     variant: 'positive',
   },
 };
 
-export const primarySmall: Story = {
+export const PrimarySmall: Story = {
   args: {
     children: 'Primary',
     variant: 'primary',
@@ -54,7 +54,7 @@ export const primarySmall: Story = {
   },
 };
 
-export const secondarySmall: Story = {
+export const SecondarySmall: Story = {
   args: {
     children: 'Secondary',
     variant: 'secondary',
@@ -62,7 +62,7 @@ export const secondarySmall: Story = {
   },
 };
 
-export const idleSmall: Story = {
+export const IdleSmall: Story = {
   args: {
     children: 'Idle',
     variant: 'idle',
@@ -70,7 +70,7 @@ export const idleSmall: Story = {
   },
 };
 
-export const negativeSmall: Story = {
+export const NegativeSmall: Story = {
   args: {
     children: 'Delete',
     variant: 'negative',
@@ -78,7 +78,7 @@ export const negativeSmall: Story = {
   },
 };
 
-export const positiveSmall: Story = {
+export const PositiveSmall: Story = {
   args: {
     children: 'Confirm',
     variant: 'positive',
@@ -86,7 +86,7 @@ export const positiveSmall: Story = {
   },
 };
 
-export const primaryDisabled: Story = {
+export const PrimaryDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'primary',
@@ -94,7 +94,7 @@ export const primaryDisabled: Story = {
   },
 };
 
-export const secondaryDisabled: Story = {
+export const SecondaryDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'secondary',
@@ -102,7 +102,7 @@ export const secondaryDisabled: Story = {
   },
 };
 
-export const idleDisabled: Story = {
+export const IdleDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'idle',
@@ -110,7 +110,7 @@ export const idleDisabled: Story = {
   },
 };
 
-export const negativeDisabled: Story = {
+export const NegativeDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'negative',
@@ -118,7 +118,7 @@ export const negativeDisabled: Story = {
   },
 };
 
-export const positiveDisabled: Story = {
+export const PositiveDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'positive',
@@ -126,7 +126,7 @@ export const positiveDisabled: Story = {
   },
 };
 
-export const primarySmallDisabled: Story = {
+export const PrimarySmallDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'primary',
@@ -135,7 +135,7 @@ export const primarySmallDisabled: Story = {
   },
 };
 
-export const secondarySmallDisabled: Story = {
+export const SecondarySmallDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'secondary',
@@ -144,7 +144,7 @@ export const secondarySmallDisabled: Story = {
   },
 };
 
-export const idleSmallDisabled: Story = {
+export const IdleSmallDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'idle',
@@ -153,7 +153,7 @@ export const idleSmallDisabled: Story = {
   },
 };
 
-export const negativeSmallDisabled: Story = {
+export const NegativeSmallDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'negative',
@@ -162,7 +162,7 @@ export const negativeSmallDisabled: Story = {
   },
 };
 
-export const positiveSmallDisabled: Story = {
+export const PositiveSmallDisabled: Story = {
   args: {
     children: 'Disabled',
     variant: 'positive',
@@ -171,7 +171,7 @@ export const positiveSmallDisabled: Story = {
   },
 };
 
-export const primaryLoading: Story = {
+export const PrimaryLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'primary',
@@ -179,7 +179,7 @@ export const primaryLoading: Story = {
   },
 };
 
-export const secondaryLoading: Story = {
+export const SecondaryLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'secondary',
@@ -187,7 +187,7 @@ export const secondaryLoading: Story = {
   },
 };
 
-export const idleLoading: Story = {
+export const IdleLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'idle',
@@ -195,7 +195,7 @@ export const idleLoading: Story = {
   },
 };
 
-export const negativeLoading: Story = {
+export const NegativeLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'negative',
@@ -203,7 +203,7 @@ export const negativeLoading: Story = {
   },
 };
 
-export const positiveLoading: Story = {
+export const PositiveLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'positive',
@@ -211,48 +211,47 @@ export const positiveLoading: Story = {
   },
 };
 
-export const primarySmallLoading: Story = {
+export const PrimarySmallLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'primary',
     size: 'small',
     state: 'loading',
-  },  
+  },
 };
 
-export const secondarySmallLoading: Story = {
+export const SecondarySmallLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'secondary',
     size: 'small',
     state: 'loading',
-  },  
+  },
 };
 
-export const idleSmallLoading: Story = {
+export const IdleSmallLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'idle',
     size: 'small',
     state: 'loading',
-  },  
+  },
 };
 
-export const negativeSmallLoading: Story = {
+export const NegativeSmallLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'negative',
     size: 'small',
     state: 'loading',
-  },  
+  },
 };
 
-export const positiveSmallLoading: Story = {
+export const PositiveSmallLoading: Story = {
   args: {
     children: 'TEST',
     variant: 'positive',
     size: 'small',
     state: 'loading',
-  },  
+  },
 };
-

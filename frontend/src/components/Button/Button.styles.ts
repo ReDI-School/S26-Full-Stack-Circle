@@ -1,7 +1,17 @@
 import { tv } from 'tailwind-variants';
 
 export const buttonStyles = tv({
-  base: 'rounded-base text-base font-semibold font-sans text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all',
+  base: [
+    'rounded-base',
+    'text-base',
+    'font-semibold',
+    'font-sans',
+    'text-white',
+    'focus-visible:outline-2',
+    'focus-visible:outline-offset-2',
+    'focus-visible:outline-white',
+    'transition-all',
+  ],
   variants: {
     variant: {
       primary: 'bg-button-primary ',
