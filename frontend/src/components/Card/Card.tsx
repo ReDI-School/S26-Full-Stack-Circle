@@ -1,26 +1,41 @@
-import { CardProps } from './Card.types';
+import type { CardProps } from './Card.types';
 import { cardStyles } from './Card.styles';
-import { forwardRef } from 'react';
 
-const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ interactive, children, className, loading = false, ...props }, ref) => {
-    if (loading) {
-      //todo : the Skeleton Component should be separately implemented
-      return (
-        <div className={cardStyles({ interactive, className })}>
-          default card skeleton (loading ...)
-        </div>
-      );
-    }
-
-    return (
-      <div ref={ref} className={cardStyles({ interactive, className })} {...props}>
-        {children}
-      </div>
-    );
-  }
+/**
+ * Base container component that provides shared visual styling for all
+ * card-based layouts — `EventCard`, `FormCard`, `DangerCard`, `ProfileCard`, etc.
+ *
+ * Handles background, border, shadow, border-radius, and padding so composed
+ * components only need to focus on their content.
+ *
+ * @example
+ * ```tsx
+ * // Default
+ * <Card variant="default">
+ *   <p>Content</p>
+ * </Card>
+ *
+ * // Interactive — shows border and elevated shadow on hover
+ * <Card variant="default" interactive onClick={() => {}}>
+ *   <p>Clickable card</p>
+ * </Card>
+ *
+ * // Danger — red-tinted background and border, no hover effect
+ * <Card variant="danger">
+ *   <p>Something went wrong</p>
+ * </Card>
+ * ```
+ */
+const Card = ({
+  interactive = false,
+  variant = 'default',
+  children,
+  className,
+  ...props
+}: CardProps) => (
+  <div className={cardStyles({ interactive, variant, className })} {...props}>
+    {children}
+  </div>
 );
-
-Card.displayName = 'Card';
 
 export default Card;
