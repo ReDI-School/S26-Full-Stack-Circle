@@ -57,6 +57,7 @@ const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
       if (as === 'textarea') {
         return (
           <textarea
+            id={label}
             ref={ref as React.Ref<HTMLTextAreaElement>}
             className={input()}
             aria-describedby={errorId}
@@ -68,22 +69,28 @@ const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputProps
       return (
         <>
           <input
+            id={label}
             ref={ref as React.Ref<HTMLInputElement>}
-            type={isPassword ? textType : type}
+            {...(props as InputProps)}
             className={input()}
             aria-describedby={errorId}
-            {...(props as InputProps)}
+            type={isPassword ? textType : type}
           />
 
           {isPassword && (
             <button
+              title={passwordVisibility ? 'Hide password' : 'Show password'}
               type="button"
               aria-label={passwordVisibility ? 'Hide password' : 'Show password'}
               aria-pressed={passwordVisibility}
               onClick={passwordToggle}
               className={visibilityIcon()}
             >
-              {passwordVisibility ? <EyeIcon size={20} /> : <EyeSlashIcon size={20} />}
+              {passwordVisibility ? (
+                <EyeIcon size={20} aria-hidden="true" focusable="false" />
+              ) : (
+                <EyeSlashIcon size={20} aria-hidden="true" focusable="false" />
+              )}
             </button>
           )}
         </>
