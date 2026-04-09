@@ -5,8 +5,7 @@
    ============================================================ */
 @theme {
   /* Font Family -- Roboto is loaded via next/font/google in layout.tsx */
-  --font-sans:
-    var(--font-roboto), 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: var(--font-roboto), 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Colors -- Primary (Teal) */
   --color-primary: #2e8b8b;
@@ -68,6 +67,10 @@
   --color-input-tertiary: #b9b9b9;
   --color-input-error: #f54343;
   --color-input-warning: #ff5710;
+
+  /* Colors -- Button */
+  --color-button-idle: #75898c;
+  --color-button-idle-hovered: #6c757d;
 
   /* Font Sizes */
   --text-xs: 0.75rem;
