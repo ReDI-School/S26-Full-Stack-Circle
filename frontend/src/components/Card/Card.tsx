@@ -26,8 +26,10 @@ import { cardStyles } from './Card.styles';
  * </Card>
  * ```
  */
-const Card = ({ interactive = false, variant = 'default', children }: CardProps) => (
-  <div className={cardStyles({ interactive, variant })}>{children}</div>
+const Card = ({ interactive = false, variant = 'default', children, ...props }: CardProps) => (
+  <div className={cardStyles({ interactive, variant })} {...props}>
+    {children}
+  </div>
 );
 
 export default Card;
