@@ -1,17 +1,22 @@
 import type { SidebarProps } from './Sidebar.types';
 import { sidebarStyles } from './Sidebar.styles';
+import sidebarImage from '../../assets/images/Sidebar.png';
 
-const Sidebar = ({ imageSrc, alt }: SidebarProps) => {
+const Sidebar = ({ tagline }: SidebarProps) => {
   const styles = sidebarStyles();
-  const imageUrl =
-    typeof imageSrc === 'string' ? imageSrc : imageSrc.src;
+
   return (
-    <aside className={styles.container()}>
-      <img 
-        src={imageUrl} 
-        alt={alt} 
-        className={styles.image()} 
-      />
+    <aside 
+      className={styles.container()}
+      style={{ backgroundImage: `url(${sidebarImage})` }}
+    >
+      <div className={styles.logo()}>
+        Logo here
+      </div>
+
+      <h1 className={styles.tagline()}>
+        {tagline}
+      </h1>     
     </aside>
   );
 };

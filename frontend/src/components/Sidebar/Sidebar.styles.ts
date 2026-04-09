@@ -4,18 +4,27 @@ export const sidebarStyles = tv({
   slots: {
     container: [
       'bg-primary',
-      'w-full',
-      'min-h-screen',
+      'w-[480px]',
+      'h-full',
       'flex',
-      'items-end',
-      'justify-center',
+      'flex-col',
+      'gap-4',
       'overflow-hidden',
+      'p-15',
+      'bg-bottom',
+      'bg-no-repeat',
+      'bg-[length:100%_auto]',
     ],
-    image: [
-      'w-full',
-      'max-w-full',
-      'h-auto',
-      'object-contain',
+    logo: [
+      'w-fit',
+      'text-text-inverse',
+    ],
+    tagline: [
+      'w-fit',
+      'text-text-inverse',
+      'text-base',
+      'font-light',
+      'tracking-widest',
     ],
   },
 });
