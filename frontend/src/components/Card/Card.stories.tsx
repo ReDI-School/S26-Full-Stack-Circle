@@ -76,8 +76,18 @@ export const Danger: Story = {
     interactive: false,
     children: (
       <div className="flex flex-col gap-2">
-        <h3 className="text-base font-semibold text-red-700">Danger Zone</h3>
-        <p className="text-sm text-red-500">This action is irreversible. Proceed with caution.</p>
+        <h3 className="text-base font-semibold text-red-800 uppercase">Danger</h3>
+        <p className="text-sm text-red-700">If you delete this event, you will lose your data</p>
+
+        <button
+          className="w-50 cursor-pointer mt-2 self-end rounded-md bg-[#c0392b] px-4 py-2 text-sm text-white transition-colors hover:bg-[#a93226]"
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log('Delete clicked');
+          }}
+        >
+          Delete Event
+        </button>
       </div>
     ),
   },
@@ -114,26 +124,40 @@ export const EventCardExample: Story = {
     variant: 'default',
     interactive: true,
     children: (
-      <div className="flex flex-col gap-2">
-        <div className="flex items-start justify-between">
-          <h3 className="text-base font-semibold text-gray-900">How to Network</h3>
-          <span className="text-xs text-gray-400">10 of 40</span>
+      <div className="flex flex-col gap-7.5">
+        {/* Date */}
+        <span className="text-sm leading-6 text-[#707070]">April 4, 2017 – 2:17 PM</span>
+
+        {/* Content */}
+        <div className="flex flex-col gap-5">
+          {/* Title + Author */}
+          <div className="flex flex-col gap-2.5">
+            <h3 className="text-[22px]  font-normal text-[#323C46]">How to Network</h3>
+            <p className="text-sm leading-4 font-normal text-[#707070]">Fabio Rodrigues</p>
+          </div>
+
+          {/* Description */}
+          <p className="text-base font-normal text-[#64748B]">
+            I will show you how to network and communicate our interests effectively.
+          </p>
         </div>
-        <p className="text-xs text-gray-400">April 4, 2017 – 2:17 PM</p>
-        <p className="text-sm text-gray-600">
-          Let&apos;s get together and share techniques on how to network and communicate our
-          interests effectively.
-        </p>
-        <p className="text-xs text-gray-400">Fabio Rodrigues</p>
-        <button
-          className="mt-2 self-start rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-600"
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log('Join clicked');
-          }}
-        >
-          Join
-        </button>
+
+        {/* Footer */}
+        <div className="flex items-center gap-5">
+          {/* Participants */}
+          <span className="flex-1 text-sm text-[#64748B]">10 of 40</span>
+
+          {/* Join Button */}
+          <button
+            className="h-8 w-25 min-w-25 cursor-pointer rounded-base bg-[#2BBB8D] text-sm font-semibold text-gray-900 transition-colors hover:bg-[#25a37a]"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('Join clicked');
+            }}
+          >
+            JOIN
+          </button>
+        </div>
       </div>
     ),
   },
