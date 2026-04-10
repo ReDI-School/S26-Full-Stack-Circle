@@ -1,8 +1,42 @@
 interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
-  animation?: string | boolean; // 'pulse' | 'wave' | false. 'wave' is default.
-  width?: number | string; // '100%'	If number, treat as pixels. 100% is default.
-  height?: number | string; // '100%'	If number, treat as pixels. 16 is default.
-  radius?: string; // 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'full'. 'md' is default.
+  /**
+   * Animation style of the skeleton. Set to `false` to disable animation.
+   * @default 'wave'
+   * @example
+   * <Skeleton animation="pulse" />
+   * <Skeleton animation={false} />
+   */
+  animation?: 'wave' | 'pulse' | false;
+  /**
+   * Width of the skeleton. Numbers are treated as pixels, strings as CSS values.
+   * @default '100%'
+   * @example
+   * <Skeleton width={200} />
+   * <Skeleton width="50%" />
+   */
+  width?: number | string;
+  /**
+   * Height of the skeleton. Numbers are treated as pixels, strings as CSS values.
+   * @default 16
+   * @example
+   * <Skeleton height={40} />
+   * <Skeleton height="2rem" />
+   */
+  height?: number | string;
+  /**
+   * Border radius of the skeleton.
+   * - `none` — 0px
+   * - `sm` — 2px (0.125rem)
+   * - `base` — 4px (0.25rem)
+   * - `md` — 6px
+   * - `lg` — 8px
+   * - `full` — 9999px (circle / pill)
+   * @default 'base'
+   * @example
+   * <Skeleton radius="full" />  // circular avatar placeholder
+   * <Skeleton radius="none" />  // sharp-edged block
+   */
+  radius?: 'none' | 'sm' | 'base' | 'md' | 'lg' | 'full';
 }
 
 export type { SkeletonProps };
