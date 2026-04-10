@@ -25,11 +25,20 @@ const meta: Meta<typeof Skeleton> = {
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
 
-export const Default: Story = {
-  args: {
-    animation: 'wave',
-    width: '100%',
-    height: 16,
-    radius: 'md',
-  },
+export const Default: Story = {};
+
+export const Card: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <Skeleton height="70px" width="70px" radius="full" />
+      <Skeleton />
+      <Skeleton width="75%" />
+      <Skeleton width="50%" />
+      <Skeleton width="60%" />
+      <div className="flex gap-2">
+        <Skeleton height="25px" width="25px" />
+        <Skeleton height="25px" width="100px" />
+      </div>
+    </div>
+  ),
 };

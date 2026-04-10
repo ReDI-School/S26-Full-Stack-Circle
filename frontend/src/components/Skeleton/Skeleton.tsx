@@ -13,7 +13,8 @@ const Skeleton = ({
   return (
     <span
       {...rest}
-      className={skeletonStyles({ animation, width, height, radius })}
+      className={skeletonStyles({ animation, radius })}
+      style={{ width, height }}
       aria-hidden="true"
     />
   );
