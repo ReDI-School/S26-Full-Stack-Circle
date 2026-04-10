@@ -25,12 +25,13 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLSpanElement> {
   height?: number | string;
   /**
    * Border radius of the skeleton.
-   * - `none` — 0px
-   * - `sm` — 2px (0.125rem)
-   * - `base` — 4px (0.25rem)
-   * - `md` — 6px
-   * - `lg` — 8px
-   * - `full` — 9999px (circle / pill)
+   * Values map to design tokens defined in `src/assets/css/global.css`.
+   * - `none` — `--radius-none`
+   * - `sm` — `--radius-sm`
+   * - `base` — `--radius-base`
+   * - `md` — `--radius-md`
+   * - `lg` — `--radius-lg`
+   * - `full` — `--radius-full`
    * @default 'base'
    * @example
    * <Skeleton radius="full" />  // circular avatar placeholder
