@@ -72,6 +72,19 @@
   --color-button-idle: #75898c;
   --color-button-idle-hovered: #6c757d;
 
+  /* Colors -- Button */
+  --color-button-primary: #2fafc7;
+  --color-button-secondary: #ff5710;
+  --color-button-idle: #75898c;
+  --color-button-positive: #2bbb8d;
+  --color-button-negative: #f54343;
+
+  --color-button-primary-hovered: #268ea2;
+  --color-button-secondary-hovered: #da6533;
+  --color-button-idle-hovered: #6c757d;
+  --color-button-positive-hovered: #178764;
+  --color-button-negative-hovered: #bb4444;
+
   /* Font Sizes */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
