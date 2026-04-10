@@ -13,7 +13,7 @@ const meta: Meta<typeof Skeleton> = {
       },
     },
     radius: {
-      options: ['none', 'xs', 'sm', 'md', 'lg', 'full'],
+      options: ['none', 'sm', 'base', 'md', 'lg', 'full'],
       control: {
         type: 'radio',
       },
@@ -25,7 +25,14 @@ const meta: Meta<typeof Skeleton> = {
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    animation: 'wave',
+    width: '100%',
+    height: 16,
+    radius: 'base',
+  },
+};
 
 export const Card: Story = {
   render: () => (
