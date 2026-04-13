@@ -36,16 +36,45 @@ export const Default: Story = {
 
 export const Card: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Skeleton height={70} width={70} radius="full" />
-      <Skeleton />
-      <Skeleton width="75%" />
-      <Skeleton width="50%" />
-      <Skeleton width="60%" />
-      <div className="flex gap-2">
-        <Skeleton height={25} width={25} />
-        <Skeleton height={25} width={100} />
+    <div className="p-8 flex justify-center items-center bg-bg-secondary">
+      <div className="flex flex-col gap-4 w-lg p-4 rounded-md bg-bg-primary shadow-md">
+        <Skeleton height={70} width={70} radius="full" />
+        <Skeleton />
+        <Skeleton width="75%" />
+        <Skeleton width="50%" />
+        <Skeleton width="60%" />
+        <div className="flex gap-2">
+          <Skeleton height={25} width={25} />
+          <Skeleton height={25} width={100} />
+        </div>
       </div>
     </div>
   ),
+};
+
+export const AnimationWave: Story = {
+  args: {
+    animation: 'wave',
+    width: 300,
+    height: 100,
+    radius: 'lg',
+  },
+};
+
+export const AnimationPulse: Story = {
+  args: {
+    animation: 'pulse',
+    width: 300,
+    height: 100,
+    radius: 'lg',
+  },
+};
+
+export const AnimationNone: Story = {
+  args: {
+    animation: false,
+    width: 300,
+    height: 100,
+    radius: 'lg',
+  },
 };
