@@ -88,7 +88,7 @@
 
   /* Colors -- Skeleton */
   --color-skeleton: #d9d9d9;
-  /* --color-skeleton-shimmer: #f0f0f0; */
+  --color-skeleton-shimmer: #ededed;
 
   /* Font Sizes */
   --text-xs: 0.75rem;
@@ -168,5 +168,35 @@
   }
   h6 {
     font-size: var(--text-lg);
+  }
+}
+
+/* ============================================================
+   Skeleton Animation
+   ============================================================ */
+@keyframes skeleton-wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@layer utilities {
+  .animate-wave {
+    background-image: linear-gradient(
+      90deg,
+      var(--color-skeleton) 20%,
+      var(--color-skeleton-shimmer) 50%,
+      var(--color-skeleton) 80%
+    );
+    background-size: 200% 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-wave {
+      animation: skeleton-wave 1.5s ease-in-out infinite;
+    }
   }
 }
