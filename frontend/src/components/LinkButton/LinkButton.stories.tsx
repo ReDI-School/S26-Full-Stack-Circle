@@ -13,11 +13,7 @@ export default meta;
 type Story = StoryObj<typeof LinkButton>;
 
 export const Default: Story = {
-  args: {
-    icon: <ArrowLeftIcon />,
-    label: 'GO BACK',
-    href: '#',
-  },
+  render: () => <LinkButton icon={<ArrowLeftIcon />} label="GO BACK" href="#" />,
 };
 
 export const WithoutIcon: Story = {
