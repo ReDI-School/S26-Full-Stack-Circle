@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import Skeleton from './Skeleton';
+import { Card } from '../Card';
 
 const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
@@ -34,19 +35,23 @@ export const Default: Story = {
   },
 };
 
-export const Card: Story = {
+export const CardExample: Story = {
   render: () => (
-    <div className="p-8 flex justify-center items-center bg-bg-secondary">
-      <div className="flex flex-col gap-4 w-lg p-4 rounded-md bg-bg-primary shadow-md">
-        <Skeleton height={70} width={70} radius="full" />
-        <Skeleton />
-        <Skeleton width="75%" />
-        <Skeleton width="50%" />
-        <Skeleton width="60%" />
-        <div className="flex gap-2">
-          <Skeleton height={25} width={25} />
-          <Skeleton height={25} width={100} />
-        </div>
+    <div className="p-8 bg-bg-secondary flex justify-center items-center">
+      <div className="w-full sm:w-lg">
+        <Card>
+          <div className="flex flex-col gap-4">
+            <Skeleton height={70} width={70} radius="full" />
+            <Skeleton />
+            <Skeleton width="75%" />
+            <Skeleton width="50%" />
+            <Skeleton width="60%" />
+            <div className="flex gap-2">
+              <Skeleton height={25} width={25} />
+              <Skeleton height={25} width={100} />
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   ),
