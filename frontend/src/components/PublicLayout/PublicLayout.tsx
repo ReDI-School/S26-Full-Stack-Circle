@@ -9,7 +9,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
       <aside className={styles.sidebar()}>
         <SidebarImage />
       </aside>
-      {children}
+      <section className={styles.content()}>{children}</section>
     </main>
   );
 }
