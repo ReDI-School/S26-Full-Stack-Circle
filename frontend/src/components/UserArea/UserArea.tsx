@@ -1,7 +1,12 @@
 import { UserAreaProps } from './UserArea.types';
 import { Avatar } from '../Avatar';
 import { CaretDownIcon, UserIcon, SignOutIcon } from '@phosphor-icons/react';
-import { userAreaStyles, userAreaProfileStyles } from './UserArea.styles';
+import {
+  userAreaStyles,
+  userAreaProfileStyles,
+  dropDownStyles,
+  iconStyles,
+} from './UserArea.styles';
 import { useState, useEffect, useRef } from 'react';
 
 const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaProps) => {
@@ -32,13 +37,13 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         <CaretDownIcon />
         {isExpanded && (
           <div className={userAreaProfileStyles.base.join(' ')}>
-            <div className="flex items-center justify-end">
+            <div className={dropDownStyles.base.join(' ')}>
               <span>Profile</span>
-              <UserIcon className="ml-2" onClick={onProfile} />
+              <UserIcon className={iconStyles.base.join(' ')} onClick={onProfile} />
             </div>
-            <div className="flex justify-end items-center">
+            <div className={dropDownStyles.base.join(' ')}>
               <span>Sign Out</span>
-              <SignOutIcon className="ml-2" onClick={onSignOut} />
+              <SignOutIcon className={iconStyles.base.join(' ')} onClick={onSignOut} />
             </div>
           </div>
         )}

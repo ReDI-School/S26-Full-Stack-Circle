@@ -26,3 +26,11 @@ export const userAreaProfileStyles = {
     'absolute',
   ],
 };
+
+export const dropDownStyles = {
+  base: ['flex', 'items-center ', 'justify-end'],
+};
+
+export const iconStyles = {
+  base: ['ml-2'],
+};
