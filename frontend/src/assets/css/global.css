@@ -29,6 +29,12 @@
   --color-grey-800: #262626;
   --color-grey-900: #171717;
 
+  /* Colors -- TabNav */
+  --color-tabs-idle: var(--color-gray-400);
+  --color-tabs-idle-hover: var(--color-gray-600);
+  --color-tabs-active: var(--color-orange-500);
+  --color-tabs-active-hover: var(--color-orange-600);
+
   /* Colors -- Semantic */
   --color-success: #28a745;
   --color-warning: #ffc107;

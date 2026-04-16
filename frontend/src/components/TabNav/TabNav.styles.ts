@@ -1,5 +1,4 @@
 import { tv } from 'tailwind-variants';
-import type { ActiveColor } from './TabNav.types';
 
 export const tabStyles = tv({
   base: [
@@ -8,20 +7,16 @@ export const tabStyles = tv({
   ],
   variants: {
     active: {
-      false: 'text-gray-400 border-transparent hover:text-gray-600',
+      true: [
+        'text-tabs-active',
+        'hover:text-tabs-active-hover',
+        'border-tabs-active',
+      ],
+      false: [
+        'text-tabs-idle',
+        'hover:text-tabs-idle-hover',
+        'border-transparent',
+      ],
     },
-    activeColor: {
-      orange: '',
-      teal: '',
-      red: '',
-    } satisfies Record<ActiveColor, string>,
-  },
-  compoundVariants: [
-    { active: true, activeColor: 'orange', class: 'text-orange-500 border-orange-500' },
-    { active: true, activeColor: 'teal', class: 'text-teal-500 border-teal-500' },
-    { active: true, activeColor: 'red', class: 'text-red-500 border-red-500' },
-  ],
-  defaultVariants: {
-    activeColor: 'orange',
   },
 });

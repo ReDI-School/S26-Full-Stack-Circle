@@ -17,8 +17,26 @@ const meta: Meta<typeof TabNav> = {
 export default meta;
 type Story = StoryObj<typeof TabNav>;
 
-export const Default: Story = { args: { tabs: TABS, activeTab: 'All Events' } };
-export const FutureEventsActive: Story = { args: { tabs: TABS, activeTab: 'Future Events' } };
-export const ArchivedActive: Story = { args: { tabs: TABS, activeTab: 'Archived' } };
-export const TealVariant: Story = { args: { tabs: TABS, activeTab: 'All Events', activeColor: 'teal' } };
-export const RedVariant: Story = { args: { tabs: TABS, activeTab: 'All Events', activeColor: 'red' } };
+/** Default state with the first tab active */
+export const Default: Story = {
+  args: {
+    tabs: TABS,
+    activeTab: 'All Events',
+  },
+};
+
+/** Future Events tab is active */
+export const FutureEventsActive: Story = {
+  args: {
+    tabs: TABS,
+    activeTab: 'Future Events',
+  },
+};
+
+/** Archived tab is active */
+export const ArchivedActive: Story = {
+  args: {
+    tabs: TABS,
+    activeTab: 'Archived',
+  },
+};
