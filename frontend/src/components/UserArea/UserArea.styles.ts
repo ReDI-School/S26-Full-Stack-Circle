@@ -8,6 +8,7 @@ export const userAreaStyles = {
     'rounded-full',
     'hover:bg-grey-100',
     'relative',
+    'focus:outline-none',
   ],
 };
 

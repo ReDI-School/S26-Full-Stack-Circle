@@ -19,8 +19,20 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         setIsExpended(false);
       }
     };
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsExpended(false);
+      }
+    };
+
     document.body.addEventListener('click', closeDropdown);
-    return () => document.body.removeEventListener('click', closeDropdown);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.removeEventListener('click', closeDropdown);
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
 
   return (
@@ -29,8 +41,16 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         ref={ref}
         className={userAreaStyles.base.join(' ')}
         onClick={() => setIsExpended((prev) => !prev)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsExpended((prev) => !prev);
+          }
+        }}
         aria-haspopup={true}
         aria-expanded={isExpanded}
+        tabIndex={0}
+        role="button"
       >
         <Avatar size="md" initials={avatarInitials} />
         <div className="mx-3">{userName}</div>
