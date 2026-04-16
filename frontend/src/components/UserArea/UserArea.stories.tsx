@@ -13,25 +13,15 @@ export default meta;
 type Story = StoryObj<typeof UserArea>;
 
 export const Expanded: Story = {
-  render: (args) => {
-    //XXX: no better way to expand without changeing interface
-    React.useEffect(() => {
-      const interval = setInterval(() => {
-        const trigger = document.querySelector('[aria-haspopup="true"][aria-expanded="false"]');
-        if (trigger) {
-          trigger.click();
-          clearInterval(interval);
-        }
-      }, 50);
-
-      return () => clearInterval(interval);
-    }, []);
-
-    return <UserArea {...args} />;
-  },
   args: {
     userName: 'George Michel',
     avatarInitials: 'GM',
+  },
+
+  play: async ({ canvasElement }) => {
+    const trigger = canvasElement.querySelector('[aria-haspopup="menu"]') as HTMLElement;
+
+    trigger?.click();
   },
 };
 
