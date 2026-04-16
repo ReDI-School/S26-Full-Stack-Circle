@@ -23,31 +23,3 @@ export const Default: Story = {
   },
   render: (args) => <ProfileCard {...args} />,
 };
-
-/**
- *
- * Loading story — empty profile card  or loading state
- */
-export const Loading: Story = {
-  args: {
-    name: ' ',
-    authoredEvents: 0,
-    goingToEvents: 0,
-    participatedEvents: 0,
-  },
-};
-
-/**
- *
- * Mobile layout story — example of a mobile profile card
- */
-export const MobileLayout: Story = {
-  args: {
-    name: 'Fábio Rodrigues',
-    authoredEvents: 6,
-    goingToEvents: 3,
-    participatedEvents: 10,
-    layout: 'mobile',
-  },
-  render: (args) => <ProfileCard {...args} />,
-};

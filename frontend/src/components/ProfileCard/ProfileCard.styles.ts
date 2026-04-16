@@ -2,18 +2,19 @@ import { tv } from 'tailwind-variants';
 
 export const profileCardStyles = tv({
   base: [
-    'rounded-base',
-    'box-border',
-    'bg-white',
-    'shadow-[0px_1px_2px_0px_#00000026]',
-    'border border-transparent',
-    'transition-all duration-200',
     'w-full',
+    'flex',
+    'flex-col',
+    'items-center',
+    'justify-center',
+    'gap-5',
+    'text-center',
+
+    // Desktop behavior
+    'md:flex-row',
+    'md:items-center',
+    'md:justify-start',
+    'md:gap-7',
+    'md:text-left',
   ],
-  variants: {
-    layout: {
-      desktop: ['flex flex-row items-center justify-start', 'p-7', 'gap-7', 'text-left'],
-      mobile: ['flex flex-col items-center justify-center text-center', 'p-5', 'gap-5'],
-    },
-  },
 });
