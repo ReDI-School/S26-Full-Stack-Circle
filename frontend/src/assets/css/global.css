@@ -78,6 +78,11 @@
   --color-input-error: #f54343;
   --color-input-warning: #ff5710;
 
+  /* Colors - Event Card */
+  --color-ec-primary: #707070;
+  --color-ec-secondary: #949ea8;
+  --color-ec-tertiary: #7d7878;
+
   /* Colors -- Button */
   --color-button-idle: #75898c;
   --color-button-idle-hovered: #6c757d;
