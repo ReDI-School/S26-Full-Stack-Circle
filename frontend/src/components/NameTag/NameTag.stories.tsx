@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import type { Meta, StoryObj } from '@storybook/react';
 import NameTag from './NameTag';
 
 const meta: Meta<typeof NameTag> = {
