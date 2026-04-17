@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react-vite';
+import type { Preview } from '@storybook/nextjs-vite';
 import '../src/assets/css/reset.css';
 import '../src/assets/css/global.css';
 

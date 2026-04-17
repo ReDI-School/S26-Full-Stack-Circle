@@ -1,6 +1,6 @@
 import { InfoBoxProps, InfoBoxVariant, VariantConfig } from './InfoBox.types';
 import { infoBoxStyles } from './InfoBox.styles';
-import { WarningIcon, CheckCircleIcon, InfoIcon } from '@phosphor-icons/react';
+import { WarningIcon, CheckCircleIcon, InfoIcon } from '@phosphor-icons/react/ssr';
 
 const VARIANT_CONFIG: Record<InfoBoxVariant, VariantConfig> = {
   info: {
