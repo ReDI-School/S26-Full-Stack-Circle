@@ -6,3 +6,4 @@ export * from './ProfileCard';
 export * from './Card';
 export * from './Avatar';
 export * from './InfoBox';
+export * from './Skeleton';
