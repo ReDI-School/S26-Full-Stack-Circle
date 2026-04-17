@@ -10,3 +10,4 @@ export * from './Skeleton';
 export * from './Logo';
 export * from './Sidebar';
 export * from './LinkButton';
+export * from './TabNav';
