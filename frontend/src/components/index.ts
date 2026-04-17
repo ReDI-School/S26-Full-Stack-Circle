@@ -1,3 +1,5 @@
+'use client';
+
 export * from './Button';
 export * from './StickyButton';
 export * from './InputField';
@@ -11,3 +13,4 @@ export * from './Logo';
 export * from './Sidebar';
 export * from './LinkButton';
 export * from './TabNav';
+export * from './Tag';

@@ -95,6 +95,10 @@
   --color-button-positive-hovered: #178764;
   --color-button-negative-hovered: #bb4444;
 
+  /* Colors -- Tag */
+  --color-tag-background: #DADADA;
+  --color-tag-text: #757575;
+
   /* Colors -- Skeleton */
   --color-skeleton: #d9d9d9;
   --color-skeleton-shimmer: #ededed;
