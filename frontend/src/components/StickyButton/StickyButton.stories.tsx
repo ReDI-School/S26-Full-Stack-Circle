@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import StickyButton from './StickyButton';
 import { CalendarPlusIcon } from '@phosphor-icons/react/ssr';

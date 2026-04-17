@@ -1,7 +1,6 @@
-import React from 'react';
-// eslint-disable-next-line storybook/no-renderer-packages
-import type { Meta, StoryObj } from '@storybook/react';
-import { Logo } from './Logo';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+
+import Logo from './Logo';
 
 const meta: Meta<typeof Logo> = {
   title: 'Components/Logo',
@@ -15,18 +14,7 @@ const meta: Meta<typeof Logo> = {
       },
     },
   },
-  argTypes: {
-    size: {
-      control: 'select',
-      options: ['full', 'compact'],
-      description: 'Size variant of the logo',
-      defaultValue: 'full',
-    },
-    className: {
-      control: 'text',
-      description: 'Additional CSS class',
-    },
-  },
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -37,33 +25,40 @@ export const Full: Story = {
   args: {
     size: 'full',
   },
+};
+
+export const FullWhite: Story = {
+  render: (args) => (
+    <div className="bg-primary flex justify-center items-center p-10">
+      <Logo {...args} />
+    </div>
+  ),
   parameters: {
-    docs: {
-      description: {
-        story: 'Full logo variant with dashed border, main text, and two SVG images',
-      },
-    },
+    layout: 'fullscreen',
+  },
+  args: {
+    size: 'full',
+    textColor: 'white',
   },
 };
 
-// Compact version
 export const Compact: Story = {
   args: {
     size: 'compact',
   },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Compact logo variant showing only the R.E. SVG for mobile views',
-      },
-    },
-  },
 };
 
-// Interactive playground
-export const Playground: Story = {
+export const CompactWhite: Story = {
+  render: (args) => (
+    <div className="bg-primary flex justify-center items-center p-10">
+      <Logo {...args} />
+    </div>
+  ),
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: {
-    size: 'full',
-    className: '',
+    size: 'compact',
+    textColor: 'white',
   },
 };

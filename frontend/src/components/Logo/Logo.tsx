@@ -1,98 +1,50 @@
-import React from 'react';
 import Image from 'next/image';
-import {
-  logoStyles,
-  dashedBorderStyles,
-  fullLogoContainerStyles,
-  mainTextStyles,
-} from './Logo.styles';
 
-import Line1Svg from '../../assets/images/logo.svg';
-import Line3Svg from '../../assets/images/logo-compact.svg';
+import logoFull from '../../assets/images/logo.svg';
+import logoCompact from '../../assets/images/logo-compact.svg';
+import logoCompactWhiteText from '../../assets/images/logo-compact-white.svg';
+import logoFullWhiteText from '../../assets/images/logo-full-white.svg';
 
-export interface LogoProps {
-  /**
-   * Size variant of the logo
-   * @default "full"
-   */
-  size?: 'full' | 'compact';
-  /**
-   * Optional additional CSS class
-   */
-  className?: string;
+import { LogoProps } from './Logo.types';
+
+type LogoVariantsDictionary = {
+  [key in Exclude<LogoProps['size'], undefined>]: {
+    textColor: Record<Exclude<LogoProps['textColor'], undefined>, string>;
+    width: number;
+    height: number;
+  };
 }
 
-export function Logo({ className = '', size = 'full' }: LogoProps) {
-  const isFull = size === 'full';
+const LOGO_VARIANTS_DICTIONARY: LogoVariantsDictionary = {
+  full: {
+    textColor: {
+      default: logoFull as string,
+      white: logoFullWhiteText as string,
+    },
+    width: 259,
+    height: 29,
+  },
+  compact: {
+    textColor: {
+      default: logoCompact as string,
+      white: logoCompactWhiteText as string,
+    },
+    width: 74,
+    height: 29,
+  },
+};
 
-  if (isFull) {
-    // FULL VERSION
-    return (
-      <div className={logoStyles({ size, className })} data-testid="logo-full">
-        <div
-          className={dashedBorderStyles({ size })}
-          style={{
-            borderColor: 'var(--color-logo-border)',
-            width: '311px',
-            height: '182px',
-            borderWidth: '1px',
-            borderRadius: '5px',
-          }}
-        >
-          <div className={fullLogoContainerStyles()}>
-            {/* Top SVG logo */}
-            <div className="flex justify-center mb-3">
-              <Image
-                src={Line1Svg}
-                alt="Logo"
-                width={259}
-                height={29}
-                priority
-              />
-            </div>
-
-            {/* Main text "REDI. EVENTS." */}
-            <div
-              className={mainTextStyles()}
-              style={{
-                width: '259px',
-                height: '29px',
-                color: 'var(--color-grey-redi)',
-                fontSize: '39px',
-                lineHeight: '29px',
-                letterSpacing: '-0.02em',
-                paddingLeft: 0,
-              }}
-            >
-              REDI. EVENTS.
-            </div>
-
-            {/* Bottom compact SVG */}
-            <div className="mt-4">
-              <Image
-                src={Line3Svg}
-                alt="R.E."
-                width={74}
-                height={29}
-                priority />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // COMPACT VERSION (mobile)
+const Logo = ({ size = 'full', textColor = 'default' }: LogoProps) => {
   return (
-    <div className={logoStyles({ size, className })} data-testid="logo-compact">
-      <Image
-        src="/images/logo-compact.svg"
-        alt="R.E."
-        width={74}
-        height={29}
-        className="ml-4"
-        priority
-      />
-    </div>
+    <Image
+      src={LOGO_VARIANTS_DICTIONARY[size].textColor[textColor]}
+      alt="ReDi Events"
+      aria-hidden="true"
+      width={LOGO_VARIANTS_DICTIONARY[size].width}
+      height={LOGO_VARIANTS_DICTIONARY[size].height}
+      priority
+    />
   );
-}
+};
+
+export default Logo;
