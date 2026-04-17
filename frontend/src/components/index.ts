@@ -9,3 +9,4 @@ export * from './InfoBox';
 export * from './Skeleton';
 export * from './Logo';
 export * from './Sidebar';
+export * from './LinkButton';

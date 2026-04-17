@@ -1,12 +1,14 @@
 import type { LinkButtonProps } from './LinkButton.types';
-import { iconStyles, linkButtonStyles } from './LinkButto.styles';
+import { iconStyles, linkButtonStyles } from './LinkButton.styles';
 
-const LinkButton = ({ label, icon, href }: LinkButtonProps) => {
+import Link from 'next/link';
+
+const LinkButton = ({ icon, href, children, ...props }: LinkButtonProps) => {
   return (
-    <a href={href} className={linkButtonStyles()}>
+    <Link href={href} className={linkButtonStyles()} {...props}>
       {icon && <span className={iconStyles()}>{icon}</span>}
-      {label}
-    </a>
+      {children}
+    </Link>
   );
 };
 export default LinkButton;

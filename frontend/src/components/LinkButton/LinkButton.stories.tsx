@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import LinkButton from './LinkButton';
-import { ArrowLeftIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
 
 const meta: Meta<typeof LinkButton> = {
   title: 'Components/LinkButton',
@@ -13,12 +13,12 @@ export default meta;
 type Story = StoryObj<typeof LinkButton>;
 
 export const Default: Story = {
-  render: () => <LinkButton icon={<ArrowLeftIcon />} label="GO BACK" href="#" />,
+  render: () => <LinkButton icon={<ArrowLeftIcon />} href="#" >GO BACK</LinkButton>,
 };
 
 export const WithoutIcon: Story = {
   args: {
-    label: 'GO BACK',
+    children: 'GO BACK',
     href: '#',
   },
 };

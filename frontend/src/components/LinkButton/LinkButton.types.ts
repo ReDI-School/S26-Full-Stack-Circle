@@ -1,8 +1,13 @@
-import React from 'react';
-import { AnchorHTMLAttributes } from 'react';
+import { LinkProps } from 'next/link';
 
-export interface LinkButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-  label: string;
+export interface LinkButtonProps extends LinkProps {
+  /**
+   * Icon displayed before the text
+   */
   icon?: React.ReactNode;
-  href?: string;
+
+  /**
+   * Label displayed after the icon
+   */
+  children: React.ReactNode;
 }
