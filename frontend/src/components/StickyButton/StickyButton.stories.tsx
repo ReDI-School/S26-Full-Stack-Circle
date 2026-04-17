@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import StickyButton from './StickyButton';
-import { CalendarPlusIcon } from '@phosphor-icons/react';
+import { CalendarPlusIcon } from '@phosphor-icons/react/ssr';
 
 const meta: Meta<typeof StickyButton> = {
   title: 'Components/StickyButton',

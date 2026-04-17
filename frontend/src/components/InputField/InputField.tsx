@@ -2,7 +2,7 @@
 
 import type { BaseProps, InputProps, TextareaProps, InputWrapperProps } from './InputField.types';
 import { inputFieldStyles } from './InputField.styles';
-import { EyeSlashIcon, EyeIcon } from '@phosphor-icons/react';
+import { EyeSlashIcon, EyeIcon } from '@phosphor-icons/react/ssr';
 import { useState, forwardRef } from 'react';
 
 const InputWrapper = ({ label, required, error, children }: InputWrapperProps) => {
