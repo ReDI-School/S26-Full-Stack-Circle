@@ -1,17 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryFn, StoryObj } from '@storybook/nextjs-vite';
 import { useState } from 'react';
 import TabNav from './TabNav';
 
 const TABS = ['All Events', 'Future Events', 'Archived'];
 
+const Template: StoryFn<typeof TabNav> = (args) => {
+  const [activeTab, setActiveTab] = useState(args.activeTab);
+  return <TabNav {...args} activeTab={activeTab} onTabChange={setActiveTab} />;
+};
+
 const meta: Meta<typeof TabNav> = {
   title: 'Components/TabNav',
   component: TabNav,
   tags: ['autodocs'],
-  render: (args) => {
-    const [activeTab, setActiveTab] = useState(args.activeTab);
-    return <TabNav {...args} activeTab={activeTab} onTabChange={setActiveTab} />;
-  },
+  render: Template,
 };
 
 export default meta;

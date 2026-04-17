@@ -1,23 +1,23 @@
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * The label of the button
+   * The variant of the button
+   * @default primary
    */
+  variant?: 'primary' | 'secondary' | 'idle' | 'positive' | 'negative';
+
+  /**
+   * The state of the button
+   * @default: medium
+   */
+  size?: 'default' | 'small';
+
+  /**
+   * The state of the button
+   * @default: default
+   */
+  state?: 'default' | 'disabled' | 'loading';
+
   children: React.ReactNode;
-
-  /**
-   * The function to be called when the button is clicked
-   */
-  onClick?: () => void;
-
-  /**
-   * Whether the button should stretch to the width of its container
-   */
-  stretch?: boolean;
-
-  /**
-   * Whether the button should be disabled
-   */
-  disabled?: boolean;
 }
 
 export type { ButtonProps };

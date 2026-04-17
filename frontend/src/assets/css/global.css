@@ -9,9 +9,10 @@
     var(--font-roboto), 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Colors -- Primary (Teal) */
-  --color-primary: #2e8b8b;
+  --color-primary: #268ea2;
   --color-primary-dark: #236b6b;
   --color-primary-light: #3aa9a9;
+  --color-primary-redi: #2fafc7;
 
   /* Colors -- Neutral */
   --color-white: #ffffff;
@@ -28,6 +29,7 @@
   --color-grey-700: #404040;
   --color-grey-800: #262626;
   --color-grey-900: #171717;
+  --color-grey-redi: #f3f3f3;
 
   /* Colors -- TabNav */
   --color-tabs-idle: var(--color-gray-400);
@@ -41,11 +43,16 @@
   --color-error: #dc3545;
   --color-info: #17a2b8;
   --color-danger: #e8614d;
+  --color-logo-border: #8a38f5;
 
   /* Colors -- Background */
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f5f5f5;
   --color-bg-tertiary: #e5e5e5;
+  --color-bg-info: #dff7ff;
+  --color-bg-error: #ffdfdf;
+  --color-bg-warning: #fff6df;
+  --color-bg-success: #e2ffc9;
 
   /* Colors -- Text */
   --color-text-primary: #333333;
@@ -53,6 +60,44 @@
   --color-text-tertiary: #999999;
   --color-text-disabled: #cccccc;
   --color-text-inverse: #ffffff;
+  --color-text-info: #448cbb;
+  --color-text-error: #d86666;
+  --color-text-warning: #bb7844;
+  --color-text-success: #4f854c;
+
+  /* Colors -- Outline */
+  --color-outline-info: #88c6ff;
+  --color-outline-error: #ff8989;
+  --color-outline-warning: #ffca4e;
+  --color-outline-success: #99c763;
+
+  /* Colors - Form/Input Field */
+  --color-input-primary: #707070;
+  --color-input-secondary: #949ea8;
+  --color-input-tertiary: #b9b9b9;
+  --color-input-error: #f54343;
+  --color-input-warning: #ff5710;
+
+  /* Colors -- Button */
+  --color-button-idle: #75898c;
+  --color-button-idle-hovered: #6c757d;
+
+  /* Colors -- Button */
+  --color-button-primary: #2fafc7;
+  --color-button-secondary: #ff5710;
+  --color-button-idle: #75898c;
+  --color-button-positive: #2bbb8d;
+  --color-button-negative: #f54343;
+
+  --color-button-primary-hovered: #268ea2;
+  --color-button-secondary-hovered: #da6533;
+  --color-button-idle-hovered: #6c757d;
+  --color-button-positive-hovered: #178764;
+  --color-button-negative-hovered: #bb4444;
+
+  /* Colors -- Skeleton */
+  --color-skeleton: #d9d9d9;
+  --color-skeleton-shimmer: #ededed;
 
   /* Font Sizes */
   --text-xs: 0.75rem;
@@ -132,5 +177,32 @@
   }
   h6 {
     font-size: var(--text-lg);
+  }
+}
+
+/* ============================================================
+   Skeleton Animation
+   ============================================================ */
+@keyframes wave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@layer utilities {
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-wave {
+      background-image: linear-gradient(
+        90deg,
+        var(--color-skeleton) 20%,
+        var(--color-skeleton-shimmer) 50%,
+        var(--color-skeleton) 80%
+      );
+      background-size: 200% 100%;
+      animation: wave 1.5s ease-in-out infinite;
+    }
   }
 }
