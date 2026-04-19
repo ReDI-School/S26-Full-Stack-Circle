@@ -4,7 +4,12 @@ import { Sidebar } from '../Sidebar';
 
 const SIDEBAR_TAGLINE = 'Bringing people together';
 
-export default function PublicLayout({ children }: PublicLayoutProps) {
+export default function PublicLayout({
+  children,
+  navText,
+  navLinkLabel,
+  navLinkHref,
+}: PublicLayoutProps) {
   const styles = publicLayoutStyles();
   return (
     <main className={styles.main()}>
