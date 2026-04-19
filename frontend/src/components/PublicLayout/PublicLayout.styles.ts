@@ -4,6 +4,7 @@ export const publicLayoutStyles = tv({
   slots: {
     main: 'flex h-screen overflow-hidden',
     sidebar: 'hidden md:block w-[480px]',
-    content: 'flex-1 bg-[#F5F5F5] flex items-center justify-center',
+    content: 'flex-1 bg-[#F5F5F5] flex flex-col',
+    nav: 'w-full flex justify-end items-center gap-2 px-6 py-4',
   },
 });

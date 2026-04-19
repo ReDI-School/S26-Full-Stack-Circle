@@ -1,6 +1,7 @@
 import type { PublicLayoutProps } from './PublicLayout.types';
 import { publicLayoutStyles } from './PublicLayout.styles';
 import { Sidebar } from '../Sidebar';
+import { LinkButton } from '../LinkButton';
 
 const SIDEBAR_TAGLINE = 'Bringing people together';
 
@@ -16,7 +17,13 @@ export default function PublicLayout({
       <aside className={styles.sidebar()}>
         <Sidebar tagline={SIDEBAR_TAGLINE} />
       </aside>
-      <section className={styles.content()}>{children}</section>
+      <section className={styles.content()}>
+        <div className={styles.nav()}>
+          <span>{navText}</span>
+          <LinkButton href={navLinkHref}>{navLinkLabel}</LinkButton>
+        </div>
+        {children}
+      </section>
     </main>
   );
 }
