@@ -1,13 +1,15 @@
 import type { PublicLayoutProps } from './PublicLayout.types';
 import { publicLayoutStyles } from './PublicLayout.styles';
-import SidebarImage from './SidebarImage';
+import { Sidebar } from '../Sidebar';
+
+const SIDEBAR_TAGLINE = 'Bringing people together';
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
   const styles = publicLayoutStyles();
   return (
     <main className={styles.main()}>
       <aside className={styles.sidebar()}>
-        <SidebarImage />
+        <Sidebar tagline={SIDEBAR_TAGLINE} />
       </aside>
       <section className={styles.content()}>{children}</section>
     </main>
