@@ -13,41 +13,23 @@ type Story = StoryObj<typeof PublicLayout>;
 
 export const WithLoginForm: Story = {
   args: {
-    navText: "Don't have account?",
-    navLinkLabel: 'SIGN IN',
-    navLinkHref: '/signin',
-    children: <div>Login Form Content</div>,
-  },
-};
-
-export const WithSignUpForm: Story = {
-  args: {
-    navText: 'Already have an account?',
-    navLinkLabel: 'SIGN UP',
-    navLinkHref: '/signup',
-    children: <div>Sign UP Form Content</div>,
-  },
-};
-
-export const WithoutData: Story = {
-  args: {
-    navText: '',
-    navLinkLabel: '',
-    navLinkHref: '',
-    children: <div>No content</div>,
+    children: (
+      <>
+        <div>LOGIN FORM MOCK</div>
+      </>
+    ),
   },
 };
 
 export const MobileViewport: Story = {
   args: {
-    navText: "Don't have account?",
-    navLinkLabel: 'SIGN UP',
-    navLinkHref: '/signup',
-    children: <div>Login Form Content</div>,
+    children: (
+      <>
+        <div>LOGIN FORM MOCK</div>
+      </>
+    ),
   },
-  parameters: {
-    viewport: {
-      defaultViewport: 'mobile1',
-    },
+  globals: {
+    viewport: { value: 'mobile1' },
   },
 };
