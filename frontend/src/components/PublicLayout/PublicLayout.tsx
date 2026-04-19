@@ -22,7 +22,7 @@ export default function PublicLayout({
           <span>{navText}</span>
           <LinkButton href={navLinkHref}>{navLinkLabel}</LinkButton>
         </div>
-        {children}
+        <div className={styles.body()}>{children}</div>
       </section>
     </main>
   );
