@@ -26,13 +26,13 @@ export const EventCardExample: Story = {
   },
 };
 
-export const EventCardLoading: Story = {
+export const Loading: Story = {
   args: {
     isLoading: true,
   },
 };
 
-export const EventCardJoin: Story = {
+export const Join: Story = {
   args: {
     isLoading: false,
     elevated: false,
@@ -47,7 +47,7 @@ export const EventCardJoin: Story = {
   },
 };
 
-export const EventCardLeave: Story = {
+export const Leave: Story = {
   args: {
     isLoading: false,
     elevated: false,
@@ -62,7 +62,7 @@ export const EventCardLeave: Story = {
   },
 };
 
-export const EventCardEdit: Story = {
+export const Edit: Story = {
   args: {
     isLoading: false,
     elevated: false,

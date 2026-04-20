@@ -1,5 +1,4 @@
 import type { EventCardProps } from './EventCard.types';
-import { EventCardStyles } from './EventCard.styles';
 import { Card } from '../Card';
 import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
 import { Button } from '../Button';
