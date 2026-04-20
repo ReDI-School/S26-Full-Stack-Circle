@@ -27,9 +27,7 @@ export const WithLoginForm: Story = {
 export const MobileViewport: Story = {
   args: {
     children: (
-      <>
         <div>LOGIN FORM MOCK</div>
-      </>
     ),
   },
   globals: {
