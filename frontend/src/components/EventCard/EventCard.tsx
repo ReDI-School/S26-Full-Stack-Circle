@@ -5,35 +5,42 @@ import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
 import { Button } from '../Button';
 import EventCardSkeleton from './EventCardSkeleton';
 
-export default function EventCard({}: EventCardProps) {
-  if (true) {
+const variantMap = {
+  join: 'positive',
+  leave: 'negative',
+  edit: 'idle',
+} as const;
+
+export default function EventCard(props: EventCardProps) {
+  if (props.isLoading) {
     return <EventCardSkeleton />;
   }
+
+  const buttonVariant = variantMap[props.action];
+
   return (
-    <Card>
+    <Card interactive>
       <div className="flex flex-col gap-7.5 font-sans">
         <div className="flex gap-2.5 items-center text-[14px] h-6 text-input-primary">
           <CalendarDotsIcon size={16.25} />
-          <p>April 4, 2017 – 2:17 PM</p>
+          <p>{props.date}</p>
         </div>
         <div className="flex flex-col gap-7.5">
           <div>
-            <p className="text-xl">How to Network</p>
-            <p className="text-sm text-ec-tertiary">Owner</p>
+            <p className="text-xl">{props.title}</p>
+            <p className="text-sm text-ec-tertiary">{props.author}</p>
           </div>
-          <p className="text-base text-ec-secondary">
-            Let’s get together and share techniques on how to network and communicate well our
-            interests.
-          </p>
+          <p className="text-base text-ec-secondary">{props.description}</p>
         </div>
         <div className="flex justify-between">
           <div className="flex gap-2.5 items-center text-input-secondary">
             <UsersIcon size={20} />
-            <p className="text-sm">10 of 40</p>
+            <p className="text-sm">
+              {props.attendeeCount} of {props.maxAttendees}
+            </p>
           </div>
-
-          <Button variant="positive" size="small">
-            JOIN
+          <Button variant={buttonVariant} size="small" onClick={props.onActionClick}>
+            <p className="uppercase">{props.action}</p>
           </Button>
         </div>
       </div>

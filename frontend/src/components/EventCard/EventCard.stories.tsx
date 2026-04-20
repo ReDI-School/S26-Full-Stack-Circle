@@ -11,9 +11,68 @@ const meta: Meta<typeof EventCard> = {
 export default meta;
 type Story = StoryObj<typeof EventCard>;
 
-export const NegativeSmall: Story = {
+export const EventCardExample: Story = {
   args: {
-    elevated: true,
+    isLoading: false,
+    elevated: false,
     action: 'join',
+    date: 'April 4, 2017 – 2:17 PM',
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
+  },
+};
+
+export const EventCardLoading: Story = {
+  args: {
+    isLoading: true,
+  },
+};
+
+export const EventCardJoin: Story = {
+  args: {
+    isLoading: false,
+    elevated: false,
+    action: 'join',
+    date: 'April 4, 2017 – 2:17 PM',
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
+  },
+};
+
+export const EventCardLeave: Story = {
+  args: {
+    isLoading: false,
+    elevated: false,
+    action: 'leave',
+    date: 'April 4, 2017 – 2:17 PM',
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
+  },
+};
+
+export const EventCardEdit: Story = {
+  args: {
+    isLoading: false,
+    elevated: false,
+    action: 'edit',
+    date: 'April 4, 2017 – 2:17 PM',
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
   },
 };

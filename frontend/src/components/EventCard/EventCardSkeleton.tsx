@@ -4,8 +4,8 @@ import { Skeleton } from '../Skeleton';
 export default function EventCardSkeleton() {
   return (
     <Card>
-      <div className="flex flex-col gap-7.5 font-sans">
-        <div className="flex gap-2.5 items-center text-[14px] h-6 text-input-primary">
+      <div className="flex flex-col gap-7.5">
+        <div className="flex gap-2.5 items-center">
           <Skeleton height={16} width={16} />
           <Skeleton height={16} width={177} />
         </div>
@@ -20,11 +20,10 @@ export default function EventCardSkeleton() {
           </div>
         </div>
         <div className="flex justify-between">
-          <div className="flex gap-2.5 items-center text-input-secondary">
+          <div className="flex gap-2.5 items-center">
             <Skeleton height={16} width={16} />
             <Skeleton height={16} width={60} />
           </div>
-
           <Skeleton height={32} width={100} />
         </div>
       </div>
