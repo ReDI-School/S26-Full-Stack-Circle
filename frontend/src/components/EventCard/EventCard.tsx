@@ -1,11 +1,14 @@
 import type { EventCardProps } from './EventCard.types';
 import { EventCardStyles } from './EventCard.styles';
 import { Card } from '../Card';
-import { Skeleton } from '../Skeleton';
 import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
 import { Button } from '../Button';
+import EventCardSkeleton from './EventCardSkeleton';
 
 export default function EventCard({}: EventCardProps) {
+  if (true) {
+    return <EventCardSkeleton />;
+  }
   return (
     <Card>
       <div className="flex flex-col gap-7.5 font-sans">
