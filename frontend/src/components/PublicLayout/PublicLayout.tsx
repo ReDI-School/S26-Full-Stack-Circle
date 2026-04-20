@@ -8,9 +8,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
   const styles = publicLayoutStyles();
   return (
     <main className={styles.main()}>
-      <aside className={styles.sidebar()}>
+      <div className={styles.sidebar()}>
         <Sidebar tagline={SIDEBAR_TAGLINE} />
-      </aside>
+      </div>
       <section className={styles.content()}>{children}</section>
     </main>
   );
