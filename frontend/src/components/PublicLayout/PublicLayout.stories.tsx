@@ -5,6 +5,9 @@ import PublicLayout from './PublicLayout';
 const meta: Meta<typeof PublicLayout> = {
   title: 'Components/PublicLayout',
   component: PublicLayout,
+  parameters: {
+    layout: 'fullscreen',
+  },
   tags: ['autodocs'],
 };
 
