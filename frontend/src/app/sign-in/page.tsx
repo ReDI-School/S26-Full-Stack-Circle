@@ -1,16 +1,12 @@
-import Link from 'next/link';
+import { SignInForm } from '../../components/SignInForm';
 
-import Button from '../../components/Button/Button';
-
-const SignIn = () => {
+export default function LoginPage() {
+  const handleSignIn = (data: any) => {
+    console.log('Form Ready for Backend:', data);
+  };
   return (
-    <div className="flex flex-col gap-10">
-      <h1>Sign In</h1>
-      <Link href="/">
-        <Button>Back to Home</Button>
-      </Link>
-    </div>
+    <main className="w-full max-w-[468px] mx-auto py-12 px-4 flex flex-col justify-center min-h-[calc(100vh-80px)]">
+      <SignInForm onSubmit={handleSignIn} />
+    </main>
   );
-};
-
-export default SignIn;
+}
