@@ -47,7 +47,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
             setIsExpended((prev) => !prev);
           }
         }}
-        aria-haspopup={true}
+        aria-haspopup="menu"
         aria-expanded={isExpanded}
         tabIndex={0}
         role="button"
@@ -57,13 +57,13 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         <CaretDownIcon />
         {isExpanded && (
           <div className={userAreaProfileStyles.base.join(' ')}>
-            <div className={dropDownStyles.base.join(' ')}>
+            <div className={dropDownStyles.base.join(' ')} onClick={onProfile}>
               <span>Profile</span>
-              <UserIcon className={iconStyles.base.join(' ')} onClick={onProfile} />
+              <UserIcon className={iconStyles.base.join(' ')} />
             </div>
-            <div className={dropDownStyles.base.join(' ')}>
+            <div className={dropDownStyles.base.join(' ')} onClick={onSignOut}>
               <span>Sign Out</span>
-              <SignOutIcon className={iconStyles.base.join(' ')} onClick={onSignOut} />
+              <SignOutIcon className={iconStyles.base.join(' ')} />
             </div>
           </div>
         )}

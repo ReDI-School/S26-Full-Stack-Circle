@@ -29,7 +29,7 @@ export const userAreaProfileStyles = {
 };
 
 export const dropDownStyles = {
-  base: ['flex', 'items-center ', 'justify-end'],
+  base: ['flex', 'items-center ', 'justify-end', 'cursor-pointer', 'hover:text-grey-600'],
 };
 
 export const iconStyles = {
