@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import Avatar from './Avatar';
 
@@ -18,7 +18,7 @@ export const Default: Story = {
 };
 
 export const Large: Story = {
-  storyName: 'Large with custom css variable value',
+  name: 'Large with custom css variable value',
   args: {
     initials: 'LL',
     size: 'lg',
