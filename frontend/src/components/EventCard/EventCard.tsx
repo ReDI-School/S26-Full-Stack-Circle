@@ -4,6 +4,7 @@ import { EventCardStyles } from './EventCard.styles';
 import { Card } from '../Card';
 import { Button } from '../Button';
 import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
+import { formatTimestamp } from '../../utils/utils';
 
 const variantMap = {
   join: 'positive',
@@ -30,19 +31,7 @@ export default function EventCard(props: EventCardProps) {
 
   const buttonVariant = variantMap[props.action];
 
-  const datePart = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(props.date);
-
-  const timePart = new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  }).format(props.date);
-
-  const timeStamp = `${datePart} – ${timePart}`;
+  const timeStamp = formatTimestamp(props.date);
 
   return (
     <Card interactive>
