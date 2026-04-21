@@ -1,8 +1,9 @@
 import type { EventCardProps } from './EventCard.types';
-import { Card } from '../Card';
-import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
-import { Button } from '../Button';
 import EventCardSkeleton from './EventCardSkeleton';
+import { EventCardStyles } from './EventCard.styles';
+import { Card } from '../Card';
+import { Button } from '../Button';
+import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
 
 const variantMap = {
   join: 'positive',
@@ -15,31 +16,57 @@ export default function EventCard(props: EventCardProps) {
     return <EventCardSkeleton />;
   }
 
+  const {
+    wrapper,
+    container,
+    bottomContainer,
+    date,
+    title,
+    author,
+    description,
+    attendees,
+    buttonText,
+  } = EventCardStyles();
+
   const buttonVariant = variantMap[props.action];
+
+  const datePart = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(props.date);
+
+  const timePart = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(props.date);
+
+  const timeStamp = `${datePart} – ${timePart}`;
 
   return (
     <Card interactive>
-      <div className="flex flex-col gap-7.5 font-sans">
-        <div className="flex gap-2.5 items-center text-[14px] h-6 text-input-primary">
+      <div className={wrapper()}>
+        <div className={container()}>
           <CalendarDotsIcon size={16.25} />
-          <p>{props.date}</p>
+          <p className={date()}>{timeStamp}</p>
         </div>
-        <div className="flex flex-col gap-7.5">
+        <div className={wrapper()}>
           <div>
-            <p className="text-xl">{props.title}</p>
-            <p className="text-sm text-ec-tertiary">{props.author}</p>
+            <p className={title()}>{props.title}</p>
+            <p className={author()}>{props.author}</p>
           </div>
-          <p className="text-base text-ec-secondary">{props.description}</p>
+          <p className={description()}>{props.description}</p>
         </div>
-        <div className="flex justify-between">
-          <div className="flex gap-2.5 items-center text-input-secondary">
+        <div className={bottomContainer()}>
+          <div className={container()}>
             <UsersIcon size={20} />
-            <p className="text-sm">
+            <p className={attendees()}>
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
           <Button variant={buttonVariant} size="small" onClick={props.onActionClick}>
-            <p className="uppercase">{props.action}</p>
+            <span className={buttonText()}>{props.action}</span>
           </Button>
         </div>
       </div>

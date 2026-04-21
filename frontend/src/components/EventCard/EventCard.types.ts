@@ -2,12 +2,6 @@ type EventCardAction = 'join' | 'leave' | 'edit';
 
 type EventCardBaseProps = {
   /**
-   * Whether the card should display with elevated shadow.
-   * @default false
-   */
-  elevated?: boolean;
-
-  /**
    * The action button text and behavior.
    * - `join` — Shows "JOIN" button with positive variant
    * - `leave` — Shows "LEAVE" button with negative variant
@@ -34,10 +28,9 @@ type EventCardLoadedProps = EventCardBaseProps & {
   isLoading?: false;
 
   /**
-   * Date of the event in the format: April 4, 2017 – 2:17 PM
-   * @default 'April 4, 2017 – 2:17 PM'
+   * Date of the event in stardart ISO: 2017-04-04T14:17:00Z
    */
-  date: string;
+  date: Date;
 
   /**
    * Title of the event.
