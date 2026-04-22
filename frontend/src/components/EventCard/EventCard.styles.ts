@@ -4,6 +4,7 @@ export const EventCardStyles = tv({
   slots: {
     wrapper: 'flex flex-col gap-7.5 font-sans',
     container: 'flex gap-2.5 items-center ',
+    skeletonContainer: 'flex flex-col gap-2.5',
     bottomContainer: 'flex justify-between',
     date: 'text-sm h-6 text-input-primary',
     title: 'text-xl',
