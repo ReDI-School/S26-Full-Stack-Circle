@@ -16,7 +16,6 @@ export const Default: Story = {
   },
 };
 
-
 export const WithLongLabel: Story = {
   args: {
     label: 'This is a long label that should be truncated',
