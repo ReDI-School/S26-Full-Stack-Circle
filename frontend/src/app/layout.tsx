@@ -4,8 +4,6 @@ import { Roboto } from 'next/font/google';
 import '../assets/css/reset.css';
 import '../assets/css/global.css';
 
-import { Layout } from '../components';
-
 const roboto = Roboto({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
@@ -24,9 +22,7 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className={roboto.variable}>
-      <body>
-        <Layout>{children}</Layout>
-      </body>
+      <body>{children}</body>
     </html>
   );
 };

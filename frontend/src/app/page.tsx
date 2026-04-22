@@ -1,19 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-import logo from '../assets/images/logo.svg';
-import Button from '../components/Button/Button';
-import { Logo } from '../components/Logo';
+// TODO: Later we have to check if the user is logged in or not to make this redirect to the right page
+const Home = () => redirect('/sign-in');
 
-const Home = () => {
-  return (
-    <div className="flex flex-col gap-10">
-      <Logo/>
-      <Image src={logo} alt="ReDi Events Logo" width={500} height={135} />
-      <Link href="/sign-in">
-        <Button>Sign In</Button>
-      </Link>
-    </div>
-  );
-};
 export default Home;

@@ -190,11 +190,11 @@ Design tokens are the colors, fonts, and sizes that define how the app looks. Th
 
   /* Background colors */
   --color-bg-primary: #ffffff; /* White - main background */
-  --color-bg-secondary: #f5f5f5; /* Light grey - secondary areas */
+  --color-bg-secondary: #f5f5f5; /* Light gray - secondary areas */
 
   /* Text colors */
-  --color-text-primary: #333333; /* Dark grey - main text */
-  --color-text-secondary: #666666; /* Medium grey - secondary text */
+  --color-text-primary: #333333; /* Dark gray - main text */
+  --color-text-secondary: #666666; /* Medium gray - secondary text */
   --color-text-inverse: #ffffff; /* White - text on dark backgrounds */
 }
 ```
@@ -203,8 +203,8 @@ Once defined, you can use these tokens as Tailwind classes. For example:
 
 ```tsx
 <div className="bg-primary text-text-inverse">  // Teal background, white text
-<p className="text-text-secondary">              // Medium grey text
-<div className="bg-bg-secondary">               // Light grey background
+<p className="text-text-secondary">              // Medium gray text
+<div className="bg-bg-secondary">               // Light gray background
 ```
 
 ### tailwind-variants
@@ -220,7 +220,7 @@ export const buttonStyles = tv({
     'bg-primary text-text-inverse', // Teal background, white text
     'py-3 px-6 rounded-base', // Padding and rounded corners
     'hover:bg-primary-dark', // Darker teal on hover
-    'disabled:bg-grey-300 disabled:opacity-60',
+    'disabled:bg-gray-300 disabled:opacity-60',
   ],
   variants: {
     stretch: {
