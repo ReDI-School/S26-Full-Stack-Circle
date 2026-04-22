@@ -15,3 +15,19 @@ export const getInitials = (name: string): string =>
     .map((word) => word[0])
     .join('')
     .toUpperCase();
+
+export const formatTimestamp = (date: Date): string => {
+  const datePart = new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date);
+
+  const timePart = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date);
+
+  return `${datePart} – ${timePart}`;
+};
