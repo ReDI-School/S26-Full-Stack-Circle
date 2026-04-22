@@ -8,7 +8,7 @@ const meta: Meta<typeof StickyButton> = {
   component: StickyButton,
   tags: ['autodocs'],
   globals: {
-    viewport: { value: 'mobile1' },
+    viewport: { value: 'mobile' },
   },
   parameters: {
     docs: {
