@@ -1,18 +1,14 @@
 import { UserAreaProps } from './UserArea.types';
 import { Avatar } from '../Avatar';
 import { CaretDownIcon, UserIcon, SignOutIcon } from '@phosphor-icons/react';
-import {
-  userAreaStyles,
-  userAreaProfileStyles,
-  dropDownStyles,
-  iconStyles,
-} from './UserArea.styles';
+import { userArea } from './UserArea.styles';
 import { useState, useEffect, useRef } from 'react';
 
 const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaProps) => {
   const [isExpanded, setIsExpended] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const styles = userArea();
 
   useEffect(() => {
     const closeDropdown = (e: PointerEvent) => {
@@ -45,7 +41,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
       <button
         ref={buttonRef}
         type="button"
-        className={userAreaStyles.base.join(' ')}
+        className={styles.userArea()}
         onClick={() => {
           setIsExpended((prev) => !prev);
         }}
@@ -57,31 +53,29 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         <CaretDownIcon />
       </button>
       {isExpanded && (
-        <div
-          ref={menuRef}
-          className={userAreaProfileStyles.base.join(' ')}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            className={dropDownStyles.base.join(' ')}
+        <div ref={menuRef} className={styles.dropdown()} onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className={styles.item()}
             onClick={() => {
               onProfile();
               setIsExpended(false);
             }}
           >
             <span>Profile</span>
-            <UserIcon className={iconStyles.base.join(' ')} />
-          </div>
-          <div
-            className={dropDownStyles.base.join(' ')}
+            <UserIcon className={styles.icon()} />
+          </button>
+          <button
+            type="button"
+            className={styles.item()}
             onClick={() => {
               onSignOut();
               setIsExpended(false);
             }}
           >
             <span>Sign Out</span>
-            <SignOutIcon className={iconStyles.base.join(' ')} />
-          </div>
+            <SignOutIcon className={styles.icon()} />
+          </button>
         </div>
       )}
     </div>
