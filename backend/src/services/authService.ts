@@ -31,15 +31,6 @@ export class AuthService {
       expiresIn: '10m',
     });
 
-    return {
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-      },
-    };
+    return token;
   }
 }

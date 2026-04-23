@@ -146,34 +146,4 @@ export class UserController {
       res.status(500).json({ error: 'Failed to delete user' });
     }
   }
-
-  async signIn(req: Request, res: Response) {
-    try {
-      const { email, password } = req.body;
-
-      if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password are required' });
-      }
-
-      const result = await this.userService.signIn({ email, password });
-
-      res.status(200).json({
-        message: 'Sign in successful',
-        token: result.token,
-        user: result.user,
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === 'INVALID_CREDENTIALS') {
-          return res.status(401).json({ error: 'Invalid email or password' });
-        }
-
-        if (error.message === 'JWT_SECRET_MISSING') {
-          return res.status(500).json({ error: 'JWT secret is not configured' });
-        }
-      }
-
-      res.status(500).json({ error: 'Failed to sign in' });
-    }
-  }
 }
