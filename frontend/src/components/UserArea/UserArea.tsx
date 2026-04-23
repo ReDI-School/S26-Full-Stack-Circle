@@ -11,11 +11,16 @@ import { useState, useEffect, useRef } from 'react';
 
 const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaProps) => {
   const [isExpanded, setIsExpended] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const closeDropdown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+    const closeDropdown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      const clickedTrigger = buttonRef.current?.contains(target);
+      const clickedMenu = menuRef.current?.contains(target);
+
+      if (!clickedTrigger && !clickedMenu) {
         setIsExpended(false);
       }
     };
@@ -26,48 +31,59 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
       }
     };
 
-    document.body.addEventListener('click', closeDropdown);
+    document.addEventListener('pointerdown', closeDropdown, true);
     document.addEventListener('keydown', handleEscape);
 
     return () => {
-      document.body.removeEventListener('click', closeDropdown);
+      document.removeEventListener('pointerdown', closeDropdown, true);
       document.removeEventListener('keydown', handleEscape);
     };
   }, []);
 
   return (
-    <div className="flex">
-      <div
-        ref={ref}
+    <div className="relative inline-flex">
+      <button
+        ref={buttonRef}
+        type="button"
         className={userAreaStyles.base.join(' ')}
-        onClick={() => setIsExpended((prev) => !prev)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setIsExpended((prev) => !prev);
-          }
+        onClick={() => {
+          setIsExpended((prev) => !prev);
         }}
         aria-haspopup="menu"
         aria-expanded={isExpanded}
-        tabIndex={0}
-        role="button"
       >
         <Avatar size="md" initials={avatarInitials} />
         <div className="mx-3">{userName}</div>
         <CaretDownIcon />
-        {isExpanded && (
-          <div className={userAreaProfileStyles.base.join(' ')}>
-            <div className={dropDownStyles.base.join(' ')} onClick={onProfile}>
-              <span>Profile</span>
-              <UserIcon className={iconStyles.base.join(' ')} />
-            </div>
-            <div className={dropDownStyles.base.join(' ')} onClick={onSignOut}>
-              <span>Sign Out</span>
-              <SignOutIcon className={iconStyles.base.join(' ')} />
-            </div>
+      </button>
+      {isExpanded && (
+        <div
+          ref={menuRef}
+          className={userAreaProfileStyles.base.join(' ')}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div
+            className={dropDownStyles.base.join(' ')}
+            onClick={() => {
+              onProfile();
+              setIsExpended(false);
+            }}
+          >
+            <span>Profile</span>
+            <UserIcon className={iconStyles.base.join(' ')} />
           </div>
-        )}
-      </div>
+          <div
+            className={dropDownStyles.base.join(' ')}
+            onClick={() => {
+              onSignOut();
+              setIsExpended(false);
+            }}
+          >
+            <span>Sign Out</span>
+            <SignOutIcon className={iconStyles.base.join(' ')} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ export const userAreaStyles = {
     'hover:bg-grey-100',
     'relative',
     'focus:outline-none',
+    'cursor-pointer',
   ],
 };
 
@@ -17,6 +18,7 @@ export const userAreaProfileStyles = {
     'p-4',
     'flex',
     'flex-col',
+    'gap-2',
     'w-30',
     'bg-white',
     'shadow-md',
