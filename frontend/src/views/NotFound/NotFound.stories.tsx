@@ -3,8 +3,7 @@ import NotFound from './NotFound';
 
 /**
  * Page-level composition for 404 Not Found errors.
- * * **Architectural Note:** This view intrinsically wraps itself in `PublicLayout`.
- * Do not add layout decorators to this story, as it will result in redundant nested DOM structures.
+ * This Storybook file validates the standalone NotFound view across various viewport sizes.
  */
 const meta: Meta<typeof NotFound> = {
   title: 'Views/NotFound',
