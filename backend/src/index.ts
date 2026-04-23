@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -43,6 +44,10 @@ app.use('/users', userRouter);
 app.get('/', (req: Request, res: Response) => {
   res.json({ status: 'ReDi Events API is running' });
 });
+
+// Error handling
+app.use(notFound);
+app.use(errorHandler);
 
 const protocol = process.env.PROTOCOL ?? 'http';
 const host = process.env.HOST ?? 'localhost';
