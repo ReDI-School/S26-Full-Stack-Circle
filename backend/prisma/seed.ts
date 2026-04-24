@@ -16,9 +16,9 @@ async function main() {
     update: {},
     create: {
       email: 'test@example.com',
-      firstName: 'Jane',
-      lastName: 'Doe',
-      passwordHash: 'hashedpassword123',
+      firstName: 'Test User',
+      lastName: 'asdas',
+      passwordHash: 'asdasd',
     },
   });
 
