@@ -22,7 +22,6 @@ app.get('/public', (req: Request, res: Response) => {
   res.json({ message: 'This is a public route' });
 });
 
-
 // Example of creating expired token for testing
 function generateExpiredToken(userId: string, role: string): string {
   const secret = process.env.JWT_SECRET!;

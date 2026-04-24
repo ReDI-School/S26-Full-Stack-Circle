@@ -336,7 +336,7 @@ Expected output:
 ### 4. Test with Postman
 
 | Endpoint                                | Method |                Headers                | Expected Result   |
-| :------------------------------------------ | :----: | :--------------------: | :---------------------- |
+| :-------------------------------------- | :----: | :-----------------------------------: | :---------------- |
 | http://localhost:4000/public            |  GET   |                 None                  | 200 OK            |
 | http://localhost:4000/protected         |  GET   |     Authorization: Bearer <token>     | 200 OK            |
 | http://localhost:4000/protected         |  GET   |                 None                  | 401 Unauthorized  |
