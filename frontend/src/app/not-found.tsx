@@ -19,7 +19,7 @@ const NotFound = () => {
 
   return (
     <PublicLayout>
-      <div className="flex min-h-[60vh] w-full flex-col items-center justify-center gap-6 px-4 sm:px-6 lg:gap-10">
+      <div className="flex w-full flex-col items-center justify-center gap-6 px-4 sm:px-6 lg:gap-10">
         <div className="flex w-full max-w-md flex-col items-center gap-8 lg:items-start">
           <div className="text-center lg:text-left">
             <h1 className="text-3xl font-normal leading-tight text-text-primary">
