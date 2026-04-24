@@ -265,6 +265,7 @@ Run these from the `backend/` folder:
 | `npm run prisma:migrate` | Creates and runs a migration |
 | `npm run prisma:studio` | Opens the database browser |
 | `npm run prisma:seed` | Adds test data to the database |
+| `npx tsx src/test-auth.ts` | For testing purposes only to verify JWT endpoints-|
 
 ## Adding a new feature (step by step)
 
@@ -297,3 +298,37 @@ docker compose down -v
 - [Prisma Documentation](https://www.prisma.io/docs) -- database queries, schema, migrations
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/) -- types and interfaces
 - [Docker Getting Started](https://docs.docker.com/get-started/) -- containers and compose
+
+# JWT Authentication Setup & Testing
+
+## 🔐 Set Up JWT Secret
+### 1. Create `.env` file in `backend` folder
+```bash
+touch .env
+```
+### 2. Add your secret to .env:
+```
+JWT_SECRET=your-super-secret-key-minimum-32-characters
+```
+
+### 3. Run the Tests
+Start the test server:
+```bash
+npx tsx src/test-auth.ts
+```
+Expected output:
+```bash
+✅ Server running on http://localhost:4000
+   GET /public
+   GET /protected (use token above)
+   GET /get-expired-token
+   GET /test-expired
+```
+### 4. Test with Postman
+| Endpoint | Method | Headers | Expected Result | 
+| :— — — — — -| :— — —: | :— — — — — -:| :— — — |
+| http://localhost:4000/public | GET | None | 200 OK |
+| http://localhost:4000/protected | GET | Authorization: Bearer <token>| 200 OK |
+| http://localhost:4000/protected| GET | None | 401 Unauthorized |
+| http://localhost:4000/get-expired-token | GET | None | 200 OK |
+| http://localhost:4000/test-expired | GET | Authorization: Bearer <expired_token> | 401 Token expired |
