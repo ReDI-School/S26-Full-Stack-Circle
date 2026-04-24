@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '../../../components';
 import { networkErrorStyles } from './NetworkError.styles';
-import { Button } from '../../components';
 
-const NetworkError = () => {
+const NetworkErrorView = () => {
   const styles = networkErrorStyles();
 
   const handleRefresh = () => {
@@ -25,4 +25,4 @@ const NetworkError = () => {
   );
 };
 
-export default NetworkError;
+export default NetworkErrorView;
