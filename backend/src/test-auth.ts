@@ -38,6 +38,7 @@ app.get('/get-expired-token', (req: Request, res: Response) => {
       note: 'This token will be rejected by the authenticate middleware',
     });
   } catch (error) {
+    console.error('Error generating expired token:', error);
     res.status(500).json({ error: 'Failed to generate token' });
   }
 });
