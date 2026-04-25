@@ -26,7 +26,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     const decoded = jwt.verify(token, secret);
 
     // 6. Validate payload structure
-    /* if (
+    if (
       typeof decoded !== 'object' ||
       decoded === null ||
       !('userId' in decoded) ||
@@ -36,7 +36,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
       return res.status(401).json({
         error: 'Invalid token format',
       });
-    } */
+    } 
 
     // 7. Attach the payload to req.user and call next()
     req.user = decoded as { userId: string; role: string }; // Attach user data to request
