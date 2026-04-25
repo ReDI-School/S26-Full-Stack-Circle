@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
+import { JWT_SECRET } from '../config/env.js';
 import jwt from 'jsonwebtoken';
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
@@ -14,18 +15,11 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
   // 3. Extract the token
   const token = authHeader.substring(7);
 
-  // 4. Validate secret exists
   try {
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      console.error('FATAL: JWT_SECRET environment variable not set');
-      return res.status(500).json({ error: 'Server configuration error' });
-    }
+    // 4. Verify token
+    const decoded = jwt.verify(token, JWT_SECRET!);
 
-    // 5. Verify token
-    const decoded = jwt.verify(token, secret);
-
-    // 6. Validate payload structure
+    // 5. Validate payload structure
     if (
       typeof decoded !== 'object' ||
       decoded === null ||
@@ -36,7 +30,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
       return res.status(401).json({
         error: 'Invalid token format',
       });
-    } 
+    }
 
     // 7. Attach the payload to req.user and call next()
     req.user = decoded as { userId: string; role: string }; // Attach user data to request

@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import './config/env.js';
 
 const app = express();
 
