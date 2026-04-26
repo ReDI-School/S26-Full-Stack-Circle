@@ -5,7 +5,7 @@ import { userArea } from './UserArea.styles';
 import { useState, useEffect, useRef } from 'react';
 
 const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaProps) => {
-  const [isExpanded, setIsExpended] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const styles = userArea();
@@ -17,13 +17,13 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
       const clickedMenu = menuRef.current?.contains(target);
 
       if (!clickedTrigger && !clickedMenu) {
-        setIsExpended(false);
+        setIsExpanded(false);
       }
     };
 
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsExpended(false);
+        setIsExpanded(false);
       }
     };
 
@@ -37,13 +37,13 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
   }, []);
 
   return (
-    <div className="relative inline-flex">
+    <div className="relative">
       <button
         ref={buttonRef}
         type="button"
         className={styles.userArea()}
         onClick={() => {
-          setIsExpended((prev) => !prev);
+          setIsExpanded((prev) => !prev);
         }}
         aria-haspopup="menu"
         aria-expanded={isExpanded}
@@ -59,7 +59,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
             className={styles.item()}
             onClick={() => {
               onProfile();
-              setIsExpended(false);
+              setIsExpanded(false);
             }}
           >
             <span>Profile</span>
@@ -70,7 +70,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
             className={styles.item()}
             onClick={() => {
               onSignOut();
-              setIsExpended(false);
+              setIsExpanded(false);
             }}
           >
             <span>Sign Out</span>
