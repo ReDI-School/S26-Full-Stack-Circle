@@ -18,18 +18,19 @@
   --color-white: #ffffff;
   --color-black: #1a1a1a;
 
-  /* Colors -- Grey Scale */
-  --color-grey-50: #f9f9f9;
-  --color-grey-100: #f0f0f0;
-  --color-grey-200: #e5e5e5;
-  --color-grey-300: #d4d4d4;
-  --color-grey-400: #a3a3a3;
-  --color-grey-500: #737373;
-  --color-grey-600: #525252;
-  --color-grey-700: #404040;
-  --color-grey-800: #262626;
-  --color-grey-900: #171717;
-  --color-grey-redi: #f3f3f3;
+  /* Colors -- Gray Scale */
+  --color-gray-50: #f9f9f9;
+  --color-gray-100: #f0f0f0;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-450: #979797;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+  --color-gray-redi: #f3f3f3;
 
   /* Colors -- TabNav */
   --color-tabs-idle: var(--color-gray-400);
@@ -57,7 +58,7 @@
   /* Colors -- Text */
   --color-text-primary: #333333;
   --color-text-secondary: #666666;
-  --color-text-tertiary: #999999;
+  --color-text-tertiary: var(--color-gray-450);
   --color-text-disabled: #cccccc;
   --color-text-inverse: #ffffff;
   --color-text-info: #448cbb;
@@ -78,6 +79,11 @@
   --color-input-error: #f54343;
   --color-input-warning: #ff5710;
 
+  /* Colors - Event Card */
+  --color-ec-primary: #707070;
+  --color-ec-secondary: #949ea8;
+  --color-ec-tertiary: #7d7878;
+
   /* Colors -- Button */
   --color-button-idle: #75898c;
   --color-button-idle-hovered: #6c757d;
@@ -96,7 +102,7 @@
   --color-button-negative-hovered: #bb4444;
 
   /* Colors -- Tag */
-  --color-tag-background: #DADADA;
+  --color-tag-background: #dadada;
   --color-tag-text: #757575;
 
   /* Colors -- Skeleton */

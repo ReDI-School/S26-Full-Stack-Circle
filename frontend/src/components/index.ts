@@ -3,7 +3,6 @@
 export * from './Button';
 export * from './StickyButton';
 export * from './InputField';
-export * from './Layout';
 export * from './ProfileCard';
 export * from './Card';
 export * from './Avatar';
@@ -14,3 +13,4 @@ export * from './Sidebar';
 export * from './LinkButton';
 export * from './TabNav';
 export * from './Tag';
+export * from './PublicLayout';
