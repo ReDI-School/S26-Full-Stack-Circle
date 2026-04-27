@@ -44,11 +44,12 @@ export const WithFieldValidationErrors: Story = {
         </p>
         <ol className="list-decimal ml-4 mt-2">
           <li>
-            Leave the fields empty and press <strong>SIGN IN</strong> to see the "Required" errors.
+            Leave the fields empty and press <strong>SIGN IN</strong> to see the
+            &quot;Required&quot; errors.
           </li>
           <li>
-            Write 'Hello' in the email field and press <strong>SIGN IN</strong> to see the "Invalid
-            format" error.
+            Write &quot;Hello&quot; in the email field and press <strong>SIGN IN</strong> to see the
+            &quot;Invalid format&quot; error.
           </li>
         </ol>
       </div>
