@@ -38,10 +38,10 @@ export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps
   return (
     <div className="flex flex-col gap-8 w-full">
       <header className="flex flex-col gap-2">
-        <h2 className="text-[28px] font-normal leading-[48px] text-text-primary">
+        <h2 className="text-center md:text-left text-[28px] font-normal leading-[48px] text-text-primary">
           Sign in to ReDi Events
         </h2>
-        <p className="text-[18px] font-normal leading-[24px] text-text-secondary">
+        <p className="text-center md:text-left text-[18px] font-normal leading-[24px] text-text-secondary">
           Enter your details below.
         </p>
       </header>
@@ -66,10 +66,11 @@ export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps
             error={fieldErrors.password}
           />
         </div>
-
-        <Button variant="primary" state={isLoading ? 'loading' : 'default'} type="submit">
-          SIGN IN
-        </Button>
+        <div className="text-center md:text-left">
+          <Button variant="primary" state={isLoading ? 'loading' : 'default'} type="submit">
+            SIGN IN
+          </Button>
+        </div>
       </form>
     </div>
   );
