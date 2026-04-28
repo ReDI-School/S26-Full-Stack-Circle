@@ -50,7 +50,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
       >
         <Avatar size="md" initials={avatarInitials} />
         <div className="mx-3">{userName}</div>
-        <CaretDownIcon />
+        <CaretDownIcon aria-hidden="true" focusable="false" />
       </button>
       {isExpanded && (
         <div ref={menuRef} className={styles.dropdown()} onClick={(e) => e.stopPropagation()}>
@@ -63,7 +63,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
             }}
           >
             <span>Profile</span>
-            <UserIcon className={styles.icon()} />
+            <UserIcon className={styles.icon()} aria-hidden="true" focusable="false" />
           </button>
           <button
             type="button"
@@ -74,7 +74,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
             }}
           >
             <span>Sign Out</span>
-            <SignOutIcon className={styles.icon()} />
+            <SignOutIcon className={styles.icon()} aria-hidden="true" focusable="false" />
           </button>
         </div>
       )}
