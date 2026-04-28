@@ -37,7 +37,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
   }, []);
 
   return (
-    <div className="relative">
+    <div className={styles.wrapper()}>
       <button
         ref={buttonRef}
         type="button"

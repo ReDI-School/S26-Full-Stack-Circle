@@ -2,6 +2,8 @@ import { tv } from 'tailwind-variants';
 
 export const userArea = tv({
   slots: {
+    wrapper: ['relative', 'inline-flex'],
+
     userArea: [
       'text-text-secondary',
       'flex',
@@ -10,7 +12,6 @@ export const userArea = tv({
       'p-2',
       'rounded-full',
       'hover:bg-gray-100',
-      'relative',
       'focus:outline-none',
       'cursor-pointer',
     ],
