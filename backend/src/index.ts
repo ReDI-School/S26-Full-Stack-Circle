@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
