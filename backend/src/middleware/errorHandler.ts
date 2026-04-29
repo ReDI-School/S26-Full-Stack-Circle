@@ -8,6 +8,6 @@ export function notFound(req: Request, res: Response) {
 // Removing `next` silently breaks error handling — Express would treat this as regular middleware instead.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-  console.error('Error:', err);
+  console.error('Error:', err.stack);
   return res.status(500).json({ error: 'Something went wrong' });
 }
