@@ -8,23 +8,12 @@ export function notFound(req: Request, res: Response) {
 // Removing `next` silently breaks error handling — Express would treat this as regular middleware instead.
 
 export function errorHandler(
-  err: Error & {
-    code?: string;
-  },
+  err: Error,
   req: Request,
   res: Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) {
   console.error('Error:', err);
-
-  if (err.code === 'P2025') {
-    return res.status(404).json({ error: 'Record not found' });
-  }
-
-  if (err.code === 'P2002') {
-    return res.status(409).json({ error: 'Duplicate value' });
-  }
-
   return res.status(500).json({ error: 'Something went wrong' });
 }
