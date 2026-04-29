@@ -7,10 +7,12 @@ export const buttonStyles = tv({
     'font-semibold',
     'font-sans',
     'text-white',
-    'focus-visible:outline-2',
-    'focus-visible:outline-offset-2',
-    'focus-visible:outline-white',
+    'focus-visible',
     'transition-all',
+    'cursor-pointer',
+    'transition-all duration-300',
+    'truncate',
+    'p-2.5',
   ],
   variants: {
     variant: {
