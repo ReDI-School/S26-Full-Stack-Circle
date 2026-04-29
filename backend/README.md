@@ -4,13 +4,13 @@ This is the backend API for **ReDi Events**. It is a REST API built with Express
 
 ## What is the tech stack?
 
-| Tool | What it does |
-|------|-------------|
-| [Express](https://expressjs.com/) | A web framework for handling HTTP requests |
-| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors early |
-| [Prisma 7](https://www.prisma.io/) | An ORM that makes it easy to talk to the database |
-| [PostgreSQL](https://www.postgresql.org/) | A relational database where we store our data |
-| [Docker](https://www.docker.com/) | Runs the database in a container so you don't have to install PostgreSQL on your machine |
+| Tool                                          | What it does                                                                             |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [Express](https://expressjs.com/)             | A web framework for handling HTTP requests                                               |
+| [TypeScript](https://www.typescriptlang.org/) | JavaScript with types, so you catch errors early                                         |
+| [Prisma 7](https://www.prisma.io/)            | An ORM that makes it easy to talk to the database                                        |
+| [PostgreSQL](https://www.postgresql.org/)     | A relational database where we store our data                                            |
+| [Docker](https://www.docker.com/)             | Runs the database in a container so you don't have to install PostgreSQL on your machine |
 
 ## Project structure
 
@@ -229,14 +229,14 @@ This opens a browser window at `http://localhost:5555`.
 
 The current API has these endpoints:
 
-| Method | URL | What it does |
-|--------|-----|-------------|
-| GET | `/` | Health check (is the server running?) |
-| GET | `/users` | Get all users |
-| GET | `/users/:id` | Get a single user by ID |
-| POST | `/users` | Create a new user |
-| PUT | `/users/:id` | Update a user |
-| DELETE | `/users/:id` | Delete a user |
+| Method | URL          | What it does                          |
+| ------ | ------------ | ------------------------------------- |
+| GET    | `/`          | Health check (is the server running?) |
+| GET    | `/users`     | Get all users                         |
+| GET    | `/users/:id` | Get a single user by ID               |
+| POST   | `/users`     | Create a new user                     |
+| PUT    | `/users/:id` | Update a user                         |
+| DELETE | `/users/:id` | Delete a user                         |
 
 ### Testing your API with Bruno
 
@@ -253,18 +253,19 @@ Bruno lets you visually pick the HTTP method (GET, POST, PUT, DELETE), type in t
 
 Run these from the `backend/` folder:
 
-| Command | What it does |
-|---------|-------------|
-| `npm run dev` | Starts the server with auto-reload |
-| `npm run build` | Builds the project for production |
-| `npm start` | Runs the production build |
-| `npm run lint` | Checks your code for problems |
-| `npm run format` | Formats your code with Prettier |
-| `npm run prisma:generate` | Regenerates the Prisma client |
-| `npm run prisma:push` | Pushes schema changes to the database |
-| `npm run prisma:migrate` | Creates and runs a migration |
-| `npm run prisma:studio` | Opens the database browser |
-| `npm run prisma:seed` | Adds test data to the database |
+| Command                    | What it does                                       |
+| -------------------------- | -------------------------------------------------- |
+| `npm run dev`              | Starts the server with auto-reload                 |
+| `npm run build`            | Builds the project for production                  |
+| `npm start`                | Runs the production build                          |
+| `npm run lint`             | Checks your code for problems                      |
+| `npm run format`           | Formats your code with Prettier                    |
+| `npm run prisma:generate`  | Regenerates the Prisma client                      |
+| `npm run prisma:push`      | Pushes schema changes to the database              |
+| `npm run prisma:migrate`   | Creates and runs a migration                       |
+| `npm run prisma:studio`    | Opens the database browser                         |
+| `npm run prisma:seed`      | Adds test data to the database                     |
+| `npx tsx src/test-auth.ts` | For testing purposes only to verify JWT endpoints- |
 
 ## Adding a new feature (step by step)
 
@@ -297,3 +298,47 @@ docker compose down -v
 - [Prisma Documentation](https://www.prisma.io/docs) -- database queries, schema, migrations
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/) -- types and interfaces
 - [Docker Getting Started](https://docs.docker.com/get-started/) -- containers and compose
+
+# JWT Authentication Setup & Testing
+
+## 🔐 Set Up JWT Secret
+
+### 1. Create `.env` file in `backend` folder
+
+```bash
+touch .env
+```
+
+### 2. Add your secret to .env:
+
+```
+JWT_SECRET=your-super-secret-key-minimum-32-characters
+```
+
+### 3. Run the Tests
+
+Start the test server:
+
+```bash
+npx tsx src/test-auth.ts
+```
+
+Expected output:
+
+```bash
+✅ Server running on http://localhost:4000
+   GET /public
+   GET /protected (use token above)
+   GET /get-expired-token
+   GET /test-expired
+```
+
+### 4. Test with Postman
+
+| Endpoint                                | Method |                Headers                | Expected Result   |
+| :-------------------------------------- | :----: | :-----------------------------------: | :---------------- |
+| http://localhost:4000/public            |  GET   |                 None                  | 200 OK            |
+| http://localhost:4000/protected         |  GET   |     Authorization: Bearer <token>     | 200 OK            |
+| http://localhost:4000/protected         |  GET   |                 None                  | 401 Unauthorized  |
+| http://localhost:4000/get-expired-token |  GET   |                 None                  | 200 OK            |
+| http://localhost:4000/test-expired      |  GET   | Authorization: Bearer <expired_token> | 401 Token expired |
