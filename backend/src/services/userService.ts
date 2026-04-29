@@ -8,6 +8,10 @@ export class UserService {
 
   async getUserById(id: string) {
     return await prisma.user.findUnique({
+      // https://www.prisma.io/docs/v6/orm/prisma-client/queries/excluding-fields
+      omit: {
+        passwordHash: true,
+      },
       where: { id },
     });
   }
