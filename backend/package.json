@@ -12,7 +12,7 @@
     "url": "git@github.com:ReDI-School/S26-Full-Stack-Circle.git"
   },
   "scripts": {
-    "dev": "prisma generate && tsx watch src/index.ts",
+    "dev": "prisma generate && tsx --require=dotenv/config --watch src/index.ts",
     "build": "prisma generate && tsc && tsc-alias",
     "start": "node dist/src/index.js",
     "lint": "eslint src/ prisma/seed.ts",
