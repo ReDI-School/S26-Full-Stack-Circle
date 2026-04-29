@@ -3,19 +3,21 @@ import { tv } from 'tailwind-variants';
 export const userArea = tv({
   slots: {
     wrapper: ['relative', 'inline-flex'],
-
     userArea: [
       'text-text-secondary',
+      'font-sans',
+      'text-base',
       'flex',
       'justify-between',
       'items-center',
       'p-2',
       'rounded-full',
+      'transition-colors',
+      'duration-300',
       'hover:bg-gray-100',
       'focus:outline-none',
       'cursor-pointer',
     ],
-
     dropdown: [
       'p-4',
       'flex',
@@ -30,7 +32,6 @@ export const userArea = tv({
       'top-full',
       'absolute',
     ],
-
     item: [
       'w-full',
       'flex',
@@ -44,7 +45,13 @@ export const userArea = tv({
       'focus:outline-none',
       'focus:text-gray-700',
     ],
-
     icon: ['ml-2'],
+  },
+  variants: {
+    isExpanded: {
+      true: {
+        userArea: 'bg-gray-100',
+      },
+    },
   },
 });

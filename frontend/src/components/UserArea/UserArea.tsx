@@ -41,7 +41,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
       <button
         ref={buttonRef}
         type="button"
-        className={styles.userArea()}
+        className={styles.userArea({ isExpanded })}
         onClick={() => {
           setIsExpanded((prev) => !prev);
         }}
