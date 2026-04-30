@@ -328,7 +328,7 @@ Expected output:
 ```bash
 ✅ Server running on http://localhost:4000
    GET /public
-   GET /protected (use token above)
+   GET /protected
    GET /get-expired-token
    GET /test-expired
 ```
@@ -342,3 +342,26 @@ Expected output:
 | http://localhost:4000/protected         |  GET   |                 None                  | 401 Unauthorized  |
 | http://localhost:4000/get-expired-token |  GET   |                 None                  | 200 OK            |
 | http://localhost:4000/test-expired      |  GET   | Authorization: Bearer <expired_token> | 401 Token expired |
+
+Creating a JWT Token
+
+You can create your own token and generate it easily using jwt.io:
+https://www.jwt.io/
+
+When generating your token, make sure to include the required claims:
+
+- userId
+- role
+
+These claims are required by the backend to properly identify and authorize the user.
+
+Example payload:
+
+```bash
+{
+  "userId": "12345",
+  "role": "admin"
+}
+```
+
+JWT tokens are encoded and signed, not encrypted, so always ensure your JWT_SECRET is kept secure.
