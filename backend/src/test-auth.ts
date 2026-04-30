@@ -51,7 +51,7 @@ app.get('/test-expired', authenticate, (req, res) => {
 app.listen(4000, () => {
   console.log('✅ Server running on http://localhost:4000');
   console.log('   GET /public');
-  console.log('   GET /protected (use token above)');
+  console.log('   GET /protected');
   console.log('   GET /get-expired-token');
   console.log('   GET /test-expired\n');
 });
