@@ -3,6 +3,7 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
@@ -40,6 +41,7 @@ app.use(
 
 // Routes
 app.use('/users', userRouter);
+app.use('/events', eventRouter);
 
 // Health check
 app.get('/', (req: Request, res: Response) => {
