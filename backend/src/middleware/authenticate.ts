@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { Request, Response, NextFunction } from 'express';
 import { JWT_SECRET } from '../config/env.js';
 import jwt from 'jsonwebtoken';
