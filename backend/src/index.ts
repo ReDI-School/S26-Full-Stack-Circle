@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(
 
 // Routes
 app.use('/users', userRouter);
+app.use('/events', eventRouter);
 
 // Health check
 app.get('/', (req: Request, res: Response) => {
