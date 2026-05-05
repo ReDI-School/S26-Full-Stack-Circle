@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import InputField from '../../components/InputField/InputField';
-import Button from '../../components/Button/Button';
-import { InfoBox } from '../../components/InfoBox';
+import { InputField } from '../InputField';
+import { Button } from '../Button';
+import { InfoBox } from '../InfoBox';
 import type { SignInFormProps } from './SignInForm.types';
 
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
