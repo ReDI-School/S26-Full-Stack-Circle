@@ -9,7 +9,6 @@ export const buttonStyles = tv({
     'text-white',
     'focus-visible',
     'transition-all',
-    'cursor-pointer',
     'transition-all duration-300',
     'whitespace-nowrap',
   ],
@@ -26,9 +25,9 @@ export const buttonStyles = tv({
       default: 'min-w-50 text-base py-3 px-6',
     },
     state: {
-      default: '',
-      disabled: 'cursor-not-allowed disabled:pointer-events-none disabled:opacity-60',
-      loading: 'opacity-70 cursor-wait pointer-events-none',
+      default: 'cursor-pointer',
+      disabled: 'cursor-not-allowed disabled:opacity-60 cursor-not-allowed',
+      loading: 'opacity-70 cursor-progress',
     },
   },
   compoundVariants: [
