@@ -11,8 +11,7 @@ export const buttonStyles = tv({
     'transition-all',
     'cursor-pointer',
     'transition-all duration-300',
-    'truncate',
-    'p-2.5',
+    'whitespace-nowrap',
   ],
   variants: {
     variant: {
@@ -23,8 +22,8 @@ export const buttonStyles = tv({
       negative: 'bg-button-negative ',
     },
     size: {
-      small: 'w-[100px] h-[32px] text-sm',
-      default: 'w-[200px] h-[50px]',
+      small: 'min-w-25  text-sm py-2 px-4',
+      default: 'min-w-50 text-base py-3 px-6',
     },
     state: {
       default: '',
