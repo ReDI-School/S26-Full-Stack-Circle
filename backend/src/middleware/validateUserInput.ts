@@ -1,22 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 
+// TODO: test errors!
+
 export function validate(schema: z.ZodSchema) {
   return (req: Request, res: Response, next: NextFunction) => {
-    // Use schema.safeParse(req.body)
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      const schemaErrors = result.error.issues; // an array of validation problems, e.g. [{ path: ['email'], message: 'Invalid email' }]
-      console.log(schemaErrors);
-      // TODO: test errors!
+      const schemaErrorsAll = result.error.issues;
 
-      // If it fails, return 400 with the validation errors
-      return res.status(400).json({ errors: schemaErrors });
+      const schemaErrorsClient = schemaErrorsAll.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      })); // client-friendly error format
+
+      console.log(schemaErrorsAll);
+      return res.status(400).json({ errors: schemaErrorsClient });
     } else {
-      // result.data is the validated and typed data logged
-      console.log(result.data);
-      // If it passes, call next()
+      req.body = result.data; // sanitised data is reaasigned to req.body, so that downstream handlers get the cleaned data with correct types, e.g. capacity as number, date as Date, etc.
+      console.log(req.body);
       next();
     }
   };
