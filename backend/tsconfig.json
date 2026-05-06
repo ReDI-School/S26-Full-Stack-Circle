@@ -3,13 +3,17 @@
     "target": "ES2020",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "rootDir": "../",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["../shared/src/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../shared/src/**/*"],
   "exclude": ["node_modules"]
 }
