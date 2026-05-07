@@ -20,6 +20,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   events       Event[]
+  attendances Attendance[]
 }
 
 model Event {
@@ -33,8 +34,20 @@ model Event {
   organizer   User     @relation(fields: [organizerId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  attendances Attendance[]
 }
 
+model Attendance {
+  id String @id @default(uuid())
+  userId String   @map("user_id")
+  eventId String @map("event_id")
+  user User @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map ("attendance")
+
+  @@unique([userId, eventId])
+}
 enum Role {
   USER
   ADMIN
