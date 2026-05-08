@@ -26,7 +26,7 @@ export const buttonStyles = tv({
     },
     state: {
       default: 'cursor-pointer',
-      disabled: 'cursor-not-allowed disabled:opacity-60 cursor-not-allowed',
+      disabled: 'opacity-60 cursor-not-allowed',
       loading: 'opacity-70 cursor-progress',
     },
   },
