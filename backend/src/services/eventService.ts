@@ -27,6 +27,11 @@ export class EventService {
 
     return events;
   }
+  async getEvent(id: string) {
+    return await prisma.event.findUnique({
+      where: { id },
+    });
+  }
   async deleteEvent(id: string) {
     return await prisma.event.delete({
       where: { id },
