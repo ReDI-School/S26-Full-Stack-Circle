@@ -1,8 +1,10 @@
+import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
@@ -40,6 +42,7 @@ app.use(
 
 // Routes
 app.use('/users', userRouter);
+app.use('/auth', authRouter);
 
 // Health check
 app.get('/', (req: Request, res: Response) => {
