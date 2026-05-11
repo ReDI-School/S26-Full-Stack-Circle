@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { PublicLayout, Button } from '../components';
+import { PublicLayout, Button } from '@components';
 
 /**
  * 404 Not Found error page component.

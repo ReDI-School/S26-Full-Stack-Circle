@@ -1,72 +1,65 @@
 'use client';
 
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { InputField } from '../InputField';
 import { Button } from '../Button';
 import { InfoBox } from '../InfoBox';
 import type { SignInFormProps } from './SignInForm.types';
 
+const signInSchema = z.object({
+  email: z.email({ error: 'Invalid email format.' }).min(1, 'This field is mandatory'),
+  password: z.string().min(1, 'This field is mandatory'),
+});
+
+type SignInForlgata = z.infer<typeof signInSchema>;
+
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
-  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
-
-  const validateEmail = (email: string) => {
-    if (!email) return 'This field is mandatory';
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return 'Invalid email format.';
-    return undefined;
-  };
-
-  const handleValidation = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFieldErrors({});
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const emailError = validateEmail(email);
-    const passwordError = !password ? 'This field is mandatory' : undefined;
-
-    if (emailError || passwordError) {
-      setFieldErrors({ email: emailError, password: passwordError });
-      return;
-    }
-
-    onSubmit({ email, password });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForlgata>({
+    resolver: zodResolver(signInSchema),
+  });
 
   return (
-    <div className="flex flex-col gap-8 w-full">
-      <header className="flex flex-col gap-2">
-        <h2 className="text-center md:text-left text-[28px] font-normal leading-[48px] text-text-primary">
+    <div className="flex flex-col items-center justify-center gap-8 w-full">
+      <header className="flex flex-col gap-2 max-w-[400px] w-full">
+        <h2 className="text-center lg:text-left text-[28px] font-normal leading-[48px] text-text-primary">
           Sign in to ReDi Events
         </h2>
-        <p className="text-center md:text-left text-[18px] font-normal leading-[24px] text-text-secondary">
+        <p className="text-center lg:text-left text-[18px] font-normal leading-[24px] text-text-secondary">
           Enter your details below.
         </p>
       </header>
-      <form onSubmit={handleValidation} className="flex flex-col gap-6 w-full" noValidate>
+      <form
+        onSubmit={handleSubmit((data) => onSubmit(data))}
+        className="flex flex-col gap-6 w-full max-w-[400px]"
+        noValidate
+      >
         {serverError && <InfoBox variant="error" message={serverError}></InfoBox>}
 
         <div className="flex flex-col gap-4">
           <InputField
             label="E-mail"
             type="email"
-            name="email"
             placeholder="Enter your e-mail"
             disabled={isLoading}
-            error={fieldErrors.email}
+            error={errors.email?.message}
+            {...register('email')}
           />
           <InputField
             label="Password"
             type="password"
-            name="password"
             placeholder="********"
             disabled={isLoading}
-            error={fieldErrors.password}
+            error={errors.password?.message}
+            {...register('password')}
           />
         </div>
-        <div className="text-center md:text-left">
+        <div className="text-center lg:text-left">
           <Button variant="primary" state={isLoading ? 'loading' : 'default'} type="submit">
             SIGN IN
           </Button>

@@ -14,6 +14,10 @@
     "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@components": ["./src/components"]
+    },
     "plugins": [
       {
         "name": "next"
