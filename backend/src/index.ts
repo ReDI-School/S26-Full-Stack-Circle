@@ -4,6 +4,7 @@ import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
+import './config/env.js';
 import authRouter from './routes/authRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
