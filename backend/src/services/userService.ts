@@ -1,4 +1,5 @@
 import prisma from '../libs/prisma.js';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   async getAllUsers() {
@@ -7,6 +8,10 @@ export class UserService {
 
   async getUserById(id: string) {
     return await prisma.user.findUnique({
+      // https://www.prisma.io/docs/v6/orm/prisma-client/queries/excluding-fields
+      omit: {
+        passwordHash: true,
+      },
       where: { id },
     });
   }
@@ -15,10 +20,19 @@ export class UserService {
     email: string;
     firstName: string;
     lastName: string;
-    passwordHash: string;
+    password: string;
+    role?: 'USER' | 'ADMIN';
   }) {
+    const passwordHash = await bcrypt.hash(data.password, 10);
+
     return await prisma.user.create({
-      data,
+      data: {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        passwordHash,
+        role: data.role ?? 'USER',
+      },
     });
   }
 
