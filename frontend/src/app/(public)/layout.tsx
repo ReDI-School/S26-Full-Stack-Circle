@@ -1,4 +1,4 @@
-import { PublicLayout } from '../../components';
+import { PublicLayout } from '@components';
 
 interface PublicLayoutPageProps {
   children: React.ReactNode;

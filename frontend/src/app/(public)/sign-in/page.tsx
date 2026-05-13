@@ -1,23 +1,27 @@
-import Link from 'next/link';
+'use client';
 
-const SignIn = () => {
+import Link from 'next/link';
+import { SignInForm } from '@components';
+
+export default function LoginPage() {
+  const handleSignIn = (data: { email: string; password: string }) => {
+    console.log('Form Ready for Backend:', data);
+  };
+
   return (
-    <div className="size-full grid grid-rows-[auto_1fr]">
-      <div className="w-full flex justify-end gap-2 text-text-tertiary">
-        Don’t have account?{' '}
+    <main className="relative w-full flex flex-col items-center justify-center min-h-[calc(100vh-80px)] py-12 px-4 gap-10">
+      <div className="w-full">
+        <SignInForm onSubmit={handleSignIn} />
+      </div>
+      <div className="flex items-center justify-center gap-1  lg:absolute lg:top-0 lg:right-0 lg:mt-0 lg:text-right">
+        <span className="text-base font-normal text-gray-450">{"Don't have account?"}</span>
         <Link
           href="/sign-up"
-          className="text-primary hover:text-primary-dark underline underline-offset-3 transition-colors"
+          className="text-base font-medium text-primary-redi uppercase transition-colors hover:underline"
         >
           SIGN UP
         </Link>
       </div>
-      <div className="flex flex-col justify-center items-center gap-5">
-        <h1>Sign In</h1>
-        <p>add your form here</p>
-      </div>
-    </div>
+    </main>
   );
-};
-
-export default SignIn;
+}

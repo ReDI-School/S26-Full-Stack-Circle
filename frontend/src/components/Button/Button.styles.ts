@@ -7,10 +7,10 @@ export const buttonStyles = tv({
     'font-semibold',
     'font-sans',
     'text-white',
-    'focus-visible:outline-2',
-    'focus-visible:outline-offset-2',
-    'focus-visible:outline-white',
+    'focus-visible',
     'transition-all',
+    'transition-all duration-300',
+    'whitespace-nowrap',
   ],
   variants: {
     variant: {
@@ -21,13 +21,13 @@ export const buttonStyles = tv({
       negative: 'bg-button-negative ',
     },
     size: {
-      small: 'w-[100px] h-[32px] text-sm',
-      default: 'w-[200px] h-[50px]',
+      small: 'min-w-25  text-sm py-2 px-4',
+      default: 'min-w-50 text-base py-3 px-6',
     },
     state: {
-      default: '',
-      disabled: 'cursor-not-allowed disabled:pointer-events-none disabled:opacity-60',
-      loading: 'opacity-70 cursor-wait pointer-events-none',
+      default: 'cursor-pointer',
+      disabled: 'opacity-60 cursor-not-allowed',
+      loading: 'opacity-70 cursor-progress',
     },
   },
   compoundVariants: [

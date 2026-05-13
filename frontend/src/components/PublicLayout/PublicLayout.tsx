@@ -5,7 +5,7 @@ import { Logo } from '../Logo';
 
 const SIDEBAR_TAGLINE = 'Bringing people together';
 
-export default function PublicLayout({ children }: PublicLayoutProps) {
+export default function PublicLayout({ children }: Readonly<PublicLayoutProps>) {
   const { main, sidebar, logoMobile, content } = publicLayoutStyles();
 
   return (
