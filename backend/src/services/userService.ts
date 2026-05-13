@@ -1,5 +1,6 @@
 import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
+import { UserDTO } from '../dto/user.dto.js';
 
 export class UserService {
   async getAllUsers() {
@@ -41,8 +42,7 @@ export class UserService {
       where: { id },
       data,
     });
-    const { passwordHash, ...safeUser } = user;
-    return safeUser;
+    return new UserDTO(user);
   }
 
   async deleteUser(id: string) {
