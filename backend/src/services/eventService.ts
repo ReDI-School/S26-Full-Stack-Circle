@@ -25,4 +25,18 @@ export class EventService {
 
     return events;
   }
+
+  getEventById(eventId: string) {
+    return prisma.event.findUnique({
+      where: { id: eventId },
+      include: {
+        organizer: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+  }
 }
