@@ -5,5 +5,6 @@ const eventController = new EventController();
 const eventRouter = Router();
 
 eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, next));
+eventRouter.get('/:id/attendees', (req, res) => eventController.getAttendees(req, res));
 
 export default eventRouter;
