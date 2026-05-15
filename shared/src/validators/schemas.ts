@@ -1,10 +1,21 @@
 import { z } from 'zod';
 
-const trimmedString = z.string().trim();
-const errorRequiredField = (field: string) => `${field} is required.`;
+// Helpers and error message formating
+const errorRequiredField = (field: string) => `'${field}' is a required field.`;
 
+const errorInvalidField = (field: string) =>
+  `Must be a valid ${field.toLocaleLowerCase()} format.`;
+
+const trimmedString = z.string().trim();
+
+const validatedEmailField = z
+  .email({ error: errorInvalidField('Email') })
+  .trim()
+  .toLowerCase();
+
+// Schemas
 const registerSchema = z.object({
-  email: z.email().trim().toLowerCase(),
+  email: validatedEmailField,
 
   firstName: trimmedString.min(1, { error: errorRequiredField('First name') }),
 
@@ -13,17 +24,22 @@ const registerSchema = z.object({
   password: z
     .string()
     .min(8, { error: 'Password must be at least 8 characters' })
-    .max(100, { error: 'Password must be at most 100 characters' }) // arbitrary DoS guard for bcrypt
-    .regex(/[A-Z]/, { error: 'Password must contain an uppercase letter' })
-    .regex(/[a-z]/, { error: 'Password must contain a lowercase letter' })
-    .regex(/[0-9]/, { error: 'Password must contain a digit' })
-    .regex(/[^A-Za-z0-9]/, {
-      error: 'Password must contain a special character',
-    }),
+    .max(100, { error: 'Password must be at most 100 characters' })
+    .refine(
+      val =>
+        /[A-Z]/.test(val) &&
+        /[a-z]/.test(val) &&
+        /[0-9]/.test(val) &&
+        /[^A-Za-z0-9]/.test(val),
+      {
+        error:
+          'Password is weak. Use at least: one uppercase (A-Z), one lowercase (a-z), one digit (0-9), one symbol (!@#…)',
+      },
+    ),
 });
 
 const loginSchema = z.object({
-  email: z.email().trim().toLowerCase(),
+  email: validatedEmailField,
   password: z
     .string()
     .min(1, { error: errorRequiredField('Password') })
@@ -40,13 +56,13 @@ const createEventSchema = z.object({
     .max(2000, { error: 'Event description must be at most 2000 characters' }),
 
   capacity: z
-    .number({ error: errorRequiredField('Capacity') })
+    .number({ error: errorInvalidField('Capacity') })
     .int({ error: 'Capacity must be a whole number' })
     .positive({ error: 'Capacity must be a positive number' }),
 
-  date: z.iso.date({ error: 'Invalid date format' }), // expected format YYYY-MM-DD from <input type="date">
+  date: z.iso.date({ error: errorInvalidField('Date') }), // expected format YYYY-MM-DD from <input type="date">
 
-  time: z.iso.time({ error: 'Invalid time format' }), // expected format HH:MM from <input type="time">
+  time: z.iso.time({ error: errorInvalidField('Time') }), // expected format HH:MM from <input type="time">
 });
 
 const updateEventSchema = createEventSchema.partial();
