@@ -56,6 +56,10 @@ const createEventSchema = z.object({
       error: 'Event description must contain at most 2000 characters',
     }),
 
+  location: trimmedString
+    .min(3, { error: 'Event location must contain at least 3 characters' })
+    .max(200, { error: 'Event location must contain at most 200 characters' }), // in case of full addressess
+
   capacity: z
     .number({ error: errorInvalidField('Capacity') })
     .int({ error: 'Capacity must be a whole number' })
