@@ -4,7 +4,7 @@ import { z } from 'zod';
 const errorRequiredField = (field: string) => `'${field}' is a required field.`;
 
 const errorInvalidField = (field: string) =>
-  `Must be a valid ${field.toLocaleLowerCase()} format.`;
+  `Please enter a valid ${field.toLocaleLowerCase()}.`;
 
 const trimmedString = z.string().trim();
 
@@ -23,8 +23,8 @@ const registerSchema = z.object({
 
   password: z
     .string()
-    .min(8, { error: 'Password must be at least 8 characters' })
-    .max(100, { error: 'Password must be at most 100 characters' })
+    .min(8, { error: 'Password must contain at least 8 characters' })
+    .max(100, { error: 'Password must contain at most 100 characters' })
     .refine(
       val =>
         /[A-Z]/.test(val) &&
@@ -48,12 +48,14 @@ const loginSchema = z.object({
 
 const createEventSchema = z.object({
   title: trimmedString
-    .min(3, { error: 'Event title must be at least 3 characters' })
-    .max(100, { error: 'Event title must be at most 100 characters' }),
+    .min(3, { error: 'Event title must contain at least 3 characters' })
+    .max(100, { error: 'Event title must contain at most 100 characters' }),
 
   description: trimmedString
-    .min(10, { error: 'Event description must be at least 10 characters' })
-    .max(2000, { error: 'Event description must be at most 2000 characters' }),
+    .min(10, { error: 'Event description must contain at least 10 characters' })
+    .max(2000, {
+      error: 'Event description must contain at most 2000 characters',
+    }),
 
   capacity: z
     .number({ error: errorInvalidField('Capacity') })
