@@ -68,3 +68,8 @@ const createEventSchema = z.object({
 const updateEventSchema = createEventSchema.partial();
 
 export { registerSchema, loginSchema, createEventSchema, updateEventSchema };
+
+export type RegisterInput = z.infer<typeof registerSchema>;
+export type LoginInput = z.infer<typeof loginSchema>;
+export type CreateEventInput = z.infer<typeof createEventSchema>;
+export type UpdateEventInput = z.infer<typeof updateEventSchema>;
