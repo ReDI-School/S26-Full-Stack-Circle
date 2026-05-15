@@ -10,7 +10,6 @@ const trimmedString = z.string().trim();
 
 const validatedEmailField = z
   .email({ error: errorInvalidField('Email') })
-  .trim()
   .toLowerCase();
 
 // Schemas
@@ -41,7 +40,7 @@ const registerSchema = z.object({
 const loginSchema = z.object({
   email: validatedEmailField,
   password: z
-    .string()
+    .string(errorInvalidField('Password'))
     .min(1, { error: errorRequiredField('Password') })
     .max(100), // arbitrary DoS guard for bcrypt
 });
