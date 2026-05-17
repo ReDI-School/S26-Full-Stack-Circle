@@ -4,6 +4,8 @@ import { InputField } from '../InputField';
 import type { FormData } from './SignUpForm.types';
 import { InfoBox } from '../InfoBox';
 import FieldError from '../FieldError/FieldError';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 type SignUpFormProps = {
   isLoading: boolean;
@@ -19,15 +21,35 @@ const initialFormData: FormData = {
   repeatPassword: '',
 };
 
+const signUpSchema = z
+  .object({
+    firstname: z.string().min(1, 'First name is required.'),
+    lastname: z.string().min(1, 'Last name is required.'),
+    email: z.email('Invalid email address.'),
+    password: z
+      .string()
+      .min(6, 'Password must be at least 6 characters.')
+      .regex(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/,
+        'Password must contain uppercase, lowercase, and a number.'
+      ),
+    repeatPassword: z.string().min(1, 'Please repeat your password.'),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Passwords do not match.',
+    path: ['repeatPassword'],
+  });
+
 const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFormProps) => {
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     setFocus,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: fieldValues ?? initialFormData,
   });
 
@@ -75,10 +97,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="text"
             placeholder="John"
             disabled={isLoading}
-            // error={errors.firstname?.message}
-            {...register('firstname', {
-              required: 'First name is required.',
-            })}
+            {...register('firstname')}
           />
           <FieldError id={getErrorId('firstname')} message={errors.firstname?.message} />
 
@@ -87,10 +106,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="text"
             placeholder="Doe"
             disabled={isLoading}
-            // error={errors.lastname?.message}
-            {...register('lastname', {
-              required: 'Last name is required.',
-            })}
+            {...register('lastname')}
           />
           <FieldError id={getErrorId('lastname')} message={errors.lastname?.message} />
 
@@ -99,32 +115,18 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="email"
             placeholder="Enter your e-mail"
             disabled={isLoading}
-            // error={errors.email?.message}
             aria-invalid={!!errors.email}
             aria-describedby="email-error"
-            {...register('email', {
-              required: 'Email is required.',
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                // message: 'Invalid email address.',
-              },
-            })}
+            {...register('email')}
           />
-          <FieldError id={getErrorId('firstnamemaile')} message={errors.email?.message} />
+          <FieldError id={getErrorId('email')} message={errors.email?.message} />
 
           <InputField
             label="Password"
             type="password"
             placeholder="********"
             disabled={isLoading}
-            // error={errors.password?.message}
-            {...register('password', {
-              required: 'Password is required.',
-              minLength: {
-                value: 6,
-                // message: 'Password must be at least 6 characters.',
-              },
-            })}
+            {...register('password')}
           />
           <FieldError id={getErrorId('password')} message={errors.password?.message} />
 
@@ -133,11 +135,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="password"
             placeholder="********"
             disabled={isLoading}
-            // error={errors.repeatPassword?.message}
-            {...register('repeatPassword', {
-              required: 'Please repeat your password.',
-              validate: (value) => value === password || 'Passwords do not match.',
-            })}
+            {...register('repeatPassword')}
           />
           <FieldError id={getErrorId('repeatPassword')} message={errors.repeatPassword?.message} />
         </div>

@@ -1,17 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { within, userEvent } from 'storybook/test';
 import SignUpForm from './SignUpForm';
-// import { SignUpFormProps } from './SignUpForm.types';
 
 const meta: Meta<typeof SignUpForm> = {
   title: 'Components/SignUpForm',
   component: SignUpForm,
-  // render: (args) => (
-  //   <div className="grid h-dvh w-full overflow-hidden grid-cols-[480px_1fr]">
-  //     <SignUpFormProps {...args} />
-  //     <div className="size-full p-15 flex items-center justify-center">content here</div>
-  //   </div>
-  // ),
   parameters: {
     layout: 'fullscreen',
   },
