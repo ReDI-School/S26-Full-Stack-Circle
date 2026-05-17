@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EventService } from 'src/services/eventService.js';
+import { EventService } from '../services/eventService.js';
 
 const eventService = new EventService();
 
@@ -37,8 +37,9 @@ export class EventController {
         error: 'Invalid event filter',
       });
     }
+
     const events = await eventService.getEvents(filter);
-    res.json({ events });
+    return res.json({ events });
   }
 
   getEventById = async (req: Request, res: Response) => {
@@ -52,6 +53,39 @@ export class EventController {
       });
     }
 
-    res.json({ event });
+    return res.json({ event });
   };
+
+  async updateEvent(req: Request, res: Response) {
+    const eventId = req.params.id;
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const event = await eventService.getEventById(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    if (event.organizerId !== userId) {
+      return res.status(403).json({
+        error: 'You are not allowed to update this event',
+      });
+    }
+
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      date: req.body.date ? new Date(req.body.date) : undefined,
+      location: req.body.location,
+      capacity: req.body.capacity,
+    };
+
+    const updatedEvent = await eventService.updateEvent(eventId, updateData);
+
+    return res.status(200).json({ event: updatedEvent });
+  }
 }
