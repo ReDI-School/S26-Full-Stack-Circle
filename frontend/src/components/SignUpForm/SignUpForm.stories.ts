@@ -55,7 +55,6 @@ export const PasswordMismatch: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // simulate submit
     await userEvent.click(canvas.getByTestId('submit-button'));
   },
 };
