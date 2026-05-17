@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { EventService } from 'src/services/eventService.js';
+import { EventService } from '../services/eventService.js';
 import { NextFunction } from 'express';
+// import prisma from '../libs/prisma.js';
 
 const eventService = new EventService();
 
@@ -23,6 +24,38 @@ export class EventController {
       console.log('Error caught:', err);
       console.log('Error type:', err instanceof Error);
       console.log('Error message:', (err as Error).message);
+      next(err);
+    }
+  }
+  async updateEvent(req: Request, res: Response, next: NextFunction) {
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      date: req.body.date ? new Date(req.body.date) : undefined,
+      location: req.body.location,
+      capacity: req.body.capacity,
+    };
+    try {
+      const eventId = req.params.id;
+      const userId = req.user?.userId;
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      // const event = await prisma.event.findUnique({
+      //   where: { id: eventId },
+      // });
+      const event = await eventService.getEventById(eventId);
+      if (!event) {
+        return res.status(404).json({ error: 'Event not found' });
+      }
+      if (event.organizerId !== userId) {
+        return res.status(403).json({
+          error: 'You are not allowed to update this event',
+        });
+      }
+      const updatedEvent = await eventService.updateEvent(eventId, updateData);
+      return res.status(200).json(updatedEvent);
+    } catch (err) {
       next(err);
     }
   }
