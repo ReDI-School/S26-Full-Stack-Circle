@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// KEEP IN SYNC: This file is duplicated in frontend/src/validators/schemas.ts
+// KEEP IN SYNC: This file is duplicated in backend/src/validators/schemas.ts
 // If you change this file, update the other one too.
 
 // Helpers and error message formating
