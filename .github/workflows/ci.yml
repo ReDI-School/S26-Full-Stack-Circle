@@ -22,10 +22,6 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Install shared dependencies
-        working-directory: shared
-        run: npm ci
-
       - name: Lint
         working-directory: frontend
         run: npm run lint
@@ -67,10 +63,6 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: npm ci
-
-      - name: Install shared dependencies
-        working-directory: shared
         run: npm ci
 
       - name: Lint
