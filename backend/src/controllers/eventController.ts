@@ -31,7 +31,7 @@ export class EventController {
     const { id } = req.params;
     const event = await eventService.getEvent(id);
     if (!event) {
-      return res.status(404);
+      return res.status(404).send();
     }
 
     if (event.organizerId !== req.user?.userId) {
@@ -39,6 +39,6 @@ export class EventController {
     }
 
     await eventService.deleteEvent(id);
-    return res.status(204);
+    return res.status(204).send();
   }
 }
