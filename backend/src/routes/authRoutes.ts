@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/authController.js';
-import { loginSchema } from '@shared/validators/schemas.js';
+import { loginSchema } from '../validators/schemas.js';
 import { validate } from 'src/middleware/validateUserInput.js';
 
 const authController = new AuthController();

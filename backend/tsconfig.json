@@ -9,11 +9,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "baseUrl": "./",
-    "paths": {
-      "@shared/*": ["../shared/src/*"]
-    }
+    "baseUrl": "./"
   },
-  "include": ["src/**/*", "../shared/src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
