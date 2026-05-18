@@ -28,12 +28,6 @@ export class EventController {
   }
 
   async deleteEvent(req: Request, res: Response) {
-    // 1. Find the event by id — return 404 if not found
-    // 2. Check that event.organizerId matches req.user.userId — return 403 if not
-    // 3. Call the service
-    // 4. Return 204 on success
-    /** your logic goes here **/
-
     const { id } = req.params;
     const event = await eventService.getEvent(id);
     if (!event) {
@@ -45,5 +39,6 @@ export class EventController {
     }
 
     await eventService.deleteEvent(id);
+    return res.status(204);
   }
 }
