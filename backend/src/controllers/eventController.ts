@@ -26,4 +26,21 @@ export class EventController {
       next(err);
     }
   }
+
+  async deleteEvent(req: Request, res: Response, next: NextFunction) {
+    // 1. Find the event by id — return 404 if not found
+    // 2. Check that event.organizerId matches req.user.userId — return 403 if not
+    // 3. Call the service
+    // 4. Return 204 on success
+    /** your logic goes here **/
+
+    try {
+      const { id } = req.params;
+      await eventService.deleteEvent(id);
+
+      res.status(204).send();
+    } catch (error) {
+      next(error);
+    }
+  }
 }
