@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Rest API in TS using Prisma",
   "type": "module",
-  "main": "dist/backend/src/index.js",
+  "main": "dist/src/index.js",
   "keywords": [],
   "author": "ReDi School",
   "license": "MIT",
@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "prisma generate && tsx --require=dotenv/config --watch src/index.ts",
     "build": "prisma generate && tsc && tsc-alias",
-    "start": "node dist/backend/src/index.js",
+    "start": "node dist/src/index.js",
     "lint": "eslint src/ prisma/seed.ts",
     "format": "prettier --write .",
     "prisma:generate": "prisma generate",
