@@ -1,6 +1,7 @@
 import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { register } from 'node:module';
 
 export class AuthService {
   async login(email: string, password: string) {
@@ -32,5 +33,30 @@ export class AuthService {
     });
 
     return token;
+  }
+
+  async register(email: string, firstName: string, lastName: string, password: string) {
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      throw new Error('EMAIL_ALREADY_IN_USE');
+    }
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        firstName,
+        lastName,
+        passwordHash,
+      },
+    });
+
+    const { passwordHash: _, ...userWithoutPassword } = newUser;
+    return userWithoutPassword;
   }
 }
