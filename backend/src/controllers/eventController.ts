@@ -26,17 +26,13 @@ export class EventController {
       next(err);
     }
   }
-  getEventById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { id } = req.params;
-      const event = await eventService.getEventById(id);
-      if (!event) {
-        return res.status(404).json({ error: 'Event not found' });
-      }
-
-      res.json({ event });
-    } catch (err) {
-      next(err);
+  getEventById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const event = await eventService.getEventById(id);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
     }
+
+    res.json({ event });
   };
 }
