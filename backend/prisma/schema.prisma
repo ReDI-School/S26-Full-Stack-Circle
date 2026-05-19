@@ -11,40 +11,45 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  firstName    String
-  lastName     String
-  passwordHash String
-  role         Role     @default(USER)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id           String       @id @default(uuid())
+  email        String       @unique
+  firstName    String       @map("first_name")
+  lastName     String       @map("last_name")
+  passwordHash String       @map("password_hash")
+  role         Role         @default(USER)
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
   events       Event[]
-  attendances Attendance[]
+  attendances  Attendance[]
+
+  @@map("users")
 }
 
 model Event {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   title       String
   description String?
   date        DateTime
   location    String
   capacity    Int
-  organizerId String
-  organizer   User     @relation(fields: [organizerId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  organizerId String       @map("organizer_id")
+  organizer   User         @relation(fields: [organizerId], references: [id])
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
   attendances Attendance[]
+
+  @@map("events")
 }
 
 model Attendance {
-  id String @id @default(uuid())
-  userId String   @map("user_id")
-  eventId String @map("event_id")
-  user User @relation(fields: [userId], references: [id])
-  event Event @relation(fields: [eventId], references: [id])
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  eventId   String   @map("event_id")
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
   createdAt DateTime @default(now()) @map("created_at")
-  @@map ("attendance")
+
+  @@map("attendances")
 
   @@unique([userId, eventId])
 }
