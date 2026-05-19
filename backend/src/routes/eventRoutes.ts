@@ -5,6 +5,7 @@ import { authenticate } from '../middleware/authenticate.js';
 const eventController = new EventController();
 const eventRouter = Router();
 
+eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, next));
 eventRouter.post('/', authenticate, (req, res) => eventController.createEvent(req, res));
 
 export default eventRouter;
