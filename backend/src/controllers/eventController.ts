@@ -6,8 +6,8 @@ const eventService = new EventService();
 export class EventController {
   async createEvent(req: Request, res: Response) {
     try {
-      // TODO: Replace body organizerId with req.user.userId once auth middleware is merged.
-      const { title, description, date, location, capacity, organizerId } = req.body;
+      const { title, description, date, location, capacity } = req.body;
+      const organizerId = req.user.userId;
 
       const event = await eventService.createEvent(organizerId, {
         title,
