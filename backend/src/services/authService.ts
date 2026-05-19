@@ -1,8 +1,6 @@
 import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { register } from 'node:module';
-
 export class AuthService {
   async login(email: string, password: string) {
     const user = await prisma.user.findUnique({
