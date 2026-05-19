@@ -26,7 +26,12 @@ export class EventController {
   async createEvent(req: Request, res: Response) {
     try {
       const { title, description, date, location, capacity } = req.body;
-      const organizerId = req.user.userId;
+      const organizerId = req.user?.userId;
+
+      if (!organizerId) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+      }
 
       const event = await eventService.createEvent(organizerId, {
         title,
