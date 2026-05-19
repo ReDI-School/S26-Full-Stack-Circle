@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "prisma generate && tsx --require=dotenv/config --watch src/index.ts",
-    "build": "prisma generate && tsc && tsc-alias",
+    "build": "prisma generate && prisma db push && tsc && tsc-alias",
     "start": "node dist/src/index.js",
     "lint": "eslint src/ prisma/seed.ts",
     "format": "prettier --write .",
