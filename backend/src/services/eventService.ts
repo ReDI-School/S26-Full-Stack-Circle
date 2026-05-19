@@ -1,5 +1,4 @@
 import prisma from 'src/libs/prisma.js';
-//import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
 
 export class EventService {
