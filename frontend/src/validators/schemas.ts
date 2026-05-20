@@ -3,6 +3,7 @@ import { z } from 'zod';
 // KEEP IN SYNC: This file is duplicated in backend/src/validators/schemas.ts
 // If you change this file, update the other one too.
 
+// Helpers and error message formatting
 const errorRequiredField = (field: string) => `'${field}' is a required field.`;
 
 const errorInvalidField = (field: string) => `Please enter a valid ${field.toLocaleLowerCase()}.`;
