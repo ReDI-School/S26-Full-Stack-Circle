@@ -57,7 +57,7 @@ const createEventSchema = z.object({
     .min(3, { error: 'Event location must contain at least 3 characters' })
     .max(200, { error: 'Event location must contain at most 200 characters' }), // in case of full addresses
 
-  capacity: z
+  capacity: z.coerce
     .number({ error: errorInvalidField('Capacity') })
     .int({ error: 'Capacity must be a whole number' })
     .positive({ error: 'Capacity must be a positive number' }),
