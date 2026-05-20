@@ -13,11 +13,9 @@ export function validate(schema: z.ZodSchema) {
         message: err.message,
       })); // client-friendly error format
 
-      console.log(schemaErrorsAll);
       return res.status(400).json({ errors: schemaErrorsClient });
     } else {
-      req.body = result.data; // sanitised data is reaasigned to req.body, so that downstream handlers get the cleaned data with correct types, e.g. capacity as number, date as Date, etc.
-      console.log(req.body);
+      req.body = result.data; // sanitised data is reassigned to req.body, so that downstream handlers get the cleaned data with correct types, e.g. capacity as number, date as Date, etc.
       next();
     }
   };

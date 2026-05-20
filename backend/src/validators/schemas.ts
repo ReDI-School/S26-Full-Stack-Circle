@@ -3,7 +3,7 @@ import { z } from 'zod';
 // KEEP IN SYNC: This file is duplicated in frontend/src/validators/schemas.ts
 // If you change this file, update the other one too.
 
-// Helpers and error message formating
+// Helpers and error message formatting
 const errorRequiredField = (field: string) => `'${field}' is a required field.`;
 
 const errorInvalidField = (field: string) => `Please enter a valid ${field.toLocaleLowerCase()}.`;
@@ -55,7 +55,7 @@ const createEventSchema = z.object({
 
   location: trimmedString
     .min(3, { error: 'Event location must contain at least 3 characters' })
-    .max(200, { error: 'Event location must contain at most 200 characters' }), // in case of full addressess
+    .max(200, { error: 'Event location must contain at most 200 characters' }), // in case of full addresses
 
   capacity: z
     .number({ error: errorInvalidField('Capacity') })
