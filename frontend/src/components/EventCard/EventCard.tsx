@@ -22,15 +22,14 @@ export default function EventCard(props: EventCardProps) {
     container,
     bottomContainer,
     date,
-    title,
     author,
     description,
     attendees,
     buttonText,
-  } = EventCardStyles();
+    title,
+  } = EventCardStyles({ titleSize: props.titleSize });
 
   const buttonVariant = variantMap[props.action];
-
   const timeStamp = formatTimestamp(props.date);
 
   return (

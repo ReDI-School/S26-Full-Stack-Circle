@@ -10,6 +10,12 @@ type EventCardBaseProps = {
   action: EventCardAction;
 
   /**
+   * Title xl or 2xl depending on the use.
+   * @default small
+   */
+  titleSize: 'big' | 'small';
+
+  /**
    * Callback function triggered when the action button is clicked.
    */
   onActionClick: () => void;

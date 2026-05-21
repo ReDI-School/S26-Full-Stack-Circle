@@ -7,10 +7,24 @@ export const EventCardStyles = tv({
     skeletonContainer: 'flex flex-col gap-2.5',
     bottomContainer: 'flex justify-between',
     date: 'text-sm h-6 text-input-primary',
-    title: 'text-xl',
+    title: '',
     author: 'text-sm text-ec-tertiary',
     description: 'text-base text-ec-secondary',
     attendees: 'text-sm text-input-secondary',
     buttonText: 'uppercase',
+  },
+  variants: {
+    titleSize: {
+      big: {
+        title: 'text-2xl',
+      },
+      small: {
+        title: 'text-xl',
+      },
+    },
+  },
+
+  defaultVariants: {
+    titleSize: 'small',
   },
 });

@@ -13,6 +13,12 @@ const meta: Meta<typeof EventCard> = {
         type: 'radio',
       },
     },
+    titleSize: {
+      options: ['big', 'small'],
+      control: {
+        type: 'radio',
+      },
+    },
   },
 };
 
@@ -30,6 +36,7 @@ export const EventCardExample: Story = {
       'Let’s get together and share techniques on how to network and communicate well our interests.',
     attendeeCount: 10,
     maxAttendees: 40,
+    titleSize: 'small',
   },
 };
 
