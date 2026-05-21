@@ -30,7 +30,10 @@ export class AuthController {
       const { email, firstName, lastName, password } = req.body;
 
       const newUser = await this.authService.register(email, firstName, lastName, password);
-      const { passwordHash: password: _, ...userResponse } = newUser as any;
+
+      const userResponse = { ...newUser } as any;
+      delete userResponse.passwordHash;
+      delete userResponse.password;
 
       return res.status(201).json(userResponse);
     } catch (error) {
