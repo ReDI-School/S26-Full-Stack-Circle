@@ -29,14 +29,10 @@ export class AuthController {
     try {
       const { email, firstName, lastName, password } = req.body;
 
-      if (!email || !firstName || !lastName || !password) {
-        return res
-          .status(400)
-          .json({ error: 'Email, first name, last name, and password are required' });
-      }
-
       const newUser = await this.authService.register(email, firstName, lastName, password);
-      return res.status(201).json(newUser);
+      const { passwordHash: password: _, ...userResponse } = newUser as any;
+
+      return res.status(201).json(userResponse);
     } catch (error) {
       console.error('Error registering user:', error);
 
