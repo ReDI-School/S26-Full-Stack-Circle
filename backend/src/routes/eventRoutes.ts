@@ -8,4 +8,7 @@ eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, nex
 eventRouter.put('/:id', authenticate, (req, res, next) =>
   eventController.updateEvent(req, res, next)
 );
+
+eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
+
 export default eventRouter;

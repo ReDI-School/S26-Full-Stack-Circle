@@ -35,8 +35,16 @@ export class EventService {
     return events;
   }
   async getEventById(id: string) {
-    return prisma.event.findUnique({
+    return await prisma.event.findUnique({
       where: { id },
+      include: {
+        organizer: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
     });
   }
   async updateEvent(id: string, data: UpdateEventData) {

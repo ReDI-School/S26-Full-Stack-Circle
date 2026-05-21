@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { EventService } from '../services/eventService.js';
 import { NextFunction } from 'express';
-// import prisma from '../libs/prisma.js';
 
 const eventService = new EventService();
 
@@ -27,6 +26,19 @@ export class EventController {
       next(err);
     }
   }
+  getEventById = async (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const event = await eventService.getEventById(id);
+
+    if (!event) {
+      return res.status(404).json({
+        error: 'Event not found',
+      });
+    }
+
+    res.json({ event });
+  };
   async updateEvent(req: Request, res: Response, next: NextFunction) {
     const updateData = {
       title: req.body.title,
@@ -41,9 +53,6 @@ export class EventController {
       if (!userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
-      // const event = await prisma.event.findUnique({
-      //   where: { id: eventId },
-      // });
       const event = await eventService.getEventById(eventId);
       if (!event) {
         return res.status(404).json({ error: 'Event not found' });
