@@ -45,7 +45,7 @@ export class AuthService {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const newUser = await prisma.user.create({
+    return await prisma.user.create({
       data: {
         email,
         firstName,
@@ -53,8 +53,5 @@ export class AuthService {
         passwordHash,
       },
     });
-
-    const { passwordHash: _, ...userWithoutPassword } = newUser;
-    return userWithoutPassword;
   }
 }
