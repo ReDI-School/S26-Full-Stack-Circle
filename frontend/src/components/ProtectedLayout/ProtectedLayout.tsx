@@ -12,7 +12,13 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   return (
     <main className={main()}>
       <header className={headerBar()}>
-        <Logo />
+        <div className="hidden md:block">
+          <Logo size="full" />
+        </div>
+
+        <div className="md:hidden">
+          <Logo size="compact" />
+        </div>
         {loadingAuth ? (
           <div className="flex items-center gap-3">
             <Skeleton width={40} height={40} radius="full" />
