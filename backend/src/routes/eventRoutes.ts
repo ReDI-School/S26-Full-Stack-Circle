@@ -11,4 +11,5 @@ eventRouter.post('/:id/attend', authenticate, (req, res) => attendanceController
 eventRouter.get('/', (req, res) => eventController.getEvents(req, res));
 eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
 eventRouter.put('/:id', authenticate, (req, res) => eventController.updateEvent(req, res));
+
 export default eventRouter;
