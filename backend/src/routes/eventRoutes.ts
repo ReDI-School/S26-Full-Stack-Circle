@@ -4,6 +4,8 @@ import { EventController } from 'src/controllers/eventController.js';
 const eventController = new EventController();
 const eventRouter = Router();
 
-eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, next));
+eventRouter.get('/', (req, res) => eventController.getEvents(req, res));
+
+eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
 
 export default eventRouter;

@@ -25,4 +25,18 @@ export class EventService {
 
     return events;
   }
+
+  async getEventById(id: string) {
+    return await prisma.event.findUnique({
+      where: { id },
+      include: {
+        organizer: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+  }
 }
