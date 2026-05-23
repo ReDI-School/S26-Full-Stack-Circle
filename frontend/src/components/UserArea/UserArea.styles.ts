@@ -14,6 +14,9 @@ export const userArea = tv({
       'cursor-pointer',
       'transition-colors',
       'duration-300',
+      'text-text-secondary',
+      'font-sans',
+      'text-base',
       'hover:bg-[#ECECEC]',
     ],
     dropdown: [
