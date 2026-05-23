@@ -16,7 +16,10 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@components": ["./src/components"]
+      "@components": ["./src/components"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@services/*": ["./src/services/*"],
+      "@types/*": ["./src/types/*"]
     },
     "plugins": [
       {

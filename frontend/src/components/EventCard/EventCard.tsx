@@ -29,11 +29,11 @@ export default function EventCard(props: EventCardProps) {
     title,
   } = EventCardStyles({ titleSize: props.titleSize });
 
-  const buttonVariant = variantMap[props.action];
+  const eventCardVariant = variantMap[props.action];
   const timeStamp = formatTimestamp(props.date);
 
   return (
-    <Card interactive>
+    <Card interactive={props.interactive}>
       <div className={wrapper()}>
         <div className={container()}>
           <CalendarDotsIcon size={16.25} />
@@ -53,7 +53,7 @@ export default function EventCard(props: EventCardProps) {
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
-          <Button variant={buttonVariant} size="small" onClick={props.onActionClick}>
+          <Button variant={eventCardVariant} size="small" onClick={props.onActionClick}>
             <span className={buttonText()}>{props.action}</span>
           </Button>
         </div>

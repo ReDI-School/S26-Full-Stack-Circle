@@ -26,17 +26,44 @@ export class EventService {
     return events;
   }
 
-  async getEventById(id: string) {
-    return await prisma.event.findUnique({
+  async getEventById(id: string, userId: string) {
+    const event = await prisma.event.findUnique({
       where: { id },
       include: {
         organizer: {
           select: {
+            id: true,
             firstName: true,
             lastName: true,
           },
         },
+        attendances: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    if (!event) {
+      return null;
+    }
+
+    // Add isOwner field
+    const isOwner = event.organizerId === userId;
+    const isAtending = event.attendances.map((atendee) => atendee.user.id).includes(userId);
+
+    return {
+      ...event,
+      isOwner,
+      isAtending,
+    };
   }
 }

@@ -43,8 +43,9 @@ export class EventController {
 
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const userId = req.user ? req.user.userId : 1;
 
-    const event = await eventService.getEventById(id);
+    const event = await eventService.getEventById(id, userId);
 
     if (!event) {
       return res.status(404).json({

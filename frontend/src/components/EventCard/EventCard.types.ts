@@ -1,4 +1,4 @@
-type EventCardAction = 'join' | 'leave' | 'edit';
+export type EventCardAction = 'join' | 'leave' | 'edit';
 
 type EventCardBaseProps = {
   /**
@@ -8,12 +8,6 @@ type EventCardBaseProps = {
    * - `edit` — Shows "EDIT" button with idle variant
    */
   action: EventCardAction;
-
-  /**
-   * Title xl or 2xl depending on the use.
-   * @default small
-   */
-  titleSize: 'big' | 'small';
 
   /**
    * Callback function triggered when the action button is clicked.
@@ -61,6 +55,17 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * Maximum number of attendees allowed.
    */
   maxAttendees: number;
+
+  /**
+   * Maximum number of attendees allowed.
+   */
+  interactive: boolean;
+
+  /**
+   * Title xl or 2xl depending on the use.
+   * @default small
+   */
+  titleSize: 'big' | 'small';
 };
 
 export type EventCardProps = EventCardLoadingProps | EventCardLoadedProps;
