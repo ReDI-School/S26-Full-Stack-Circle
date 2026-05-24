@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services/userService.js';
 
 const userService = new UserService();
@@ -20,11 +20,21 @@ export class UserController {
     res.json({ user });
   }
 
-  async createUser(req: Request, res: Response) {
-    const body = req.body;
-    const user = await userService.createUser(body);
+  async createUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const body = req.body;
+      const user = await userService.createUser(body);
 
-    res.status(201).json({ user });
+      return res.status(201).json({ user });
+    } catch (error) {
+      if (error instanceof Error && error.message === 'EMAIL_ALREADY_IN_USE') {
+        return res.status(400).json({
+          error: 'Email is already in use',
+        });
+      }
+
+      next(error);
+    }
   }
 
   async updateUser(req: Request, res: Response) {

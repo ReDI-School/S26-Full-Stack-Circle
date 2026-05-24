@@ -17,6 +17,14 @@ export class UserService {
   }
 
   async createUser(data: { email: string; firstName: string; lastName: string; password: string }) {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
+      throw new Error('EMAIL_ALREADY_IN_USE');
+    }
+
     const passwordHash = await bcrypt.hash(data.password, 10);
     return await prisma.user.create({
       omit: {
