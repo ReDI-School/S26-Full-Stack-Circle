@@ -7,5 +7,6 @@ const eventRouter = Router();
 
 eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, next));
 eventRouter.post('/', authenticate, (req, res) => eventController.createEvent(req, res));
+eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
 
 export default eventRouter;
