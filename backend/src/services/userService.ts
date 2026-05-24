@@ -16,22 +16,18 @@ export class UserService {
     });
   }
 
-  async createUser(data: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    role?: 'USER' | 'ADMIN';
-  }) {
+  async createUser(data: { email: string; firstName: string; lastName: string; password: string }) {
     const passwordHash = await bcrypt.hash(data.password, 10);
-
     return await prisma.user.create({
+      omit: {
+        passwordHash: true,
+      },
       data: {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         passwordHash,
-        role: data.role ?? 'USER',
+        role: 'USER',
       },
     });
   }
