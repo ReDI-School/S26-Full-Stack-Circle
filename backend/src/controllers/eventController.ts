@@ -70,7 +70,7 @@ export class EventController {
       res.status(500).json({ error: 'Failed to create event' });
     }
   }
-  
+
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
