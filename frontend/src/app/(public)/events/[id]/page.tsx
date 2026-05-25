@@ -5,6 +5,9 @@ import Atendees from '@components/Atendees/Atendees';
 import AtendeesSkeleton from '@components/Atendees/AtendeesSkeleton';
 import useEvent from '@hooks/useEvent';
 import { useParams } from 'next/navigation';
+import { LinkButton } from '@components/LinkButton';
+import { Button } from '@components/Button';
+import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
 
 export default function EventPage() {
   const params = useParams();
@@ -36,7 +39,15 @@ export default function EventPage() {
   console.log(action);
 
   return (
-    <main>
+    <main className="flex flex-col gap-8">
+      <div className="flex justify-between">
+        <LinkButton icon={<ArrowLeftIcon />} href="" onClick={() => window.history.back()}>
+          GO BACK
+        </LinkButton>
+        <Button size="default" variant="idle">
+          CREATE NEW EVENT
+        </Button>
+      </div>
       <div className="w-full flex flex-col gap-5 md:flex-row">
         <div className="flex-2">
           <EventCard
