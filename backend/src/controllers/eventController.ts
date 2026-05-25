@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { EventService } from 'src/services/eventService.js';
-import { NextFunction } from 'express';
 import { AttendanceService } from 'src/services/attendanceService.js';
 
 const eventService = new EventService();
