@@ -26,9 +26,12 @@ export class AttendanceController {
           res.status(400).json({ error: 'Event is already at full capacity' });
           return;
         }
+        if (error.message === 'ALREADY_REGISTERED') {
+          res.status(400).json({ error: 'You are already registered for this event' });
+          return;
+        }
       }
-      // Prisma unique constraint violation = already registered
-      res.status(400).json({ error: 'You are already registered for this event' });
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }

@@ -14,6 +14,9 @@ export class AttendanceService {
       throw new Error('EVENT_FULL');
     }
 
+    const existing = await prisma.attendance.count({ where: { userId, eventId } });
+    if (existing > 0) throw new Error('ALREADY_REGISTERED');
+
     return await prisma.attendance.create({
       data: { userId, eventId },
     });
