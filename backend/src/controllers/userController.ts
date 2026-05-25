@@ -29,6 +29,11 @@ export class UserController {
 
   async updateUser(req: Request, res: Response) {
     const { id } = req.params;
+
+    if (!req.user || req.user.userId !== id) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
     const body = req.body;
     const user = await userService.updateUser(id, body);
 
