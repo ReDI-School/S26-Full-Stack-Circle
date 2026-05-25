@@ -46,6 +46,7 @@ app.use(
 app.use('/users', userRouter);
 app.use('/events', eventRouter);
 app.use('/auth', authRouter);
+app.use('/events', eventRouter);
 
 // Health check
 app.get('/', (req: Request, res: Response) => {

@@ -16,9 +16,5 @@ export function errorHandler(
 ) {
   console.error('Error:', err);
 
-  if (err.message === 'INVALID_EVENT_FILTER') {
-    return res.status(400).json({ error: 'Invalid event filter' });
-  }
-
   return res.status(500).json({ error: 'Something went wrong' });
 }
