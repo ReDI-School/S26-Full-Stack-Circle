@@ -46,14 +46,12 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
     handleSubmit,
     reset,
     setFocus,
-    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: fieldValues ?? initialFormData,
   });
 
-  const password = watch('password');
 
   const getErrorId = (field: string) => `${field}-error`;
 
