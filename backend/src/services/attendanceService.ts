@@ -1,7 +1,7 @@
 import prisma from 'src/libs/prisma.js';
 
 export class AttendanceService {
-   async getAttendees(eventId: string) {
+  async getAttendees(eventId: string) {
     const attendances = await prisma.attendance.findMany({
       where: {
         eventId: eventId,
@@ -16,7 +16,7 @@ export class AttendanceService {
       },
     });
     return attendances.map((a) => a.user);
-   }
+  }
 
   async attend(userId: string, eventId: string) {
     const event = await prisma.event.findUnique({ where: { id: eventId } });
