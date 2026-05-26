@@ -1,4 +1,4 @@
-import prisma from 'src/libs/prisma.js';
+import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
 
 type UpdateEventData = {
@@ -33,6 +33,24 @@ export class EventService {
     });
 
     return events;
+  }
+
+  async createEvent(
+    organizerId: string,
+    data: {
+      title: string;
+      description?: string;
+      date: Date;
+      location: string;
+      capacity: number;
+    }
+  ) {
+    return await prisma.event.create({
+      data: {
+        ...data,
+        organizerId,
+      },
+    });
   }
 
   async getEventById(id: string) {
