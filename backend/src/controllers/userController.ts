@@ -6,7 +6,7 @@ const userService = new UserService();
 export class UserController {
   async getUsers(req: Request, res: Response) {
     const users = await userService.getAllUsers();
-    res.json({ users });
+    res.status(200).json({ users });
   }
 
   async getUserById(req: Request, res: Response) {
