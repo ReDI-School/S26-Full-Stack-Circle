@@ -13,7 +13,7 @@ export default function EventPage() {
   const params = useParams();
   const id = params.id;
 
-  const { event, loading, error, action } = useEvent({ id: id?.toString() ?? '' });
+  const { event, loading, error, action, handleAction } = useEvent({ id: id?.toString() ?? '' });
 
   if (loading)
     return (
@@ -59,7 +59,7 @@ export default function EventPage() {
             description={event.description}
             attendeeCount={event.attendeeCount}
             maxAttendees={event.capacity}
-            onActionClick={() => {}}
+            onActionClick={handleAction}
             titleSize="big"
             interactive={false}
           />

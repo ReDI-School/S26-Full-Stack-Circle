@@ -43,7 +43,7 @@ export class EventController {
 
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const userId = req.user ? req.user.userId : 1;
+    const userId = req.user ? req.user.userId : '1';
 
     const event = await eventService.getEventById(id, userId);
 

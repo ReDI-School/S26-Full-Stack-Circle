@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchEventById } from '@services/eventService';
 import type { EventData, Attendance } from '@types/event';
 import { EventCardAction } from '@components/EventCard/EventCard.types';
+import { joinEvent, leaveEvent, updateEvent } from '@services/eventService';
 
 export default function useEvent({ id }: { id: string }) {
   const [event, setEvent] = useState<EventData | null>(null);
@@ -53,5 +54,21 @@ export default function useEvent({ id }: { id: string }) {
 
   const action: EventCardAction = isOwner ? 'edit' : isAtending ? 'leave' : 'join';
 
-  return { event, loading, error, action };
+  const handleAction = async () => {
+    try {
+      if (action === 'join') {
+        await joinEvent(id);
+        setIsAtending(true);
+      } else if (action === 'leave') {
+        await leaveEvent(id);
+        setIsAtending(false);
+      }
+      // edit se maneja diferente, requiere form modal
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(errorMessage);
+    }
+  };
+
+  return { event, loading, error, action, handleAction };
 }

@@ -1,5 +1,18 @@
 import { Attendance } from '@types/event';
 
+function getHeaders(): HeadersInit {
+  const headers: HeadersInit = {};
+  const token = localStorage.getItem('token');
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+function getApiUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+}
+
 export type RawEvent = {
   id: string;
   title: string;
@@ -18,22 +31,54 @@ export type RawEvent = {
 };
 
 export async function fetchEventById(id: string): Promise<RawEvent> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-  const url = `${apiUrl}/events/${id}`;
-
-  console.log(url);
-
-  const token = localStorage.getItem('token');
-  const headers: HeadersInit = {};
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const res = await fetch(url, { headers });
+  const url = `${getApiUrl()}/events/${id}`;
+  const res = await fetch(url, { headers: getHeaders() });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch event: ${res.status}`);
+  }
+
+  const { event } = await res.json();
+  return event;
+}
+
+export async function joinEvent(eventId: string): Promise<RawEvent> {
+  const url = `${getApiUrl()}/events/${eventId}/attend`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: getHeaders(),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to join event: ${res.status}`);
+  }
+
+  const { event } = await res.json();
+  return event;
+}
+
+export async function leaveEvent(eventId: string): Promise<void> {
+  const url = `${getApiUrl()}/events/${eventId}/attend`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: getHeaders(),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to leave event: ${res.status}`);
+  }
+}
+
+export async function updateEvent(id: string, updates: Partial<RawEvent>): Promise<RawEvent> {
+  const url = `${getApiUrl()}/events/${id}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to update event: ${res.status}`);
   }
 
   const { event } = await res.json();
