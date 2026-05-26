@@ -30,45 +30,36 @@ function parseEventFilter(value: unknown): {
 
 export class EventController {
   async getEvents(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { isValid, filter } = parseEventFilter(req.query.filter);
+    const { isValid, filter } = parseEventFilter(req.query.filter);
 
-      if (!isValid) {
-        return res.status(400).json({
-          error: 'Invalid event filter',
-        });
-      }
-
-      const events = await eventService.getEvents(filter);
-      res.json({ events });
-    } catch (err) {
-      next(err);
+    if (!isValid) {
+      return res.status(400).json({
+        error: 'Invalid event filter',
+      });
     }
+
+    const events = await eventService.getEvents(filter);
+    res.json({ events });
   }
 
-  async createEvent(req: Request, res: Response) {
-    try {
-      const { title, description, date, location, capacity } = req.body;
-      const organizerId = req.user?.userId;
+  async createEvent(req: Request, res: Response, next: NextFunction) {
+    const { title, description, date, location, capacity } = req.body;
+    const organizerId = req.user?.userId;
 
-      if (!organizerId) {
-        res.status(401).json({ error: 'Unauthorized' });
-        return;
-      }
-
-      const event = await eventService.createEvent(organizerId, {
-        title,
-        description,
-        date: new Date(date),
-        location,
-        capacity,
-      });
-
-      res.status(201).json({ event });
-    } catch (error) {
-      console.error('Error creating event:', error);
-      res.status(500).json({ error: 'Failed to create event' });
+    if (!organizerId) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
     }
+
+    const event = await eventService.createEvent(organizerId, {
+      title,
+      description,
+      date: new Date(date),
+      location,
+      capacity,
+    });
+
+    res.status(201).json({ event });
   }
 
   getEventById = async (req: Request, res: Response) => {
