@@ -11,6 +11,8 @@ type SignUpFormProps = {
   isLoading: boolean;
   onSubmit: (data: FormData) => Promise<void> | void;
   fieldValues: FormData;
+  serverError?: string;
+
 };
 
 const initialFormData: FormData = {
