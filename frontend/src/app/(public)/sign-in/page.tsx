@@ -2,10 +2,13 @@
 
 import Link from 'next/link';
 import { SignInForm } from '@components';
+import { useAuth } from 'src/hooks/useAuth';
 
 export default function LoginPage() {
-  const handleSignIn = (data: { email: string; password: string }) => {
-    console.log('Form Ready for Backend:', data);
+  const { signIn } = useAuth();
+
+  const handleSignIn = async (data: { email: string; password: string }) => {
+    await signIn(data.email, data.password);
   };
 
   return (
@@ -13,12 +16,11 @@ export default function LoginPage() {
       <div className="w-full">
         <SignInForm onSubmit={handleSignIn} />
       </div>
-      <div className="flex items-center justify-center gap-1  lg:absolute lg:top-0 lg:right-0 lg:mt-0 lg:text-right">
-        <span className="text-base font-normal text-gray-450">{"Don't have account?"}</span>
-        <Link
-          href="/sign-up"
-          className="text-base font-medium text-primary-redi uppercase transition-colors hover:underline"
-        >
+
+      <div className="flex items-center justify-center gap-1 lg:absolute lg:top-0 lg:right-0">
+        <span className="text-base text-gray-450">Don't have account?</span>
+
+        <Link href="/sign-up" className="text-primary-redi uppercase hover:underline">
           SIGN UP
         </Link>
       </div>
