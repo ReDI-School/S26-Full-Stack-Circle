@@ -16,6 +16,7 @@ export class AttendanceService {
       },
     });
     return attendances.map((a) => a.user);
+   }
 
   async attend(userId: string, eventId: string) {
     const event = await prisma.event.findUnique({ where: { id: eventId } });
