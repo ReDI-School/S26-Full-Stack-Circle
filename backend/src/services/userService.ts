@@ -4,7 +4,7 @@ import { UserDTO } from '../dto/user.dto.js';
 
 export class UserService {
   async getAllUsers() {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({ omit: { passwordHash: true } });
   }
 
   async getUserById(id: string) {

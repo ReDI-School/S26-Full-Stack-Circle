@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { EventService } from 'src/services/eventService.js';
 import { AttendanceService } from 'src/services/attendanceService.js';
+import { EventService } from '../services/eventService.js';
 
 const eventService = new EventService();
 const attendanceService = new AttendanceService();
@@ -38,6 +38,7 @@ export class EventController {
         error: 'Invalid event filter',
       });
     }
+
     const events = await eventService.getEvents(filter);
     res.json({ events });
   }
@@ -54,6 +55,27 @@ export class EventController {
 
     res.json({ attendees });
   }
+  
+  async createEvent(req: Request, res: Response) {
+    const { title, description, date, location, capacity } = req.body;
+    const organizerId = req.user?.userId;
+
+    if (!organizerId) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const event = await eventService.createEvent(organizerId, {
+      title,
+      description,
+      date: new Date(date),
+      location,
+      capacity,
+    });
+
+    res.status(201).json({ event });
+  }
+
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
