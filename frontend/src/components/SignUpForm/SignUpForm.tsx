@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, FieldErrors } from 'react-hook-form';
 import { Button } from '../Button';
 import { InputField } from '../InputField';
 import type { FormData } from './SignUpForm.types';
@@ -62,7 +62,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
   reset();
 };
 
-const onInvalidSubmit = (errors: any) => {
+const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
   const firstErrorField = Object.keys(errors)[0] as keyof FormData;
 
   if (firstErrorField) {
