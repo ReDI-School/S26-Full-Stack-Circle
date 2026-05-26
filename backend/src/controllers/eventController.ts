@@ -55,7 +55,7 @@ export class EventController {
 
     res.json({ attendees });
   }
-  
+
   async createEvent(req: Request, res: Response) {
     const { title, description, date, location, capacity } = req.body;
     const organizerId = req.user?.userId;
