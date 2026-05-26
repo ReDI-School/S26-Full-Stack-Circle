@@ -53,7 +53,7 @@ export class EventService {
     });
   }
 
-  async getEventById(id: string) {
+async getEventById(id: string) {
     return await prisma.event.findUnique({
       where: { id },
       include: {
