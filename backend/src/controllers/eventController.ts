@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { EventService } from '../services/eventService.js';
 
 const eventService = new EventService();
@@ -29,7 +29,7 @@ function parseEventFilter(value: unknown): {
 }
 
 export class EventController {
-  async getEvents(req: Request, res: Response, next: NextFunction) {
+  async getEvents(req: Request, res: Response) {
     const { isValid, filter } = parseEventFilter(req.query.filter);
 
     if (!isValid) {
@@ -42,7 +42,7 @@ export class EventController {
     res.json({ events });
   }
 
-  async createEvent(req: Request, res: Response, next: NextFunction) {
+  async createEvent(req: Request, res: Response) {
     const { title, description, date, location, capacity } = req.body;
     const organizerId = req.user?.userId;
 
