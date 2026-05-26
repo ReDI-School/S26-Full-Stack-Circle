@@ -57,19 +57,18 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
 
   const getErrorId = (field: string) => `${field}-error`;
 
-  const handleSubmitForm = handleSubmit(
-    async (data: FormData) => {
-      await onSubmit(data);
-      reset();
-    },
-    (errors) => {
-      const firstErrorField = Object.keys(errors)[0] as keyof FormData;
+ const onValidSubmit = async (data: FormData) => {
+  await onSubmit(data);
+  reset();
+};
 
-      if (firstErrorField) {
-        setFocus(firstErrorField);
-      }
-    }
-  );
+const onInvalidSubmit = (errors: any) => {
+  const firstErrorField = Object.keys(errors)[0] as keyof FormData;
+
+  if (firstErrorField) {
+    setFocus(firstErrorField);
+  }
+};
 
   return (
     <div className="flex flex-col gap-8 w-full px-16 py-8">
@@ -85,7 +84,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
 
       {/* FORM */}
       <form
-        onSubmit={handleSubmit(handleSubmitForm)}
+        onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
         className="flex flex-col gap-6 w-full"
         noValidate
       >
