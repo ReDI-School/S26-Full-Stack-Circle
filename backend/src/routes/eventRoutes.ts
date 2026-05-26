@@ -9,7 +9,7 @@ const eventController = new EventController();
 const attendanceController = new AttendanceController();
 const eventRouter = Router();
 
-eventRouter.get('/', (req, res, next) => eventController.getEvents(req, res, next));
+eventRouter.get('/', (req, res) => eventController.getEvents(req, res));
 eventRouter.delete('/:id', authenticate, (req, res) => eventController.deleteEvent(req, res));
 eventRouter.post('/', authenticate, validate(createEventSchema), (req, res) =>
   eventController.createEvent(req, res)
