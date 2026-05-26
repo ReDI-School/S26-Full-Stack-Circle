@@ -17,7 +17,6 @@ type Story = StoryObj<typeof SignUpForm>;
 
 export const Default: Story = {
   args: {
-    tagline: 'Bringing people together',
   },
 };
 
@@ -61,6 +60,5 @@ export const PasswordMismatch: Story = {
 
 export const WithServerError: Story = {
   args: {
-    serverError: 'Please fix the errors in the form.',
   },
 };
