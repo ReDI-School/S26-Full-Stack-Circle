@@ -1,4 +1,4 @@
-import prisma from 'src/libs/prisma.js';
+import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
 
 export class EventService {
@@ -34,6 +34,36 @@ export class EventService {
   async deleteEvent(id: string) {
     return await prisma.event.delete({
       where: { id },
+
+  async createEvent(
+    organizerId: string,
+    data: {
+      title: string;
+      description?: string;
+      date: Date;
+      location: string;
+      capacity: number;
+    }
+  ) {
+    return await prisma.event.create({
+      data: {
+        ...data,
+        organizerId,
+      },
+    });
+  }
+
+  async getEventById(id: string) {
+    return await prisma.event.findUnique({
+      where: { id },
+      include: {
+        organizer: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
     });
   }
 }

@@ -2,8 +2,12 @@ import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+interface LoginResponse {
+  token: string;
+}
+
 export class AuthService {
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<LoginResponse> {
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -31,6 +35,6 @@ export class AuthService {
       expiresIn: '10m',
     });
 
-    return token;
+    return { token };
   }
 }
