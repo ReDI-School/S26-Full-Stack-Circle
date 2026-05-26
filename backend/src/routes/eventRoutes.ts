@@ -10,7 +10,9 @@ const attendanceController = new AttendanceController();
 const eventRouter = Router();
 
 eventRouter.get('/', (req, res) => eventController.getEvents(req, res));
-eventRouter.post('/', authenticate, validate(createEventSchema), (req, res) => eventController.createEvent(req, res));
+eventRouter.post('/', authenticate, validate(createEventSchema), (req, res) =>
+  eventController.createEvent(req, res)
+);
 eventRouter.post('/:id/attend', authenticate, (req, res) => attendanceController.attend(req, res));
 eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
 
