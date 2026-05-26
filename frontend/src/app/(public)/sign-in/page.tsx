@@ -18,7 +18,7 @@ export default function LoginPage() {
       </div>
 
       <div className="flex items-center justify-center gap-1 lg:absolute lg:top-0 lg:right-0">
-        <span className="text-base text-gray-450">Don't have account?</span>
+        <span className="text-base text-gray-450">Don&apos;t have account?</span>
 
         <Link href="/sign-up" className="text-primary-redi uppercase hover:underline">
           SIGN UP
