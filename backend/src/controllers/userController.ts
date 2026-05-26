@@ -42,8 +42,17 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
-    await userService.deleteUser(id);
+    const authenticatedUser = req.user;
 
-    res.json({ message: 'User deleted successfully' });
+    if (!authenticatedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (authenticatedUser.userId !== id) {
+      return res.status(403).json({ error: 'Forbidden: You can only delete your own account' });
+    }
+
+    await userService.deleteUser(id);
+    return res.status(204).send();
   }
 }
