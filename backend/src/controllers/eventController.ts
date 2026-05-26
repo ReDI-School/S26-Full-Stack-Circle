@@ -62,6 +62,20 @@ export class EventController {
     res.status(201).json({ event });
   }
 
+  async deleteEvent(req: Request, res: Response) {
+    const { id } = req.params;
+    const event = await eventService.getEvent(id);
+    if (!event) {
+      return res.status(404).send();
+    }
+
+    if (event.organizerId !== req.user?.userId) {
+      return res.status(403).json({ error: 'Not your event' });
+    }
+
+    await eventService.deleteEvent(id);
+    return res.status(204).send();
+  }
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
