@@ -31,6 +31,54 @@ async function main() {
     },
   });
 
+  const test2User = await prisma.user.upsert({
+    where: { email: 'test2@example.com' },
+    update: {
+      firstName: 'test2',
+      lastName: 'User',
+      passwordHash: hashedPassword,
+      role: 'USER',
+    },
+    create: {
+      email: 'test2@example.com',
+      firstName: 'test2',
+      lastName: 'User',
+      passwordHash: hashedPassword,
+      role: 'USER',
+    },
+  });
+
+  const testEvent = await prisma.event.upsert({
+    where: {
+      id: 'test-event-id',
+    },
+    update: {
+      title: 'Test Event',
+      description: 'Test event description',
+      date: new Date(),
+      location: 'Berlin',
+      capacity: 100,
+      organizerId: testUser.id,
+    },
+    create: {
+      id: 'test-event-id',
+      title: 'Test Event',
+      description: 'Test event description',
+      date: new Date(),
+      location: 'Berlin',
+      capacity: 100,
+      organizerId: testUser.id,
+    },
+  });
+
+  await prisma.attendance.createMany({
+    data: [
+      { userId: testUser.id, eventId: testEvent.id },
+      { userId: test2User.id, eventId: testEvent.id },
+    ],
+    skipDuplicates: true,
+  });
+
   console.log('Test user created:', testUser);
   console.log('Login data:');
   console.log('email: test@example.com');
