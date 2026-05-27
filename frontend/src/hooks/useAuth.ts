@@ -20,11 +20,12 @@ export function useAuth() {
       } else {
         setError('An unknown error occurred');
       }
-    } finally {
-      setLoading(false);
+
       setTimeout(() => {
         setError(undefined);
       }, 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
