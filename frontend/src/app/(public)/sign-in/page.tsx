@@ -5,7 +5,7 @@ import { SignInForm } from '@components';
 import { useAuth } from 'src/hooks/useAuth';
 
 export default function LoginPage() {
-  const { signIn } = useAuth();
+  const { signIn, loading, error } = useAuth();
 
   const handleSignIn = async (data: { email: string; password: string }) => {
     await signIn(data.email, data.password);
@@ -14,7 +14,7 @@ export default function LoginPage() {
   return (
     <main className="relative w-full flex flex-col items-center justify-center min-h-[calc(100vh-80px)] py-12 px-4 gap-10">
       <div className="w-full">
-        <SignInForm onSubmit={handleSignIn} />
+        <SignInForm onSubmit={handleSignIn} isLoading={loading} serverError={error} />
       </div>
 
       <div className="flex items-center justify-center gap-1 lg:absolute lg:top-0 lg:right-0">

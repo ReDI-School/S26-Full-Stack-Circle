@@ -4,12 +4,12 @@ import { loginRequest } from 'src/service/authService';
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      setError(null);
+      setError(undefined);
 
       const data = await loginRequest(email, password);
 
@@ -22,6 +22,9 @@ export function useAuth() {
       }
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        setError(undefined);
+      }, 3000);
     }
   };
 
