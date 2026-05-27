@@ -4,11 +4,13 @@ export const userArea = tv({
   slots: {
     wrapper: ['relative', 'inline-flex'],
     userArea: [
-     'flex',
+      'flex',
       'items-center',
       'h-[50px]',
       'px-[6px]',
-      'gap-4',
+      'min-w-0',
+      'gap-2',
+      'sm:gap-4',
       'bg-[#F9F9F9]',
       'rounded-full',
       'cursor-pointer',
@@ -50,7 +52,7 @@ export const userArea = tv({
   variants: {
     isExpanded: {
       true: {
-        userArea: 'bg-gray-100',
+        userArea: 'bg-[#ECECEC]',
       },
     },
   },
