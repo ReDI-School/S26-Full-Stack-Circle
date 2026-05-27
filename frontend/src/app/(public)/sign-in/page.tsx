@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/router';
 
 import Link from 'next/link';
 import { SignInForm } from '@components';
@@ -6,9 +7,14 @@ import { useAuth } from 'src/hooks/useAuth';
 
 export default function LoginPage() {
   const { signIn, loading, error } = useAuth();
+  const router = useRouter();
 
   const handleSignIn = async (data: { email: string; password: string }) => {
-    await signIn(data.email, data.password);
+    const token = await signIn(data.email, data.password);
+
+    if (token) {
+      router.push('/dashboard');
+    }
   };
 
   return (

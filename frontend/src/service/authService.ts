@@ -1,20 +1,21 @@
-export async function loginRequest(email: string, password: string) {
-  const api_url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+export type LoginResponse = {
+  token: string;
+};
 
-  console.log(`${api_url}/auth/login`);
+export async function loginRequest(email: string, password: string): Promise<LoginResponse> {
+  const api_url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
   const res = await fetch(`${api_url}/auth/login`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
 
+  const data = await res.json();
+
   if (!res.ok) {
-    const error = await res.json().catch(() => null);
-    throw new Error(error?.error || 'Login failed');
+    throw new Error(data?.error || 'Login failed');
   }
 
-  return res.json();
+  return data;
 }
