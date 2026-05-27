@@ -12,7 +12,10 @@ export class AuthController {
         return res.status(400).json({ error: 'Email and password are required' });
       }
 
-      const token = await this.authService.login(email, password);
+      const data = await this.authService.login(email, password);
+      const token = data.token;
+      console.log('TOKEN FROM SERVICE:', token);
+      console.log('TYPE:', typeof token);
 
       return res.status(200).json({ token });
     } catch (error) {

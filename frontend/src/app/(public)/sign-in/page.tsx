@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import Link from 'next/link';
 import { SignInForm } from '@components';
@@ -13,7 +13,7 @@ export default function LoginPage() {
     const token = await signIn(data.email, data.password);
 
     if (token) {
-      router.push('/dashboard');
+      //router.push('/dashboard');
     }
   };
 
