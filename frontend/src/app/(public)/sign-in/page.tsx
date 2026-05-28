@@ -4,12 +4,13 @@
 import Link from 'next/link';
 import { SignInForm } from '@components';
 import { useAuth } from 'src/hooks/useAuth';
+import { LoginInput } from 'src/validators/schemas';
 
 export default function LoginPage() {
   const { signIn, loading, error } = useAuth();
   //const router = useRouter();
 
-  const handleSignIn = async (data: { email: string; password: string }) => {
+  const handleSignIn = async (data: LoginInput) => {
     const token = await signIn(data.email, data.password);
 
     if (token) {
