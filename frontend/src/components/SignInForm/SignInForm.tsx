@@ -2,28 +2,37 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+// import { z } from 'zod';
 import { InputField } from '../InputField';
 import { Button } from '../Button';
 import { InfoBox } from '../InfoBox';
 import type { SignInFormProps } from './SignInForm.types';
+import { LoginInput, loginSchema } from 'src/validators/schemas';
 
-const signInSchema = z.object({
-  email: z.email({ error: 'Invalid email format.' }).min(1, 'This field is mandatory'),
-  password: z.string().min(1, 'This field is mandatory'),
-});
+// const signInSchema = z.object({
+//   email: z.email({ error: 'Invalid email format.' }).min(1, 'This field is mandatory'),
+//   password: z.string().min(1, 'This field is mandatory'),
+// });
 
-type SignInForlgata = z.infer<typeof signInSchema>;
+// type SignInForlgata = z.infer<typeof signInSchema>;
 
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
-  const {
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<SignInForlgata>({
+  //   resolver: zodResolver(signInSchema),
+  // });
+
+   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInForlgata>({
-    resolver: zodResolver(signInSchema),
-  });
-
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+   });
+   
   return (
     <div className="flex flex-col items-center justify-center gap-8 w-full">
       <header className="flex flex-col gap-2 max-w-[400px] w-full">
