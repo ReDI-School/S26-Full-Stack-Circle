@@ -8,9 +8,7 @@ const userController = new UserController();
 const userRouter = Router();
 
 userRouter.get('/', (req, res) => userController.getUsers(req, res));
-userRouter.post('/', validate(registerSchema), (req, res, next) =>
-  userController.createUser(req, res, next)
-);
+userRouter.post('/', validate(registerSchema), (req, res) => userController.createUser(req, res));
 userRouter.get('/:id', (req, res) => userController.getUserById(req, res));
 userRouter.put('/:id', authenticate, (req, res) => userController.updateUser(req, res));
 userRouter.delete('/:id', authenticate, (req, res) => userController.deleteUser(req, res));
