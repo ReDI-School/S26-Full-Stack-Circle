@@ -34,7 +34,7 @@ async function main() {
       role: 'USER' as const,
     },
     {
-      email: 'jacksoons@example.com',
+      email: 'jackson@example.com',
       firstName: 'Michael',
       lastName: 'Jackson',
       password: 'michael123',
@@ -170,6 +170,7 @@ async function main() {
   }
 
   console.log('Attendances added:', createdAttendances.length);
+  console.log('Seed completed successfully!');
 }
 
 main()

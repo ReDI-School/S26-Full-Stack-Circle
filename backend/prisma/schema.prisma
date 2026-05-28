@@ -13,16 +13,15 @@ datasource db {
 model User {
   id           String       @id @default(uuid())
   email        String       @unique
-  firstName    String       @map("first_name")
-  lastName     String       @map("last_name")
-  passwordHash String       @map("password_hash")
+  firstName    String       
+  lastName     String       
+  passwordHash String       
   role         Role         @default(USER)
-  createdAt    DateTime     @default(now()) @map("created_at")
-  updatedAt    DateTime     @updatedAt @map("updated_at")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   events       Event[]
   attendances  Attendance[]
 
-  @@map("users")
 }
 
 model Event {
@@ -32,24 +31,20 @@ model Event {
   date        DateTime
   location    String
   capacity    Int
-  organizerId String       @map("organizer_id")
+  organizerId String
   organizer   User         @relation(fields: [organizerId], references: [id])
-  createdAt   DateTime     @default(now()) @map("created_at")
-  updatedAt   DateTime     @updatedAt @map("updated_at")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt 
   attendances Attendance[]
-
-  @@map("events")
 }
 
 model Attendance {
   id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  eventId   String   @map("event_id")
+  userId    String
+  eventId   String
   user      User     @relation(fields: [userId], references: [id])
   event     Event    @relation(fields: [eventId], references: [id])
-  createdAt DateTime @default(now()) @map("created_at")
-
-  @@map("attendances")
+  createdAt DateTime @default(now())
 
   @@unique([userId, eventId])
 }
