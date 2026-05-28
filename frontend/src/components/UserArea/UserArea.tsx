@@ -49,7 +49,7 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
         aria-expanded={isExpanded}
       >
         <Avatar size="md" initials={avatarInitials} />
-        <div className="hidden md:inline-block">{userName}</div>
+        {userName && <span className="min-w-0 truncate hidden sm:block">{userName}</span>}
         <CaretDownIcon aria-hidden="true" focusable="false" />
       </button>
       {isExpanded && (

@@ -15,5 +15,6 @@ export function errorHandler(
   next: NextFunction
 ) {
   console.error('Error:', err);
+
   return res.status(500).json({ error: 'Something went wrong' });
 }
