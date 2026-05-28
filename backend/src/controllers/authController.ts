@@ -14,10 +14,15 @@ export class AuthController {
 
       const data = await this.authService.login(email, password);
       const token = data.token;
-      console.log('TOKEN FROM SERVICE:', token);
-      console.log('TYPE:', typeof token);
 
-      return res.status(200).json({ token });
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 10,
+      });
+
+      return res.json({ ok: true });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {

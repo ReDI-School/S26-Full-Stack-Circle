@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { loginRequest } from 'src/service/authService';
-import { tokenStorage } from 'src/utils/tokenStorage';
+//import { tokenStorage } from 'src/utils/tokenStorage';
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);
@@ -12,8 +12,6 @@ export function useAuth() {
       setError(undefined);
 
       const { token } = await loginRequest(email, password);
-
-      tokenStorage.set(token);
 
       return token;
     } catch (err: unknown) {
