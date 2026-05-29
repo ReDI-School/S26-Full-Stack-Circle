@@ -1,14 +1,6 @@
 import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
-
-type UpdateEventData = {
-  title?: string;
-  description?: string | null;
-  date?: Date;
-  location?: string;
-  capacity?: number;
-};
-
+import type { UpdateEventData } from '../types/event.js';
 export class EventService {
   async getEvents(filter?: 'upcoming' | 'past') {
     const currentDate = new Date();

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { EventService } from '../services/eventService.js';
+import type { UpdateEventData } from '../types/event.js';
 
 const eventService = new EventService();
 
@@ -96,7 +97,7 @@ export class EventController {
       });
     }
 
-    const updateData = {
+    const updateData: UpdateEventData = {
       title: req.body.title,
       description: req.body.description,
       date: req.body.date ? new Date(req.body.date) : undefined,
