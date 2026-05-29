@@ -5,28 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import {TabNav} from '@components/TabNav';  
 import { EventCard } from '@components/EventCard';
 import {StickyButton} from '@components/StickyButton';
+import { eventsFrontendService, EventData } from '../../../services/events.frontend';
+import Image  from 'next/image';
+import imageSrc from '../../../assets/images/empty-state.png'; 
 
-// --- 1. TIPADO ESTRICTO CON TYPESCRIPT ---
+
 export type TabType = 'ALL EVENTS' | 'FUTURE EVENTS' | 'ARCHIVED';
-export type UserRelationship = 'author' | 'joined' | 'none';
 
-export interface EventData {
-  id: string;
-  title: string;
-  date: string;
-  description: string;
-  relationship: UserRelationship;
-}
-
-// --- 2. (MOCK DATA) ---
-const MOCK_EVENTS: EventData[] = [
-  { id: '1', title: 'ReDi Tech Talk 2026', date: '2026-06-15', description: 'Annual tech conference.', relationship: 'author' },
-  { id: '2', title: 'Next.js Workshop', date: '2026-07-20', description: 'Deep dive into App Router.', relationship: 'joined' },
-  { id: '3', title: 'Tailwind CSS Meetup', date: '2026-08-05', description: 'Styling at scale.', relationship: 'none' },
-  { id: '4', title: 'Past Node.js Summit', date: '2025-12-10', description: 'Backend architectures.', relationship: 'none' },
-];
-
-// --- 3. (URL PARAMS <-> UI TABS) ---
 const parseParamToTab = (param: string | null): TabType => {
   if (param === 'future') return 'FUTURE EVENTS';
   if (param === 'archived') return 'ARCHIVED';
@@ -39,19 +24,20 @@ const parseTabToParam = (tab: TabType): string => {
   return 'all';
 };
 
-// --- 4. Page ---
 export default function DashboardPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
   // Tab sincronizing
   const currentTab = parseParamToTab(searchParams.get('tab'));
-
+  const currentParam = parseTabToParam(currentTab); // Devuelve: 'all' | 'future' | 'archived'
+  
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Update URL parameter
   const handleTabChange = (selectedTab: string) => {
+    setIsLoading(true); // Activa los esqueletos de carga al cambiar de pestaña
     const paramValue = parseTabToParam(selectedTab as TabType);
     const params = new URLSearchParams(searchParams.toString());
     params.set('tab', paramValue);
@@ -60,27 +46,23 @@ export default function DashboardPage() {
 
   // Simulation of data fetching with loading state
   useEffect(() => {
+    let isMounted = true;
     
-    
-    const fetchMockData = () => {
-      let filtered = MOCK_EVENTS;
-      const today = new Date('2026-05-21'); 
+    eventsFrontendService.getDashboardEvents(currentParam as 'all' | 'future' | 'archived')
+      .then((data: {events: EventData[]}) => {
+        if (isMounted) {
+          setEvents(data.events);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Dashboard failed to retrieve view data:", err);
+        if (isMounted) setIsLoading(false);
+      });
 
-      if (currentTab === 'FUTURE EVENTS') {
-        filtered = MOCK_EVENTS.filter(e => new Date(e.date) >= today);
-      } else if (currentTab === 'ARCHIVED') {
-        filtered = MOCK_EVENTS.filter(e => new Date(e.date) < today);
-      }
-
-      setEvents(filtered);
-      setIsLoading(false);
-    };
-
-    // Relay simulated fetch with a timeout
-    const timer = setTimeout(fetchMockData, 800);
-    return () => clearTimeout(timer);
-  }, [currentTab]);
-
+    return () => { isMounted = false; };
+  }, [currentParam]);
+console.log("Mis eventos son:", events)
   return (
     <div className="w-full min-h-screen bg-gray-50 p-4 md:p-8 pb-24 md:pb-8 relative">
     
@@ -120,10 +102,15 @@ export default function DashboardPage() {
       {!isLoading && events.length === 0 && (
         <section className="flex flex-col items-center justify-center min-h-[300px] text-center gap-4 w-full">
           {/* Círculo tachado color Teal */}
-          <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-          </svg>
-          <h3 className="text-xl font-bold text-gray-700 tracking-wide uppercase">
+          <div>
+            <Image
+              src={imageSrc} 
+              alt="No events found"
+              className="object-contain w-full h-full"
+              priority
+            />
+          </div>
+          <h3 className="text-sm font-medium text-tabs-idle tracking-wide uppercase">
             THERE ARE NO EVENTS TO DISPLAY
           </h3>
         </section>
@@ -137,12 +124,18 @@ export default function DashboardPage() {
               key={event.id}
               isLoading={false}
               title={event.title}
-              author={event.relationship === 'author' ? 'Me (Author)' : 'ReDi Community'}
+              author={event.author || (event.relationship === 'author' ? 'Me (Author)' : 'ReDi Community')}
               date={new Date(event.date) }
               description={event.description}
-              attendeeCount={0}
-              maxAttendees={50}
-              action={event.relationship === 'author' ? 'edit' : 'join'}
+              attendeeCount={event.attendeeCount ?? 0}
+              maxAttendees={event.maxAttendees ?? 50}
+              action={
+                event.relationship === 'author' 
+                  ? 'edit' 
+                  : event.relationship === 'joined' 
+                    ? 'leave' 
+                    : 'join'
+              }
               onActionClick={() => console.log(`Acción ejecutada en: ${event.id}`)} // Campo obligatorio agregado
             />
           ))}
