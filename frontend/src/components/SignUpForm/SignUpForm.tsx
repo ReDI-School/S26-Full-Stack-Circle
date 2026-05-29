@@ -69,7 +69,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
   };
 
   return (
-    <div className="flex flex-col gap-8 w-full px-16 py-8">
+    <div className="flex flex-col gap-8 max-w-md w-full">
       <header className="flex flex-col gap-2">
         <h2 className="text-center md:text-left text-[28px] font-normal leading-12 text-text-primary">
           Get started for free
@@ -92,7 +92,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             required
             label="First name"
             type="text"
-            placeholder="John"
+            placeholder=""
             disabled={isLoading}
             {...register('firstname')}
           />
@@ -102,7 +102,7 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             required
             label="Last name"
             type="text"
-            placeholder="Doe"
+            placeholder=""
             disabled={isLoading}
             {...register('lastname')}
           />
