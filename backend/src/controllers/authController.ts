@@ -33,7 +33,6 @@ export class AuthController {
 
       const userResponse = { ...newUser } as any;
       delete userResponse.passwordHash;
-      delete userResponse.password;
 
       return res.status(201).json(userResponse);
     } catch (error) {
