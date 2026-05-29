@@ -1,9 +1,10 @@
 import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
+import { UserDTO } from '../dto/user.dto.js';
 
 export class UserService {
   async getAllUsers() {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({ omit: { passwordHash: true } });
   }
 
   async getUserById(id: string) {
@@ -37,10 +38,11 @@ export class UserService {
   }
 
   async updateUser(id: string, data: { email?: string; firstName?: string; lastName?: string }) {
-    return await prisma.user.update({
+    const user = await prisma.user.update({
       where: { id },
       data,
     });
+    return new UserDTO(user);
   }
 
   async deleteUser(id: string) {
