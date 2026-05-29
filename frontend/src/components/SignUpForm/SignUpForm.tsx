@@ -12,7 +12,6 @@ type SignUpFormProps = {
   onSubmit: (data: FormData) => Promise<void> | void;
   fieldValues: FormData;
   serverError?: string;
-
 };
 
 const initialFormData: FormData = {
@@ -54,30 +53,29 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
     defaultValues: fieldValues ?? initialFormData,
   });
 
-
   const getErrorId = (field: string) => `${field}-error`;
 
- const onValidSubmit = async (data: FormData) => {
-  await onSubmit(data);
-  reset();
-};
+  const onValidSubmit = async (data: FormData) => {
+    await onSubmit(data);
+    reset();
+  };
 
-const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
-  const firstErrorField = Object.keys(errors)[0] as keyof FormData;
+  const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
+    const firstErrorField = Object.keys(errors)[0] as keyof FormData;
 
-  if (firstErrorField) {
-    setFocus(firstErrorField);
-  }
-};
+    if (firstErrorField) {
+      setFocus(firstErrorField);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-8 w-full px-16 py-8">
       <header className="flex flex-col gap-2">
-        <h2 className="text-center md:text-left text-[28px] font-normal leading-[48px] text-text-primary">
+        <h2 className="text-center md:text-left text-[28px] font-normal leading-12 text-text-primary">
           Get started for free
         </h2>
 
-        <p className="text-center md:text-left text-[18px] font-normal leading-[24px] text-text-tertiary">
+        <p className="text-center md:text-left text-[18px] font-normal leading-6 text-text-tertiary">
           Enter your details below.
         </p>
       </header>
@@ -91,6 +89,7 @@ const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
         {serverError && <InfoBox variant="error" message={serverError}></InfoBox>}
         <div className="flex flex-col gap-4">
           <InputField
+            required
             label="First name"
             type="text"
             placeholder="John"
@@ -100,6 +99,7 @@ const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
           <FieldError id={getErrorId('firstname')} message={errors.firstname?.message} />
 
           <InputField
+            required
             label="Last name"
             type="text"
             placeholder="Doe"
@@ -109,6 +109,7 @@ const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
           <FieldError id={getErrorId('lastname')} message={errors.lastname?.message} />
 
           <InputField
+            required
             label="E-mail"
             type="email"
             placeholder="Enter your e-mail"
@@ -120,6 +121,7 @@ const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
           <FieldError id={getErrorId('email')} message={errors.email?.message} />
 
           <InputField
+            required
             label="Password"
             type="password"
             placeholder="********"
@@ -129,6 +131,7 @@ const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
           <FieldError id={getErrorId('password')} message={errors.password?.message} />
 
           <InputField
+            required
             label="Repeat password"
             type="password"
             placeholder="********"
