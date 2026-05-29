@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { SignUpForm } from '@components';
 
-const SignIn = () => {
+const SignUp = () => {
   return (
-    <div className="size-full grid grid-rows-[auto_1fr]">
-      <div className="w-full flex justify-end gap-2 text-text-tertiary">
+    <div className="relative size-full flex-1 flex flex-col-reverse md:flex-col gap-8 items-center justify-center">
+      <div className="md:absolute top-0 right-0 :w-full flex gap-2 text-text-tertiary items-center justify-center md:justify-end">
         Already have account?{' '}
         <Link
           href="/sign-in"
@@ -12,12 +13,9 @@ const SignIn = () => {
           SIGN IN
         </Link>
       </div>
-      <div className="flex flex-col justify-center items-center gap-5">
-        <h1>Sign Up</h1>
-        <p>add your form here</p>
-      </div>
+      <SignUpForm />
     </div>
   );
 };
 
-export default SignIn;
+export default SignUp;

@@ -9,11 +9,11 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative w-full flex flex-col items-center justify-center min-h-[calc(100vh-80px)] py-12 px-4 gap-10">
+    <div className="relative w-full md:h-full flex-1 flex flex-col gap-8 items-center justify-center">
       <div className="w-full">
         <SignInForm onSubmit={handleSignIn} />
       </div>
-      <div className="flex items-center justify-center gap-1  lg:absolute lg:top-0 lg:right-0 lg:mt-0 lg:text-right">
+      <div className="flex items-center justify-center gap-1  md:absolute md:top-0 md:right-0 md:mt-0 md:text-right">
         <span className="text-base font-normal text-gray-450">{"Don't have account?"}</span>
         <Link
           href="/sign-up"
@@ -22,6 +22,6 @@ export default function LoginPage() {
           SIGN UP
         </Link>
       </div>
-    </main>
+    </div>
   );
 }
