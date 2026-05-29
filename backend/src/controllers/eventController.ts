@@ -79,11 +79,7 @@ export class EventController {
 
   async updateEvent(req: Request, res: Response) {
     const eventId = req.params.id;
-    const userId = req.user?.userId;
-
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    const userId = req.user!.userId;
 
     const event = await eventService.getEventById(eventId);
 
