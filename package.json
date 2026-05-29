@@ -10,6 +10,7 @@
     "start:frontend": "cd frontend && npm run dev"
   },
   "dependencies": {
-    "@phosphor-icons/react": "^2.1.10"
+    "@phosphor-icons/react": "^2.1.10",
+    "zod": "^4.4.3"
   }
 }

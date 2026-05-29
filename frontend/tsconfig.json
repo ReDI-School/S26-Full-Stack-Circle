@@ -14,9 +14,10 @@
     "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@components": ["./src/components"]
+      "@components": ["./src/components"],
     },
     "plugins": [
       {
@@ -29,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
   ],
   "exclude": ["node_modules"]
 }
