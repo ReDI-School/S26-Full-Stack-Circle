@@ -24,4 +24,25 @@ export class AuthController {
       next(error);
     }
   }
+
+  async register(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, firstName, lastName, password } = req.body;
+
+      const newUser = await this.authService.register(email, firstName, lastName, password);
+
+      const userResponse = { ...newUser } as any;
+      delete userResponse.passwordHash;
+
+      return res.status(201).json(userResponse);
+    } catch (error) {
+      console.error('Error registering user:', error);
+
+      if (error instanceof Error && error.message === 'EMAIL_ALREADY_IN_USE') {
+        return res.status(409).json({ error: 'Email is already in use' });
+      }
+
+      next(error);
+    }
+  }
 }
