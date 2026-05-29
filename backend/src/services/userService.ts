@@ -17,9 +17,7 @@ export class UserService {
   }
 
   async createUser(data: { email: string; firstName: string; lastName: string; password: string }) {
-    const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
-    });
+    const existingUser = await this.findUserByEmail(data.email);
 
     if (existingUser) {
       throw new Error('EMAIL_ALREADY_IN_USE');
@@ -50,6 +48,12 @@ export class UserService {
   async deleteUser(id: string) {
     return await prisma.user.delete({
       where: { id },
+    });
+  }
+
+  async findUserByEmail(email: string) {
+    return prisma.user.findUnique({
+      where: { email },
     });
   }
 }
