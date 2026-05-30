@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { loginRequest } from 'src/service/authService';
+import { loginRequest } from '@service/authService';
 //import { tokenStorage } from 'src/utils/tokenStorage';
 
 export function useAuth() {
@@ -11,9 +11,9 @@ export function useAuth() {
       setLoading(true);
       setError(undefined);
 
-      const { token } = await loginRequest(email, password);
+      await loginRequest(email, password);
 
-      return token;
+      return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);

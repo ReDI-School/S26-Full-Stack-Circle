@@ -7,7 +7,7 @@ import { InputField } from '../InputField';
 import { Button } from '../Button';
 import { InfoBox } from '../InfoBox';
 import type { SignInFormProps } from './SignInForm.types';
-import { LoginInput, loginSchema } from 'src/validators/schemas';
+import { LoginInput, loginSchema } from '@validators/schemas';
 
 // const signInSchema = z.object({
 //   email: z.email({ error: 'Invalid email format.' }).min(1, 'This field is mandatory'),
@@ -25,14 +25,14 @@ export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps
   //   resolver: zodResolver(signInSchema),
   // });
 
-   const {
+  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-   });
-   
+  });
+
   return (
     <div className="flex flex-col items-center justify-center gap-8 w-full">
       <header className="flex flex-col gap-2 max-w-[400px] w-full">

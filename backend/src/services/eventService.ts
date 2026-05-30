@@ -1,5 +1,6 @@
-import prisma from 'src/libs/prisma.js';
+import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
+import type { UpdateEventData } from '../types/event.js';
 export class EventService {
   async getEvents(filter?: 'upcoming' | 'past') {
     const currentDate = new Date();
@@ -25,6 +26,35 @@ export class EventService {
 
     return events;
   }
+  async getEvent(id: string) {
+    return await prisma.event.findUnique({
+      where: { id },
+    });
+  }
+
+  async deleteEvent(id: string) {
+    return await prisma.event.delete({
+      where: { id },
+    });
+  }
+
+  async createEvent(
+    organizerId: string,
+    data: {
+      title: string;
+      description?: string;
+      date: Date;
+      location: string;
+      capacity: number;
+    }
+  ) {
+    return await prisma.event.create({
+      data: {
+        ...data,
+        organizerId,
+      },
+    });
+  }
 
   async getEventById(id: string) {
     return await prisma.event.findUnique({
@@ -37,6 +67,13 @@ export class EventService {
           },
         },
       },
+    });
+  }
+
+  async updateEvent(id: string, data: UpdateEventData) {
+    return prisma.event.update({
+      where: { id },
+      data,
     });
   }
 }

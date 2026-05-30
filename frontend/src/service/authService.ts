@@ -1,11 +1,9 @@
-export type LoginResponse = {
-  token: string;
-};
+import { config } from '../config';
 
-export async function loginRequest(email: string, password: string): Promise<LoginResponse> {
-  const api_url = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+export async function loginRequest(email: string, password: string): Promise<void> {
+  const { apiUrl } = await config();
 
-  const res = await fetch(`${api_url}/auth/login`, {
+  const res = await fetch(`${apiUrl}/auth/login`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -19,6 +17,4 @@ export async function loginRequest(email: string, password: string): Promise<Log
   if (!res.ok) {
     throw new Error(data?.error || 'Login failed');
   }
-
-  return data;
 }
