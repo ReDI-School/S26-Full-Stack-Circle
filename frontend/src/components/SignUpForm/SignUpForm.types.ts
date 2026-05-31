@@ -5,8 +5,8 @@ export interface SignUpFormProps {
 }
 
 export type FormData = {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   repeatPassword: string;

@@ -15,8 +15,8 @@ type SignUpFormProps = {
 };
 
 const initialFormData: FormData = {
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
   repeatPassword: '',
@@ -24,8 +24,8 @@ const initialFormData: FormData = {
 
 const signUpSchema = z
   .object({
-    firstname: z.string().min(1, 'First name is required.'),
-    lastname: z.string().min(1, 'Last name is required.'),
+    firstName: z.string().min(1, 'First name is required.'),
+    lastName: z.string().min(1, 'Last name is required.'),
     email: z.email('Invalid email address.'),
     password: z
       .string()
@@ -94,9 +94,9 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="text"
             placeholder=""
             disabled={isLoading}
-            {...register('firstname')}
+            {...register('firstName')}
           />
-          <FieldError id={getErrorId('firstname')} message={errors.firstname?.message} />
+          <FieldError id={getErrorId('firstName')} message={errors.firstName?.message} />
 
           <InputField
             required
@@ -104,9 +104,9 @@ const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFor
             type="text"
             placeholder=""
             disabled={isLoading}
-            {...register('lastname')}
+            {...register('lastName')}
           />
-          <FieldError id={getErrorId('lastname')} message={errors.lastname?.message} />
+          <FieldError id={getErrorId('lastName')} message={errors.lastName?.message} />
 
           <InputField
             required

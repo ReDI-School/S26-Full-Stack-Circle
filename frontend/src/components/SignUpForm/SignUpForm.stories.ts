@@ -29,8 +29,8 @@ export const Loading: Story = {
 export const Filled: Story = {
   args: {
     fieldValues: {
-      firstname: 'Oways',
-      lastname: 'Othman',
+      firstName: 'Oways',
+      lastName: 'Othman',
       email: 'abc@gmail.com',
       password: '12#$k62xz',
       repeatPassword: '12#$k62z',
@@ -43,8 +43,8 @@ export const PasswordMismatch: Story = {
     isLoading: false,
     onSubmit: async () => {},
     fieldValues: {
-      firstname: 'John',
-      lastname: 'Doe',
+      firstName: 'John',
+      lastName: 'Doe',
       email: 'john@example.com',
       password: 'password123',
       repeatPassword: 'password456',
