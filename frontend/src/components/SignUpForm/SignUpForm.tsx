@@ -29,7 +29,7 @@ const signUpSchema = z
     email: z.email('Invalid email address.'),
     password: z
       .string()
-      .min(6, 'Password must be at least 6 characters.')
+      .min(8, 'Password must be at least 8 characters.')
       .regex(
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/,
         'Password must contain uppercase, lowercase, and a number.'
