@@ -8,9 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 type SignUpFormProps = {
-  isLoading: boolean;
+  isLoading?: boolean;
   onSubmit: (data: FormData) => Promise<void> | void;
-  fieldValues: FormData;
+  fieldValues?: FormData;
   serverError?: string;
 };
 
@@ -41,7 +41,12 @@ const signUpSchema = z
     path: ['repeatPassword'],
   });
 
-const SignUpForm = ({ isLoading, onSubmit, serverError, fieldValues }: SignUpFormProps) => {
+const SignUpForm = ({
+  isLoading = false,
+  onSubmit,
+  serverError,
+  fieldValues = initialFormData,
+}: SignUpFormProps) => {
   const {
     register,
     handleSubmit,
