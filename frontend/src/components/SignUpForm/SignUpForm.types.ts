@@ -1,6 +1,8 @@
 export interface SignUpFormProps {
-  onSubmit: (data: { email: string; password: string }) => void;
+  onSubmit: (data: FormData) => void;
   isLoading?: boolean;
+  fieldValues?: FormData;
+  formErrors?: FormErrors;
   serverError?: string;
 }
 
