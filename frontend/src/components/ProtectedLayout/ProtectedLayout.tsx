@@ -2,7 +2,7 @@ import { protectedLayoutStyles } from './ProtectedLayout.styles';
 import type { ProtectedLayoutProps } from './ProtectedLayout.types';
 import { Logo } from '../Logo';
 import { UserArea } from '@components';
-import { useAuth } from '@hooks/useAuth';
+import useAuth from '@hooks/useAuth';
 import { Skeleton } from '@components/Skeleton';
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {

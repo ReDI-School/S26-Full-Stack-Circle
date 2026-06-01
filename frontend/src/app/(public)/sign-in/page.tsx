@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 
 import Link from 'next/link';
 import { SignInForm } from '@components';
-import { useAuth } from '@hooks/useAuth';
+import useAuth from '@hooks/useAuth';
 import { LoginInput } from '@validators/schemas';
 
 export default function LoginPage() {

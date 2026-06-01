@@ -9,7 +9,7 @@ interface UserData {
 
 const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
 
-export function useAuth() {
+export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<UserData | null>(null);
