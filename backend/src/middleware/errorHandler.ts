@@ -16,8 +16,8 @@ export function errorHandler(
 ) {
   console.error('Error:', err);
 
-  if (err.message === 'INVALID_EVENT_FILTER') {
-    return res.status(400).json({ error: 'Invalid event filter' });
+  if (err.message === 'EMAIL_ALREADY_IN_USE') {
+    return res.status(400).json({ error: 'Email is already in use' });
   }
 
   return res.status(500).json({ error: 'Something went wrong' });
