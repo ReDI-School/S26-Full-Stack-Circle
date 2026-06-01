@@ -6,19 +6,35 @@ const meta: Meta<typeof LinkButton> = {
   title: 'Components/LinkButton',
   component: LinkButton,
   tags: ['autodocs'],
+  argTypes: {
+    color: {
+      control: 'radio',
+      options: ['primary', 'secondary'],
+    },
+    icon: {
+      control: 'boolean',
+      mapping: { true: <ArrowLeftIcon />, false: undefined },
+    },
+  },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof LinkButton>;
 
-export const Default: Story = {
-  render: () => <LinkButton icon={<ArrowLeftIcon />} href="#" >GO BACK</LinkButton>,
-};
-
-export const WithoutIcon: Story = {
+export const DefaultWithIcon: Story = {
   args: {
     children: 'GO BACK',
     href: '#',
+    icon: true,
+    color: 'primary',
+  },
+};
+
+export const SecondaryWithoutIcon: Story = {
+  args: {
+    children: 'GO BACK',
+    href: '#',
+    color: 'secondary',
   },
 };
