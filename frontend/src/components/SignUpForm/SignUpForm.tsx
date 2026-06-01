@@ -5,7 +5,8 @@ import type { FormData } from './SignUpForm.types';
 import { InfoBox } from '../InfoBox';
 import FieldError from '../FieldError/FieldError';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { registerSchema } from '@/validators/schemas';
+
 
 type SignUpFormProps = {
   isLoading?: boolean;
@@ -22,25 +23,6 @@ const initialFormData: FormData = {
   repeatPassword: '',
 };
 
-const signUpSchema = z
-  .object({
-    firstName: z.string().min(1, 'First name is required.'),
-    lastName: z.string().min(1, 'Last name is required.'),
-    email: z.email('Invalid email address.'),
-    password: z
-      .string()
-      .min(8, 'Password must be at least 8 characters.')
-      .regex(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).*$/,
-        'Password must contain uppercase, lowercase, and a number.'
-      ),
-    repeatPassword: z.string().min(1, 'Please repeat your password.'),
-  })
-  .refine((data) => data.password === data.repeatPassword, {
-    message: 'Passwords do not match.',
-    path: ['repeatPassword'],
-  });
-
 const SignUpForm = ({
   isLoading = false,
   onSubmit,
@@ -54,7 +36,7 @@ const SignUpForm = ({
     setFocus,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(signUpSchema),
+    resolver: zodResolver(registerSchema),
     defaultValues: fieldValues ?? initialFormData,
   });
 
