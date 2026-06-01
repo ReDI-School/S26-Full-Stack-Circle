@@ -43,6 +43,30 @@ export default function DashboardPage() {
     params.set('tab', paramValue);
     router.push(`?${params.toString()}`);
   };
+  // Update event relationship (Join/Leave/Edit)
+  const handleEventAction = (eventId: string, currentRelationship: 'author' | 'joined' | 'none') => {
+  
+    //If 'author' (Edit), do nothing for now.
+    if (currentRelationship === 'author') {
+      console.log(`[PENDING TICKET] Edit was clicked for event ${eventId}. No action for the moment.`);
+      return; 
+    }
+
+    //Visual switch between 'joined' and 'none'
+    const updatedEvents = events.map((event) => {
+      if (event.id === eventId) {
+        const isJoining = event.relationship === 'none';   
+        return {
+          ...event,
+          // If it was 'none' it becomes 'joined'. If it was 'joined' it becomes 'none'
+          relationship: isJoining ? 'joined' : 'none' as 'joined' | 'none',
+          // Adds 1 if joining, subtracts 1 if leaving
+          attendeeCount: isJoining ? event.attendeeCount + 1 : event.attendeeCount - 1};
+        }
+      return event;
+    });
+    setEvents(updatedEvents);
+  };
 
   // Simulation of data fetching with loading state
   useEffect(() => {
@@ -62,7 +86,9 @@ export default function DashboardPage() {
 
     return () => { isMounted = false; };
   }, [currentParam]);
-console.log("Mis eventos son:", events)
+  
+  console.log("Mis eventos son:", events)
+  
   return (
     <div className="w-full min-h-screen bg-gray-50 p-4 md:p-8 pb-24 md:pb-8 relative">
     
@@ -120,6 +146,7 @@ console.log("Mis eventos son:", events)
       {!isLoading && events.length > 0 && (
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {events.map((event) => (
+            
             <EventCard 
               key={event.id}
               isLoading={false}
@@ -136,7 +163,11 @@ console.log("Mis eventos son:", events)
                     ? 'leave' 
                     : 'join'
               }
-              onActionClick={() => console.log(`Acción ejecutada en: ${event.id}`)} // Campo obligatorio agregado
+              onActionClick={
+                currentTab === 'ARCHIVED' 
+                  ? () => {} // Empty function = Click is frozen/disabled
+                  : () => handleEventAction(event.id, event.relationship)
+              }
             />
           ))}
         </section>

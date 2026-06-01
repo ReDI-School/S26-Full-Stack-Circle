@@ -11,7 +11,7 @@ export interface EventData {
   maxAttendees?: number;   
 }
 
-const USE_MOCKS = false; // Change to false to use real API
+const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === 'true'; // Change to false to use real API
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 export const eventsFrontendService = {
@@ -21,10 +21,10 @@ export const eventsFrontendService = {
     if (USE_MOCKS) {
       return new Promise((resolve) => {
         const MOCK_EVENTS: EventData[] = [
-          { id: '1', title: 'ReDi Tech Talk 2026', date: '2026-06-15', description: 'Annual tech conference.', relationship: 'author' },
-          { id: '2', title: 'Next.js Workshop', date: '2026-07-20', description: 'Deep dive into App Router.', relationship: 'joined' },
-          { id: '3', title: 'Tailwind CSS Meetup', date: '2026-08-05', description: 'Styling at scale.', relationship: 'none' },
-          { id: '4', title: 'Past Node.js Summit', date: '2025-12-10', description: 'Backend architectures.', relationship: 'none' },
+          { id: '1', title: 'ReDi Tech Talk 2026', date: '2026-06-15', description: 'Annual tech conference.', attendeeCount: 5, maxAttendees: 50, relationship: 'author' },
+          { id: '2', title: 'Next.js Workshop', date: '2026-07-20', description: 'Deep dive into App Router.', attendeeCount: 3, maxAttendees: 30, relationship: 'joined' },
+          { id: '3', title: 'Tailwind CSS Meetup', date: '2026-08-05', description: 'Styling at scale.', attendeeCount: 1, maxAttendees: 40, relationship: 'none' },
+          { id: '4', title: 'Past Node.js Summit', date: '2025-12-10', description: 'Backend architectures.', attendeeCount: 5, maxAttendees: 50,relationship: 'none' },
         ];
 
         const today = new Date('2026-05-29'); 
@@ -35,7 +35,7 @@ export const eventsFrontendService = {
         } else if (tab === 'archived') {
           filtered = MOCK_EVENTS.filter(e => new Date(e.date) < today);
         }
-        setTimeout(() => resolve(filtered), 800);
+        setTimeout(() => resolve({ events: filtered }), 800);
       });
     }
 
