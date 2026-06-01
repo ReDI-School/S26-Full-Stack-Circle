@@ -1,21 +1,14 @@
 import { useForm, FieldErrors } from 'react-hook-form';
 import { Button } from '../Button';
 import { InputField } from '../InputField';
-import type { FormData } from './SignUpForm.types';
+import { RegisterInput } from '@/validators/schemas';
 import { InfoBox } from '../InfoBox';
 import FieldError from '../FieldError/FieldError';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '@/validators/schemas';
+import type { SignUpFormProps } from './SignUpForm.types';
 
-
-type SignUpFormProps = {
-  isLoading?: boolean;
-  onSubmit: (data: FormData) => Promise<void> | void;
-  fieldValues?: FormData;
-  serverError?: string;
-};
-
-const initialFormData: FormData = {
+const initialFormData: RegisterInput = {
   firstName: '',
   lastName: '',
   email: '',
@@ -35,20 +28,20 @@ const SignUpForm = ({
     reset,
     setFocus,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: fieldValues ?? initialFormData,
   });
 
   const getErrorId = (field: string) => `${field}-error`;
 
-  const onValidSubmit = async (data: FormData) => {
+  const onValidSubmit = async (data: RegisterInput) => {
     await onSubmit(data);
     reset();
   };
 
-  const onInvalidSubmit = (errors: FieldErrors<FormData>) => {
-    const firstErrorField = Object.keys(errors)[0] as keyof FormData;
+  const onInvalidSubmit = (errors: FieldErrors<RegisterInput>) => {
+    const firstErrorField = Object.keys(errors)[0] as keyof RegisterInput;
 
     if (firstErrorField) {
       setFocus(firstErrorField);
