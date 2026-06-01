@@ -6,7 +6,7 @@ import { useAuth } from '@hooks/useAuth';
 import { Skeleton } from '@components/Skeleton';
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const { user, loadingAuth, signOut, goToProfile } = useAuth();
+  const { user, loading, signOut, goToProfile } = useAuth();
   const { main, headerBar, content } = protectedLayoutStyles();
 
   return (
@@ -19,7 +19,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
         <div className="md:hidden">
           <Logo size="compact" />
         </div>
-        {loadingAuth ? (
+        {loading ? (
           <div className="flex items-center gap-3">
             <Skeleton width={40} height={40} radius="full" />
             <div className="hidden md:block">

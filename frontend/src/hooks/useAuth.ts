@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginRequest } from '@service/authService';
 //import { tokenStorage } from 'src/utils/tokenStorage';
+
+interface UserData {
+  name: string;
+  initials: string;
+}
+
+const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
+  const [user, setUser] = useState<UserData | null>(null);
+  const signOut = () => {
+    // TODO: Implement real sign-out logic
+  };
+
+  const goToProfile = () => {
+    // TODO: Implement navigation to profile page
+  };
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -25,5 +40,9 @@ export function useAuth() {
     }
   };
 
-  return { signIn, loading, error };
+  useEffect(() => {
+    setUser(MOCK_USER);
+  }, []);
+
+  return { signIn, loading, error, goToProfile, signOut, user };
 }
