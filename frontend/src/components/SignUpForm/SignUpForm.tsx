@@ -146,7 +146,7 @@ const SignUpForm = ({
           <FieldError id={getErrorId('repeatPassword')} message={errors.repeatPassword?.message} />
         </div>
 
-        <div className="text-center md:text-left">
+        <div className="text-center lg:text-left">
           <Button
             variant="primary"
             state={isLoading ? 'loading' : 'default'}

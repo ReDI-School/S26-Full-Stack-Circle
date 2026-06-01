@@ -8,8 +8,7 @@ export const linkButtonStyles = tv({
     'gap-1.5',
     'md:gap-2.5',
     'w-fit',
-    'text-xs',
-    'md:text-base',
+    'text-base',
     'font-medium',
     'text-button-secondary',
     'transition-colors',
@@ -22,5 +21,5 @@ export const linkButtonStyles = tv({
 });
 
 export const iconStyles = tv({
-  base: ['text-xs', 'md:text-lg', 'shrink-0'],
+  base: ['text-base', 'md:text-lg', 'shrink-0'],
 });
