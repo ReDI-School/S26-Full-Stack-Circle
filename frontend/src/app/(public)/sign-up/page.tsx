@@ -2,13 +2,13 @@
 
 import { SignUpForm } from '@components';
 import { useState, useCallback } from 'react';
-import type { FormData } from '@components/SignUpForm/SignUpForm.types';
+import { RegisterInput } from '@/validators/schemas';
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState<string>();
 
-  const handleSubmit = useCallback(async (data: FormData) => {
+  const handleSubmit = useCallback(async (data: RegisterInput) => {
     setIsLoading(true);
     setServerError(undefined);
     try {
