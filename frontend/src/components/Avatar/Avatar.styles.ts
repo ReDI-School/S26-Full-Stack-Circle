@@ -6,7 +6,7 @@ export const avatarStyles = tv({
     size: {
       sm: 'size-8 text-sm',
       md: 'size-10 text-base',
-      lg: 'size-16  text-lg',
+      lg: 'size-20 text-2xl',
     },
   },
 });
