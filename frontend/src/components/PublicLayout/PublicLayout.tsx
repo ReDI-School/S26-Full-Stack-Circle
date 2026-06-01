@@ -28,7 +28,7 @@ export default function PublicLayout({
         {navText && navLinkLabel && navLinkHref && (
           <nav className={navigBlock()}>
             <span>{navText}</span>
-            <LinkButton href={navLinkHref}>{navLinkLabel}</LinkButton>
+            <LinkButton href={navLinkHref} underlined>{navLinkLabel}</LinkButton>
           </nav>
         )}
         {children}

@@ -15,6 +15,9 @@ const meta: Meta<typeof LinkButton> = {
       control: 'boolean',
       mapping: { true: <ArrowLeftIcon />, false: undefined },
     },
+    underlined: {
+      control: 'boolean',
+    },
   },
 };
 
@@ -28,6 +31,7 @@ export const DefaultWithIcon: Story = {
     href: '#',
     icon: true,
     color: 'primary',
+    underlined: false,
   },
 };
 
@@ -36,5 +40,6 @@ export const SecondaryWithoutIcon: Story = {
     children: 'GO BACK',
     href: '#',
     color: 'secondary',
+    underlined: true,
   },
 };

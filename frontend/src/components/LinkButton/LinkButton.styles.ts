@@ -21,6 +21,9 @@ export const linkButtonStyles = tv({
       primary: ['text-button-primary', 'hover:text-button-primary-hovered'],
       secondary: ['text-button-secondary', 'hover:text-button-secondary-hovered'],
     },
+    underlined: {
+      true: ['underline'],
+    },
   },
 });
 

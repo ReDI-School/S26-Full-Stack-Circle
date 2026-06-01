@@ -13,4 +13,7 @@ export interface LinkButtonProps extends LinkProps {
 
   /** Controls the text color. Defaults to 'primary'. */
   color?: 'primary' | 'secondary';
+
+  /** When true, the link is always underlined (not just on hover). */
+  underlined?: boolean;
 }
