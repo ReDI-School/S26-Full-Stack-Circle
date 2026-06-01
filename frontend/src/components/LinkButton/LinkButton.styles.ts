@@ -10,14 +10,18 @@ export const linkButtonStyles = tv({
     'w-fit',
     'text-base',
     'font-medium',
-    'text-button-secondary',
     'transition-colors',
     'duration-200',
-    'hover:text-button-secondary-hovered',
     'hover:underline',
     'underline-offset-4',
     'cursor-pointer',
   ],
+  variants: {
+    color: {
+      primary: ['text-button-primary', 'hover:text-button-primary-hovered'],
+      secondary: ['text-button-secondary', 'hover:text-button-secondary-hovered'],
+    },
+  },
 });
 
 export const iconStyles = tv({
