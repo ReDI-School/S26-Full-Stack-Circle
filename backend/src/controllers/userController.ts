@@ -6,7 +6,7 @@ const userService = new UserService();
 export class UserController {
   async getUsers(req: Request, res: Response) {
     const users = await userService.getAllUsers();
-    res.json({ users });
+    res.status(200).json({ users });
   }
 
   async getUserById(req: Request, res: Response) {
@@ -24,11 +24,16 @@ export class UserController {
     const body = req.body;
     const user = await userService.createUser(body);
 
-    res.status(201).json({ user });
+    return res.status(201).json({ user });
   }
 
   async updateUser(req: Request, res: Response) {
     const { id } = req.params;
+
+    if (!req.user || req.user.userId !== id) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
     const body = req.body;
     const user = await userService.updateUser(id, body);
 
@@ -37,8 +42,17 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
-    await userService.deleteUser(id);
+    const authenticatedUser = req.user;
 
-    res.json({ message: 'User deleted successfully' });
+    if (!authenticatedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (authenticatedUser.userId !== id) {
+      return res.status(403).json({ error: 'Forbidden: You can only delete your own account' });
+    }
+
+    await userService.deleteUser(id);
+    return res.status(204).send();
   }
 }
