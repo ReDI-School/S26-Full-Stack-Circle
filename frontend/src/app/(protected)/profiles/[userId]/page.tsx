@@ -1,253 +1,50 @@
 'use client';
 
-import { Button, EventCard, EventCardProps, ProfileCard, StickyButton, TabNav } from '@components';
+import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-type ProfileTab = 'created' | 'going' | 'archived';
-
-type EventCardLoadedProps = Extract<EventCardProps, { isLoading?: false }>;
-
-type MockEvent = Omit<EventCardLoadedProps, 'action' | 'onActionClick' | 'isLoading'> & {
-  status: ProfileTab;
-};
-
-type BackendUser = {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: 'USER' | 'ADMIN';
-  createdAt: string;
-  updatedAt: string;
-  events: BackendEvent[];
-  attendances: BackendAttendance[];
-};
-
-type BackendEvent = {
-  id: string;
-  title: string;
-  description: string | null;
-  date: string;
-  location: string;
-  capacity: number;
-  organizerId: string;
-  organizer: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
-  attendances: BackendAttendanceSummary[];
-};
-
-type BackendAttendance = {
-  id: string;
-  userId: string;
-  eventId: string;
-  createdAt: string;
-  event: BackendEvent;
-};
-
-type BackendAttendanceSummary = {
-  id: string;
-  userId: string;
-  eventId: string;
-};
+import {
+  getAttendeesForEvent,
+  getMockProfileEvents,
+  getUserFullName,
+  mockProfileUser,
+  ProfileEvent,
+  ProfileTab,
+} from './mockProfileData';
 
 const PROFILE_TABS = ['CREATED', 'GOING', 'ARCHIVED'];
 const SKELETON_CARD_COUNT = 6;
 
 const normalizeTab = (tab: string | null): ProfileTab => {
-  if (tab === 'going' || tab === 'archived') return tab;
+  if (tab === 'created' || tab === 'going' || tab === 'archived') {
+    return tab;
+  }
+
   return 'created';
 };
 
-const createAttendanceSummaries = (eventId: string, count: number): BackendAttendanceSummary[] =>
-  Array.from({ length: count }, (_, index) => ({
-    id: `${eventId}-attendance-${index + 1}`,
-    userId: `user-${index + 1}`,
-    eventId,
-  }));
+const getActionForEvent = (event: ProfileEvent): 'join' | 'leave' | 'edit' => {
+  if (event.status === 'created') return 'edit';
+  if (event.status === 'going') return 'leave';
 
-const mockUser: BackendUser = {
-  id: '1',
-  email: 'fabio.rodrigues@example.com',
-  firstName: 'Fabio',
-  lastName: 'Rodrigues',
-  role: 'USER',
-  createdAt: '2026-01-10T10:00:00Z',
-  updatedAt: '2026-01-10T10:00:00Z',
-
-  // Created tab: events created/organized by this user
-  events: [
-    {
-      id: 'event-1',
-      title: 'React Summit 2026',
-      description:
-        'Join frontend developers from around the world to discuss the latest React features and ecosystem tools.',
-      date: '2026-06-10T18:00:00Z',
-      location: 'Berlin',
-      capacity: 300,
-      organizerId: '1',
-      organizer: {
-        id: '1',
-        firstName: 'Fabio',
-        lastName: 'Rodrigues',
-      },
-      attendances: createAttendanceSummaries('event-1', 120),
-    },
-    {
-      id: 'event-2',
-      title: 'UI/UX Design Workshop',
-      description: 'Hands-on workshop focused on creating accessible and modern user interfaces.',
-      date: '2026-06-12T14:00:00Z',
-      location: 'Hamburg',
-      capacity: 50,
-      organizerId: '1',
-      organizer: {
-        id: '1',
-        firstName: 'Fabio',
-        lastName: 'Rodrigues',
-      },
-      attendances: createAttendanceSummaries('event-2', 45),
-    },
-    {
-      id: 'event-3',
-      title: 'Startup Networking Meetup',
-      description:
-        'Meet founders, investors, and engineers building the next generation of startups.',
-      date: '2026-06-15T17:30:00Z',
-      location: 'Munich',
-      capacity: 120,
-      organizerId: '1',
-      organizer: {
-        id: '1',
-        firstName: 'Fabio',
-        lastName: 'Rodrigues',
-      },
-      attendances: createAttendanceSummaries('event-3', 88),
-    },
-  ],
-
-  // Going + Archived tabs: events this user is attending
-  attendances: [
-    {
-      id: 'attendance-1',
-      userId: '1',
-      eventId: 'event-4',
-      createdAt: '2026-05-01T10:00:00Z',
-      event: {
-        id: 'event-4',
-        title: '24hr Community Hackathon',
-        description:
-          'Collaborate with developers and designers to build innovative projects in 24 hours.',
-        date: '2026-06-20T20:00:00Z',
-        location: 'Berlin',
-        capacity: 100,
-        organizerId: '2',
-        organizer: {
-          id: '2',
-          firstName: 'Jane',
-          lastName: 'Smith',
-        },
-        attendances: createAttendanceSummaries('event-4', 67),
-      },
-    },
-    {
-      id: 'attendance-2',
-      userId: '1',
-      eventId: 'event-5',
-      createdAt: '2026-05-03T10:00:00Z',
-      event: {
-        id: 'event-5',
-        title: 'Product Management Meetup',
-        description:
-          'Discuss product strategy, prioritization, and scaling successful SaaS products.',
-        date: '2026-06-22T16:00:00Z',
-        location: 'Cologne',
-        capacity: 80,
-        organizerId: '3',
-        organizer: {
-          id: '3',
-          firstName: 'Alice',
-          lastName: 'Jones',
-        },
-        attendances: createAttendanceSummaries('event-5', 34),
-      },
-    },
-    {
-      id: 'attendance-3',
-      userId: '1',
-      eventId: 'event-6',
-      createdAt: '2026-04-01T10:00:00Z',
-      event: {
-        id: 'event-6',
-        title: 'Open Source Contributors Night',
-        description:
-          'Celebrate open source contributions and connect with maintainers and contributors.',
-        date: '2026-05-15T18:30:00Z',
-        location: 'Berlin',
-        capacity: 250,
-        organizerId: '4',
-        organizer: {
-          id: '4',
-          firstName: 'Bob',
-          lastName: 'Martin',
-        },
-        attendances: createAttendanceSummaries('event-6', 190),
-      },
-    },
-  ],
+  return 'join';
 };
 
-const getUserFullName = (user: Pick<BackendUser, 'firstName' | 'lastName'>) =>
-  `${user.firstName} ${user.lastName}`;
+const getEmptyStateMessage = (tab: ProfileTab) => {
+  if (tab === 'created') return 'You have not created any upcoming events yet.';
+  if (tab === 'going') return 'You are not going to any upcoming events yet.';
 
-const transformEventToCard = (event: BackendEvent, status: ProfileTab): MockEvent => ({
-  status,
-  date: new Date(event.date),
-  title: event.title,
-  author: `${event.organizer.firstName} ${event.organizer.lastName}`,
-  description: event.description ?? '',
-  attendeeCount: event.attendances.length,
-  maxAttendees: event.capacity,
-});
-
-const getProfileEvents = (user: BackendUser) => {
-  const now = new Date();
-
-  const createdEvents = user.events.map((event) => transformEventToCard(event, 'created'));
-
-  const goingEvents = user.attendances
-    .map((attendance) => attendance.event)
-    .filter((event) => new Date(event.date) >= now)
-    .map((event) => transformEventToCard(event, 'going'));
-
-  const archivedEvents = user.attendances
-    .map((attendance) => attendance.event)
-    .filter((event) => new Date(event.date) < now)
-    .map((event) => transformEventToCard(event, 'archived'));
-
-  return {
-    createdEvents,
-    goingEvents,
-    archivedEvents,
-  };
+  return 'You do not have any archived events yet.';
 };
 
-const fetchMockProfileEvents = async ({ user, tab }: { user: BackendUser; tab: ProfileTab }) => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+const fetchMockProfileEvents = async (tab: ProfileTab) => {
+  await new Promise((resolve) => setTimeout(resolve, 600));
 
-  const { createdEvents, goingEvents, archivedEvents } = getProfileEvents(user);
+  const profileEvents = getMockProfileEvents();
 
-  const eventsByTab: Record<ProfileTab, MockEvent[]> = {
-    created: createdEvents,
-    going: goingEvents,
-    archived: archivedEvents,
-  };
-
-  return eventsByTab[tab];
+  return profileEvents[tab];
 };
 
 const ProfilePage = () => {
@@ -257,23 +54,21 @@ const ProfilePage = () => {
 
   const activeTab = normalizeTab(searchParams.get('tab'));
 
-  const [events, setEvents] = useState<MockEvent[]>([]);
+  const [events, setEvents] = useState<ProfileEvent[]>([]);
   const [loadedTab, setLoadedTab] = useState<ProfileTab | null>(null);
 
   const isLoading = loadedTab !== activeTab;
 
-  const { createdEvents, goingEvents, archivedEvents } = useMemo(
-    () => getProfileEvents(mockUser),
-    []
-  );
+  const profileEvents = useMemo(() => getMockProfileEvents(), []);
 
-  const authoredEvents = createdEvents.length;
-  const goingToEvents = goingEvents.length;
-  const participatedEvents = archivedEvents.length;
+  const authoredEvents = profileEvents.created.length;
+  const goingToEvents = profileEvents.going.length;
+  const participatedEvents = profileEvents.archived.length;
 
   const handleTabChange = useCallback(
     (tab: string) => {
       const nextTab = normalizeTab(tab.toLowerCase());
+
       if (nextTab === activeTab) return;
 
       const nextParams = new URLSearchParams(searchParams.toString());
@@ -284,10 +79,24 @@ const ProfilePage = () => {
     [activeTab, pathname, router, searchParams]
   );
 
+  const handleCreateEvent = () => {
+    console.log('Create new event clicked');
+  };
+
+  const handleEventAction = (event: ProfileEvent) => {
+    const action = getActionForEvent(event);
+
+    console.log(`${action} clicked`, {
+      eventId: event.id,
+      title: event.title,
+      attendees: getAttendeesForEvent(event.id),
+    });
+  };
+
   useEffect(() => {
     let isMounted = true;
 
-    fetchMockProfileEvents({ user: mockUser, tab: activeTab }).then((fetchedEvents) => {
+    fetchMockProfileEvents(activeTab).then((fetchedEvents) => {
       if (!isMounted) return;
 
       setEvents(fetchedEvents);
@@ -300,9 +109,9 @@ const ProfilePage = () => {
   }, [activeTab]);
 
   return (
-    <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 md:py-10 color-bg-secondary">
+    <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 md:py-10">
       <ProfileCard
-        name={getUserFullName(mockUser)}
+        name={getUserFullName(mockProfileUser)}
         authoredEvents={authoredEvents}
         goingToEvents={goingToEvents}
         participatedEvents={participatedEvents}
@@ -316,7 +125,9 @@ const ProfilePage = () => {
         />
 
         <div className="hidden md:block">
-          <Button variant="idle">CREATE NEW EVENT</Button>
+          <Button variant="idle" onClick={handleCreateEvent}>
+            CREATE NEW EVENT
+          </Button>
         </div>
       </section>
 
@@ -331,26 +142,27 @@ const ProfilePage = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {events.map((event) => (
               <EventCard
-                key={`${event.title}-${event.date.toISOString()}`}
-                {...event}
-                action={event.status === 'going' ? 'leave' : 'edit'}
-                onActionClick={() =>
-                  console.log(`${event.status === 'going' ? 'Leave' : 'Edit'} ${event.title}`)
-                }
+                key={event.id}
+                date={event.date}
+                title={event.title}
+                author={event.author}
+                description={event.description}
+                attendeeCount={event.attendeeCount}
+                maxAttendees={event.maxAttendees}
+                action={getActionForEvent(event)}
+                onActionClick={() => handleEventAction(event)}
               />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center gap-4 py-24 text-center md:py-32">
-            <ProhibitIcon size={80} className="text-teal-500" aria-hidden="true" />
-            <p className="text-sm font-semibold tracking-wide text-teal-700">
-              THERE ARE NO EVENTS TO DISPLAY
-            </p>
+          <div className="flex min-h-60 flex-col items-center justify-center gap-3 rounded-base bg-white p-8 text-center shadow-[0px_1px_2px_0px_#00000026]">
+            <ProhibitIcon size={40} />
+            <p className="text-lg text-text-secondary">{getEmptyStateMessage(activeTab)}</p>
           </div>
         )}
       </section>
 
-      <StickyButton label="CREATE NEW EVENT" />
+      <StickyButton label="CREATE NEW EVENT" onClick={handleCreateEvent} />
     </main>
   );
 };
