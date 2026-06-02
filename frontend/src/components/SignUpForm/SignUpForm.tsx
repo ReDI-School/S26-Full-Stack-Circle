@@ -3,7 +3,6 @@ import { Button } from '../Button';
 import { InputField } from '../InputField';
 import { RegisterInput } from '@/validators/schemas';
 import { InfoBox } from '../InfoBox';
-import FieldError from '../FieldError/FieldError';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '@/validators/schemas';
 import type { SignUpFormProps } from './SignUpForm.types';
@@ -32,8 +31,6 @@ const SignUpForm = ({
     resolver: zodResolver(registerSchema),
     defaultValues: fieldValues ?? initialFormData,
   });
-
-  const getErrorId = (field: string) => `${field}-error`;
 
   const onValidSubmit = async (data: RegisterInput) => {
     await onSubmit(data);
@@ -74,9 +71,9 @@ const SignUpForm = ({
             type="text"
             placeholder=""
             disabled={isLoading}
+            error={errors.firstName?.message}
             {...register('firstName')}
           />
-          <FieldError id={getErrorId('firstName')} message={errors.firstName?.message} />
 
           <InputField
             required
@@ -84,9 +81,9 @@ const SignUpForm = ({
             type="text"
             placeholder=""
             disabled={isLoading}
+            error={errors.lastName?.message}
             {...register('lastName')}
           />
-          <FieldError id={getErrorId('lastName')} message={errors.lastName?.message} />
 
           <InputField
             required
@@ -94,11 +91,9 @@ const SignUpForm = ({
             type="email"
             placeholder="Enter your e-mail"
             disabled={isLoading}
-            aria-invalid={!!errors.email}
-            aria-describedby="email-error"
+            error={errors.email?.message}
             {...register('email')}
           />
-          <FieldError id={getErrorId('email')} message={errors.email?.message} />
 
           <InputField
             required
@@ -106,9 +101,9 @@ const SignUpForm = ({
             type="password"
             placeholder="********"
             disabled={isLoading}
+            error={errors.password?.message}
             {...register('password')}
           />
-          <FieldError id={getErrorId('password')} message={errors.password?.message} />
 
           <InputField
             required
@@ -116,9 +111,9 @@ const SignUpForm = ({
             type="password"
             placeholder="********"
             disabled={isLoading}
+            error={errors.repeatPassword?.message}
             {...register('repeatPassword')}
           />
-          <FieldError id={getErrorId('repeatPassword')} message={errors.repeatPassword?.message} />
         </div>
 
         <div className="text-center lg:text-left">
