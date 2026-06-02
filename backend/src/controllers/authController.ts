@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/authService.js';
+import { UserDTO } from '../dto/user.dto.js';
 
 export class AuthController {
   private readonly authService = new AuthService();
@@ -38,8 +39,7 @@ export class AuthController {
 
       const newUser = await this.authService.register(email, firstName, lastName, password);
 
-      const userResponse = { ...newUser } as any;
-      delete userResponse.passwordHash;
+      const userResponse = new UserDTO(newUser);
 
       return res.status(201).json(userResponse);
     } catch (error) {
