@@ -46,89 +46,76 @@ const SignUpForm = ({
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-md w-full">
-      <header className="flex flex-col gap-2">
-        <h2 className="text-center md:text-left text-[28px] font-normal leading-12 text-text-primary">
-          Get started for free
-        </h2>
+    <form
+      onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
+      className="flex flex-col gap-6 w-full"
+      noValidate
+    >
+      {serverError && <InfoBox variant="error" message={serverError} />}
+      <div className="flex flex-col gap-4">
+        <InputField
+          required
+          label="First name"
+          type="text"
+          placeholder=""
+          disabled={isLoading}
+          error={errors.firstName?.message}
+          {...register('firstName')}
+        />
 
-        <p className="text-center md:text-left text-[18px] font-normal leading-6 text-text-tertiary">
-          Enter your details below.
-        </p>
-      </header>
+        <InputField
+          required
+          label="Last name"
+          type="text"
+          placeholder=""
+          disabled={isLoading}
+          error={errors.lastName?.message}
+          {...register('lastName')}
+        />
 
-      {/* FORM */}
-      <form
-        onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)}
-        className="flex flex-col gap-6 w-full"
-        noValidate
-      >
-        {serverError && <InfoBox variant="error" message={serverError}></InfoBox>}
-        <div className="flex flex-col gap-4">
-          <InputField
-            required
-            label="First name"
-            type="text"
-            placeholder=""
-            disabled={isLoading}
-            error={errors.firstName?.message}
-            {...register('firstName')}
-          />
+        <InputField
+          required
+          label="E-mail"
+          type="email"
+          placeholder="Enter your e-mail"
+          disabled={isLoading}
+          error={errors.email?.message}
+          {...register('email')}
+        />
 
-          <InputField
-            required
-            label="Last name"
-            type="text"
-            placeholder=""
-            disabled={isLoading}
-            error={errors.lastName?.message}
-            {...register('lastName')}
-          />
+        <InputField
+          required
+          label="Password"
+          type="password"
+          placeholder="********"
+          disabled={isLoading}
+          error={errors.password?.message}
+          {...register('password')}
+        />
 
-          <InputField
-            required
-            label="E-mail"
-            type="email"
-            placeholder="Enter your e-mail"
-            disabled={isLoading}
-            error={errors.email?.message}
-            {...register('email')}
-          />
+        <InputField
+          required
+          label="Repeat password"
+          type="password"
+          placeholder="********"
+          disabled={isLoading}
+          error={errors.repeatPassword?.message}
+          {...register('repeatPassword')}
+        />
+      </div>
 
-          <InputField
-            required
-            label="Password"
-            type="password"
-            placeholder="********"
-            disabled={isLoading}
-            error={errors.password?.message}
-            {...register('password')}
-          />
-
-          <InputField
-            required
-            label="Repeat password"
-            type="password"
-            placeholder="********"
-            disabled={isLoading}
-            error={errors.repeatPassword?.message}
-            {...register('repeatPassword')}
-          />
-        </div>
-
-        <div className="text-center lg:text-left">
-          <Button
-            variant="primary"
-            state={isLoading ? 'loading' : 'default'}
-            type="submit"
-            data-testid="submit-button"
-            disabled={isLoading}
-          >
-            SIGN UP
-          </Button>
-        </div>
-      </form>
-    </div>
+      <div className="text-center lg:text-left">
+        <Button
+          variant="primary"
+          state={isLoading ? 'loading' : 'default'}
+          type="submit"
+          data-testid="submit-button"
+          disabled={isLoading}
+        >
+          SIGN UP
+        </Button>
+      </div>
+    </form>
   );
 };
 
