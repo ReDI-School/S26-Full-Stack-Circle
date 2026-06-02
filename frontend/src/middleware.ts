@@ -1,5 +1,6 @@
 import { jwtVerify } from 'jose';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const PUBLIC_AUTH_PATHS = ['/sign-in', '/sign-up'];
 
@@ -22,11 +23,11 @@ export async function middleware(request: NextRequest) {
   const isAuthPath = PUBLIC_AUTH_PATHS.some((path) => pathname.startsWith(path));
   const authenticated = token ? await isValidToken(token) : false;
 
-  if (authenticated && !isAuthPath) {
+  if (authenticated && isAuthPath) {
     return NextResponse.redirect(new URL('/events', request.url));
   }
 
-  if (!authenticated && isAuthPath) {
+  if (!authenticated && !isAuthPath) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
@@ -34,5 +35,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
