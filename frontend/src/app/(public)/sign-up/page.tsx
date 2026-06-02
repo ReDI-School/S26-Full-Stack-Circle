@@ -1,7 +1,7 @@
 'use client';
 
 import { SignUpForm } from '@components';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { RegisterInput } from '@/validators/schemas';
 
 const SignUp = () => {
