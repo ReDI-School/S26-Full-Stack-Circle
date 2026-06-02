@@ -25,14 +25,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 max-w-md w-full">
-      <hgroup className="flex flex-col gap-1 text-center lg:text-left">
-        <h2 className="text-3xl leading-12 text-text-primary font-normal">Get started for free</h2>
-        <p className="text-lg leading-6 text-text-tertiary">Enter your details below.</p>
-      </hgroup>
-
       <SignUpForm onSubmit={handleSubmit} isLoading={isLoading} serverError={serverError} />
-    </div>
   );
 };
 
