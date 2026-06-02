@@ -11,7 +11,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleSignIn = async (data: LoginInput) => {
-    const loggedIn = await signIn(data.email, data.password);
+    const loggedIn = await signIn(data);
 
     if (loggedIn) {
       router.push('/events');

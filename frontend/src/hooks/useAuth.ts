@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { loginRequest } from '@service/authService';
-//import { tokenStorage } from 'src/utils/tokenStorage';
+import { LoginInput } from '@validators/schemas';
 
 interface UserData {
   name: string;
@@ -21,7 +21,7 @@ export default function useAuth() {
     // TODO: Implement navigation to profile page
   };
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async ({ email, password }: LoginInput) => {
     try {
       setLoading(true);
       setError(undefined);
