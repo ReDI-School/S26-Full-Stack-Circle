@@ -2,26 +2,20 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { InputField } from '../InputField';
 import { Button } from '../Button';
 import { InfoBox } from '../InfoBox';
 import type { SignInFormProps } from './SignInForm.types';
-
-const signInSchema = z.object({
-  email: z.email({ error: 'Invalid email format.' }).min(1, 'This field is mandatory'),
-  password: z.string().min(1, 'This field is mandatory'),
-});
-
-type SignInForlgata = z.infer<typeof signInSchema>;
+import { loginSchema } from '@/validators/schemas';
+import type { LoginInput } from '@/validators/schemas';
 
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignInForlgata>({
-    resolver: zodResolver(signInSchema),
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
   });
 
   return (

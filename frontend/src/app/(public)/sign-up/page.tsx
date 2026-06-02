@@ -1,23 +1,29 @@
-import Link from 'next/link';
+'use client';
 
-const SignIn = () => {
+import { SignUpForm } from '@components';
+import { useState, useCallback } from 'react';
+import { RegisterInput } from '@/validators/schemas';
+
+const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState<string>();
+
+  const handleSubmit = useCallback(async (data: RegisterInput) => {
+    setIsLoading(true);
+    setServerError(undefined);
+    try {
+      console.log('Register:', data);
+      // TODO: call POST /auth/register endpoint
+    } catch {
+      setServerError('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return (
-    <div className="size-full grid grid-rows-[auto_1fr]">
-      <div className="w-full flex justify-end gap-2 text-text-tertiary">
-        Already have account?{' '}
-        <Link
-          href="/sign-in"
-          className="text-primary hover:text-primary-dark underline underline-offset-3 transition-colors"
-        >
-          SIGN IN
-        </Link>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-5">
-        <h1>Sign Up</h1>
-        <p>add your form here</p>
-      </div>
-    </div>
+    <SignUpForm onSubmit={handleSubmit} isLoading={isLoading} serverError={serverError} />
   );
 };
 
-export default SignIn;
+export default SignUp;

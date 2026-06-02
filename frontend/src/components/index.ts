@@ -10,6 +10,7 @@ export * from './InfoBox';
 export * from './Skeleton';
 export * from './Logo';
 export * from './Sidebar';
+export * from './SignUpForm';
 export * from './LinkButton';
 export * from './TabNav';
 export * from './Tag';
