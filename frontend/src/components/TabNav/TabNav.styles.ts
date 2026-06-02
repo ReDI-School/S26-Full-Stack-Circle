@@ -4,8 +4,10 @@ export const tabStyles = tv({
   base: [
     'px-4',
     'py-2',
+    'flex-1',
     'text-sm',
     'font-medium',
+    'text-center',
     'cursor-pointer',
     'bg-transparent',
     'border-b-2',
@@ -13,6 +15,7 @@ export const tabStyles = tv({
     'transition-[colors_opacity]',
     'duration-200',
     'focus:outline-none',
+    'md:flex-none',
   ],
   variants: {
     active: {
