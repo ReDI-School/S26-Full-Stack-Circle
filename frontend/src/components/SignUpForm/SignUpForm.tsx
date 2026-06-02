@@ -32,8 +32,8 @@ const SignUpForm = ({
     defaultValues: fieldValues ?? initialFormData,
   });
 
-  const onValidSubmit = async (data: RegisterInput) => {
-    await onSubmit(data);
+  const onValidSubmit = async ({ firstName, lastName, email, password }: RegisterInput) => {
+    await onSubmit({ firstName, lastName, email, password });
     reset();
   };
 

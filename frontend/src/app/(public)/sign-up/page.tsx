@@ -8,18 +8,21 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState<string>();
 
-  const handleSubmit = useCallback(async (data: RegisterInput) => {
+  const handleSubmit = async (data: Omit<RegisterInput, 'repeatPassword'>) => {
     setIsLoading(true);
     setServerError(undefined);
     try {
       console.log('Register:', data);
-      // TODO: call POST /auth/register endpoint
+
+      // TODO: Call POST /users with data.
+      // On success (201), redirect to /sign-in.
+      // On non-ok response, parse the JSON body and call setServerError with the error message.
     } catch {
       setServerError('Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  };
 
   return (
     <div className="flex flex-col gap-8 max-w-md w-full">
