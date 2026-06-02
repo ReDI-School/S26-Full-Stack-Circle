@@ -2,12 +2,11 @@ import { tv } from 'tailwind-variants';
 
 export const publicLayoutStyles = tv({
   slots: {
-    main: ['flex', 'flex-col', 'lg:flex-row', 'h-screen', 'overflow-hidden'],
+    main: ['flex', 'flex-col', 'lg:flex-row', 'min-h-dvh', 'lg:h-dvh', 'lg:overflow-hidden'],
     logoMobile: ['flex', 'lg:hidden', 'pt-7.5', 'items-center', 'justify-center'],
     sidebar: ['hidden', 'lg:block', 'w-120'],
     content: [
       'size-full',
-      'min-h-screen',
       'overflow-y-auto',
       'relative',
       'p-7.5',
