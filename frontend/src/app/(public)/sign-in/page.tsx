@@ -1,10 +1,20 @@
 'use client';
+import { useRouter } from 'next/navigation';
 
 import { SignInForm } from '@components';
+import useAuth from '@hooks/useAuth';
+import { LoginInput } from '@validators/schemas';
 
 export default function LoginPage() {
-  const handleSignIn = (data: { email: string; password: string }) => {
-    console.log('Form Ready for Backend:', data);
+  const { signIn, loading, error } = useAuth();
+  const router = useRouter();
+
+  const handleSignIn = async (data: LoginInput) => {
+    const loggedIn = await signIn(data);
+
+    if (loggedIn) {
+      router.push('/events');
+    }
   };
 
   return <SignInForm onSubmit={handleSignIn} />;

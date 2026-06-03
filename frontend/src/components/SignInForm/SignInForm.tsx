@@ -10,10 +10,20 @@ import { loginSchema } from '@/validators/schemas';
 import type { LoginInput } from '@/validators/schemas';
 
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<SignInForlgata>({
+  //   resolver: zodResolver(signInSchema),
+  // });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });

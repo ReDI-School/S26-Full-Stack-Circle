@@ -16,3 +16,5 @@ export * from './TabNav';
 export * from './Tag';
 export * from './PublicLayout';
 export * from './SignInForm';
+export * from './ProtectedLayout';
+export * from './UserArea';

@@ -14,11 +14,15 @@
     "jsx": "react-jsx",
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "@components/*": ["./src/components/*"],
       "@components": ["./src/components"],
-      "@/*": ["./src/*"]
+      "@config": ["./src/config"],
+      "@service/*": ["./src/service/*"],
+      "@types": ["./src/types"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@validators/*": ["./src/validators/*"],
+      "@/*": ["./src/*"],
     },
     "plugins": [
       {
@@ -32,6 +36,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "../middleware.ts"
   ],
   "exclude": ["node_modules"]
 }
