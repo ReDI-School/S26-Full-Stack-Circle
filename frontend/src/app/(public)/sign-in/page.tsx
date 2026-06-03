@@ -13,7 +13,6 @@ export default function LoginPage() {
     const loggedIn = await signIn(data);
 
     if (loggedIn) {
-      console.log('Login successful, redirecting to /events');
       router.push('/events');
     }
   };
