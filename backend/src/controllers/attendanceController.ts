@@ -34,4 +34,28 @@ export class AttendanceController {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  async cancelAttendance(req: Request, res: Response) {
+    try {
+      const eventId = req.params.id;
+      const userId = req.user?.userId;
+
+      if (!userId) {
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
+      }
+
+      await attendanceService.cancelAttendance(userId, eventId);
+
+      res.status(204).send();
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'NOT_REGISTERED') {
+          res.status(404).json({ error: 'You are not registered for this event' });
+          return;
+        }
+      }
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
 }
