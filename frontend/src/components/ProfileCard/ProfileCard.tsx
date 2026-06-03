@@ -3,12 +3,14 @@ import { profileCardStyles } from './ProfileCard.styles';
 import Card from '../Card/Card';
 import Avatar from '../Avatar/Avatar';
 import { getInitials } from '../../utils/utils';
+import { TrashIcon } from '@phosphor-icons/react';
 
 const ProfileCard = ({
   name,
   authoredEvents,
   goingToEvents,
   participatedEvents,
+  onDeleteProfile,
 }: ProfileCardProps) => {
   const nameInitials = getInitials(name);
   return (
@@ -30,6 +32,9 @@ const ProfileCard = ({
             </p>
           </span>
         </div>
+        <button>
+          <TrashIcon size={32} onClick={() => console.log('Clicked')} />
+        </button>
       </span>
     </Card>
   );

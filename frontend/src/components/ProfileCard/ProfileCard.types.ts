@@ -18,6 +18,7 @@ interface ProfileCardProps {
    * The number of events the user has participated in. This number is displayed in the brief activity summary.
    */
   participatedEvents: number;
+  onDeleteProfile: () => void;
 }
 
 export type { ProfileCardProps };
