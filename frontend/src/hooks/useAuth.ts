@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { loginRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
 
