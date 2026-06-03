@@ -38,24 +38,17 @@ export class AttendanceController {
   async cancelAttendance(req: Request, res: Response) {
     try {
       const eventId = req.params.id;
-      const userId = req.user?.userId;
-
-      if (!userId) {
-        res.status(401).json({ error: 'Unauthorized' });
-        return;
-      }
+      const userId = req.user!.userId;
 
       await attendanceService.cancelAttendance(userId, eventId);
 
-      res.status(204).send();
+      return res.status(204).send();
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === 'NOT_REGISTERED') {
-          res.status(404).json({ error: 'You are not registered for this event' });
-          return;
-        }
+      if (error instanceof Error && error.message === 'NOT_REGISTERED') {
+        return res.status(404).json({ error: 'You are not registered for this event' });
       }
-      res.status(500).json({ error: 'Internal server error' });
+
+      return res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
