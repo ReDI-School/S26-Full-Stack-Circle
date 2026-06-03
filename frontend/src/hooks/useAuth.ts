@@ -12,7 +12,7 @@ const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserData | null>(MOCK_USER);
   const signOut = () => {
     // TODO: Implement real sign-out logic
   };
@@ -40,9 +40,9 @@ export default function useAuth() {
     }
   };
 
-  useEffect(() => {
-    setUser(MOCK_USER);
-  }, []);
+  // useEffect(() => {
+  //   setUser(MOCK_USER);
+  // }, []);
 
-  return { signIn, loading, error, goToProfile, signOut, user };
+  return { signIn, loading, error, goToProfile, signOut, user, setUser };
 }
