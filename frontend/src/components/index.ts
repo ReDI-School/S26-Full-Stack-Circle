@@ -17,3 +17,4 @@ export * from './PublicLayout';
 export * from './SignInForm';
 export * from './FormCard';
 export * from './ProtectedLayout';
+export * from './UserArea';
