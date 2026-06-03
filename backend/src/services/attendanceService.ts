@@ -50,7 +50,5 @@ export class AttendanceService {
     if (deleteResult.count === 0) {
       throw new Error('NOT_REGISTERED');
     }
-
-    return deleteResult;
   }
 }
