@@ -16,8 +16,8 @@ eventRouter.post('/', authenticate, validate(createEventSchema), (req, res) =>
   eventController.createEvent(req, res)
 );
 eventRouter.post('/:id/attend', authenticate, (req, res) => attendanceController.attend(req, res));
-eventRouter.delete('/:id/attend', authenticate, (req, res) =>
-  attendanceController.cancelAttendance(req, res)
+eventRouter.delete('/:id/attend', authenticate, (req, res, next) =>
+  attendanceController.cancelAttendance(req, res, next)
 );
 eventRouter.get('/:id', (req, res) => eventController.getEventById(req, res));
 eventRouter.put('/:id', authenticate, validate(updateEventSchema), (req, res) =>

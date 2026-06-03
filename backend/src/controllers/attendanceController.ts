@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AttendanceService } from '../services/attendanceService.js';
 
 const attendanceService = new AttendanceService();
@@ -35,7 +35,7 @@ export class AttendanceController {
     }
   }
 
-  async cancelAttendance(req: Request, res: Response) {
+  async cancelAttendance(req: Request, res: Response, next: NextFunction) {
     try {
       const eventId = req.params.id;
       const userId = req.user!.userId;
@@ -48,7 +48,7 @@ export class AttendanceController {
         return res.status(404).json({ error: 'You are not registered for this event' });
       }
 
-      return res.status(500).json({ error: 'Internal server error' });
+      next(error);
     }
   }
 }
