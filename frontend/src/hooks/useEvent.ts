@@ -49,7 +49,7 @@ export default function useEvent({ id }: { id: string }) {
     }
 
     loadEvent();
-  }, [id]);
+  }, [id, isAtending]);
 
   const action: EventCardAction = isOwner ? 'edit' : isAtending ? 'leave' : 'join';
 
