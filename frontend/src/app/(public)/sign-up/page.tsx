@@ -15,8 +15,8 @@ const SignUp = () => {
     try {
       setIsLoading(true);
       setServerError(undefined);
-
       await registerRequest(data);
+      // After successful registration, log the user in and redirect to /events
       await loginRequest(data.email, data.password);
       router.push('/events');
     } catch (err: unknown) {
