@@ -10,55 +10,45 @@ import { loginSchema } from '@/validators/schemas';
 import type { LoginInput } from '@/validators/schemas';
 
 export const SignInForm = ({ onSubmit, isLoading, serverError }: SignInFormProps) => {
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<SignInForlgata>({
-  //   resolver: zodResolver(signInSchema),
-  // });
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
   });
 
   return (
-      <form
-        onSubmit={handleSubmit((data) => onSubmit(data))}
-        className="flex flex-col gap-6 w-full max-w-[400px]"
-        noValidate
-      >
-        {serverError && <InfoBox variant="error" message={serverError}></InfoBox>}
+    <form
+      onSubmit={handleSubmit((data) => onSubmit(data))}
+      className="flex flex-col gap-6 w-full max-w-100"
+      noValidate
+    >
+      {serverError && <InfoBox variant="error" message={serverError}></InfoBox>}
 
-        <div className="flex flex-col gap-4">
-          <InputField
-            label="E-mail"
-            type="email"
-            placeholder="Enter your e-mail"
-            disabled={isLoading}
-            error={errors.email?.message}
-            {...register('email')}
-          />
-          <InputField
-            label="Password"
-            type="password"
-            placeholder="********"
-            disabled={isLoading}
-            error={errors.password?.message}
-            {...register('password')}
-          />
-        </div>
-        <div className="text-center lg:text-left">
-          <Button variant="primary" state={isLoading ? 'loading' : 'default'} type="submit">
-            SIGN IN
-          </Button>
-        </div>
-      </form>
+      <div className="flex flex-col gap-4">
+        <InputField
+          label="E-mail"
+          type="email"
+          placeholder="Enter your e-mail"
+          disabled={isLoading}
+          error={errors.email?.message}
+          {...register('email')}
+        />
+        <InputField
+          label="Password"
+          type="password"
+          placeholder="********"
+          disabled={isLoading}
+          error={errors.password?.message}
+          {...register('password')}
+        />
+      </div>
+      <div className="text-center lg:text-left">
+        <Button variant="primary" state={isLoading ? 'loading' : 'default'} type="submit">
+          SIGN IN
+        </Button>
+      </div>
+    </form>
   );
 };

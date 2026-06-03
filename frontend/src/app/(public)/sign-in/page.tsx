@@ -13,9 +13,10 @@ export default function LoginPage() {
     const loggedIn = await signIn(data);
 
     if (loggedIn) {
+      console.log('Login successful, redirecting to /events');
       router.push('/events');
     }
   };
 
-  return <SignInForm onSubmit={handleSignIn} />;
+  return <SignInForm onSubmit={handleSignIn} isLoading={loading} serverError={error} />;
 }
