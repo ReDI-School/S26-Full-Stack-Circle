@@ -3,7 +3,7 @@
 import { SignUpForm } from '@components';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerRequest } from '@service/authService';
+import { registerRequest, loginRequest } from '@service/authService';
 import { RegisterInput } from '@/validators/schemas';
 
 const SignUp = () => {
@@ -16,9 +16,9 @@ const SignUp = () => {
       setIsLoading(true);
       setServerError(undefined);
 
-      const registerData = await registerRequest(data);
-      console.log('Registration successful:', registerData);
-      // login the user in or redirect to login page
+      await registerRequest(data);
+      await loginRequest(data.email, data.password);
+      router.push('/events');
     } catch (err: unknown) {
       if (err instanceof Error) {
         setServerError(err.message);
