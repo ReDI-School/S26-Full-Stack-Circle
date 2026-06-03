@@ -4,7 +4,7 @@ import { UserDTO } from '../dto/user.dto.js';
 
 export class UserService {
   async getAllUsers() {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({ omit: { passwordHash: true } });
   }
 
   async getUserById(id: string) {
@@ -17,22 +17,24 @@ export class UserService {
     });
   }
 
-  async createUser(data: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
-    role?: 'USER' | 'ADMIN';
-  }) {
-    const passwordHash = await bcrypt.hash(data.password, 10);
+  async createUser(data: { email: string; firstName: string; lastName: string; password: string }) {
+    const existingUser = await this.findUserByEmail(data.email);
 
+    if (existingUser) {
+      throw new Error('EMAIL_ALREADY_IN_USE');
+    }
+
+    const passwordHash = await bcrypt.hash(data.password, 10);
     return await prisma.user.create({
+      omit: {
+        passwordHash: true,
+      },
       data: {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         passwordHash,
-        role: data.role ?? 'USER',
+        role: 'USER',
       },
     });
   }
@@ -48,6 +50,12 @@ export class UserService {
   async deleteUser(id: string) {
     return await prisma.user.delete({
       where: { id },
+    });
+  }
+
+  async findUserByEmail(email: string) {
+    return prisma.user.findUnique({
+      where: { email },
     });
   }
 }
