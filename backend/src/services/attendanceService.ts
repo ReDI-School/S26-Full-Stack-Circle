@@ -1,4 +1,4 @@
-import prisma from 'src/libs/prisma.js';
+import prisma from '../libs/prisma.js';
 
 export class AttendanceService {
   async getAttendees(eventId: string) {

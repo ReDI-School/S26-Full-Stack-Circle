@@ -36,8 +36,6 @@ export default function EventPage() {
   }
   if (!event) return <div>Couldn't find the event</div>;
 
-  console.log(action);
-
   return (
     <main className="flex flex-col gap-8">
       <div className="flex justify-between">

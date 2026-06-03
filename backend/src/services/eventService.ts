@@ -1,5 +1,5 @@
 import prisma from '../libs/prisma.js';
-import { Prisma } from 'generated/prisma/client.js';
+import { Prisma } from '../../generated/prisma/client.js';
 import type { UpdateEventData } from '../types/event.js';
 export class EventService {
   async getEvents(filter?: 'upcoming' | 'past') {
@@ -86,7 +86,6 @@ export class EventService {
       return null;
     }
 
-    // Add isOwner field
     const isOwner = event.organizerId === userId;
     const isAtending = event.attendances.map((atendee) => atendee.user.id).includes(userId);
 

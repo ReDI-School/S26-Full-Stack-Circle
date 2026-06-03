@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { loginRequest } from '@service/authService';
+import { loginRequest } from '@services/authService';
 import { LoginInput } from '@validators/schemas';
 
 interface UserData {

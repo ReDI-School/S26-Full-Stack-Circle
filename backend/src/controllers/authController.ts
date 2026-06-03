@@ -15,10 +15,12 @@ export class AuthController {
 
       const token = await this.authService.login(email, password);
 
+      const isProduction = process.env.NODE_ENV === 'production';
+
       res.cookie('token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'strict' : 'lax',
         maxAge: 1000 * 60 * 10,
       });
 

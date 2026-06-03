@@ -1,12 +1,9 @@
-import { Attendance } from '@types/event';
+import { Attendance } from '../types/event';
 
 function getHeaders(): HeadersInit {
-  const headers: HeadersInit = {};
-  const token = localStorage.getItem('token');
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-  return headers;
+  return {
+    'Content-Type': 'application/json',
+  };
 }
 
 function getApiUrl(): string {
@@ -32,7 +29,10 @@ export type RawEvent = {
 
 export async function fetchEventById(id: string): Promise<RawEvent> {
   const url = `${getApiUrl()}/events/${id}`;
-  const res = await fetch(url, { headers: getHeaders() });
+  const res = await fetch(url, {
+    headers: getHeaders(),
+    credentials: 'include',
+  });
 
   if (!res.ok) {
     throw new Error(`Failed to fetch event: ${res.status}`);
@@ -47,6 +47,7 @@ export async function joinEvent(eventId: string): Promise<RawEvent> {
   const res = await fetch(url, {
     method: 'POST',
     headers: getHeaders(),
+    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -62,6 +63,7 @@ export async function leaveEvent(eventId: string): Promise<void> {
   const res = await fetch(url, {
     method: 'DELETE',
     headers: getHeaders(),
+    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -74,6 +76,7 @@ export async function updateEvent(id: string, updates: Partial<RawEvent>): Promi
   const res = await fetch(url, {
     method: 'PUT',
     headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(updates),
   });
 

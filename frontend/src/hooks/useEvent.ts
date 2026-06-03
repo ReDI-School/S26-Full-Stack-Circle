@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { fetchEventById } from '@services/eventService';
-import type { EventData, Attendance } from '@types/event';
+import { EventData, Attendance } from '../types/event';
 import { EventCardAction } from '@components/EventCard/EventCard.types';
-import { joinEvent, leaveEvent, updateEvent } from '@services/eventService';
+import { joinEvent, leaveEvent } from '@services/eventService';
 
 export default function useEvent({ id }: { id: string }) {
   const [event, setEvent] = useState<EventData | null>(null);
@@ -22,7 +22,6 @@ export default function useEvent({ id }: { id: string }) {
 
       try {
         const rawEvent = await fetchEventById(id);
-        console.log(rawEvent);
 
         const formatedEvent: EventData = {
           id: rawEvent.id,
@@ -34,7 +33,7 @@ export default function useEvent({ id }: { id: string }) {
           organizer: `${rawEvent.organizer.firstName} ${rawEvent.organizer.lastName}`,
           attendeeCount: rawEvent.attendances.length,
           attendees: rawEvent.attendances.map(
-            (attendance: Attendance) => attendance.user.firstName
+            (attendance: Attendance) => `${attendance.user.firstName} ${attendance.user.lastName}`
           ),
           attendances: rawEvent.attendances,
         };
