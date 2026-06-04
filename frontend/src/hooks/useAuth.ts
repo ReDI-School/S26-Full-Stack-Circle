@@ -40,9 +40,5 @@ export default function useAuth() {
     }
   };
 
-  // useEffect(() => {
-  //   setUser(MOCK_USER);
-  // }, []);
-
   return { signIn, loading, error, goToProfile, signOut, user, setUser };
 }
