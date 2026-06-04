@@ -55,7 +55,7 @@ const SignUpForm = ({
       <div className="flex flex-col gap-4">
         <InputField
           required
-          label="First name"
+          label="First Name"
           type="text"
           placeholder=""
           disabled={isLoading}
@@ -65,7 +65,7 @@ const SignUpForm = ({
 
         <InputField
           required
-          label="Last name"
+          label="Last Name"
           type="text"
           placeholder=""
           disabled={isLoading}
@@ -95,7 +95,7 @@ const SignUpForm = ({
 
         <InputField
           required
-          label="Repeat password"
+          label="Repeat Password"
           type="password"
           placeholder="********"
           disabled={isLoading}
