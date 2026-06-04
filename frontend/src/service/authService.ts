@@ -1,7 +1,7 @@
 import { config } from '../config';
-import type { RegisterInput } from '@validators/schemas';
+import type { LoginInput, RegisterInput } from '@validators/schemas';
 
-export async function loginRequest(email: string, password: string): Promise<void> {
+export async function loginRequest(data: LoginInput): Promise<void> {
   const { apiUrl } = await config();
 
   const res = await fetch(`${apiUrl}/auth/login`, {
@@ -10,19 +10,17 @@ export async function loginRequest(email: string, password: string): Promise<voi
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify(data),
   });
 
-  const data = await res.json();
+  const json = await res.json();
 
   if (!res.ok) {
-    throw new Error(data?.error || 'Login failed');
+    throw new Error(json?.error || 'Login failed');
   }
 }
 
-export async function registerRequest(
-  data: Omit<RegisterInput, 'repeatPassword'>
-): Promise<void> {
+export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
   const { apiUrl } = await config();
 
   const res = await fetch(`${apiUrl}/auth/register`, {
