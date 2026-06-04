@@ -8,7 +8,6 @@ export const publicLayoutStyles = tv({
     content: [
       'size-full',
       'overflow-y-auto',
-      'relative',
       'p-7.5',
       'lg:p-12.5',
       'flex',
@@ -17,12 +16,8 @@ export const publicLayoutStyles = tv({
       'lg:flex-col',
       'gap-10',
       'items-center',
-      'justify-center',
     ],
     navigBlock: [
-      'lg:absolute',
-      'top-12.5',
-      'right-12.5',
       'w-full',
       'flex',
       'gap-1',
