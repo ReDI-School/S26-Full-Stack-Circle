@@ -53,4 +53,9 @@ export class AuthController {
       next(error);
     }
   }
+
+  async logout(req: Request, res: Response) {
+    res.clearCookie('token', { httpOnly: true, sameSite: 'lax' });
+    return res.json({ ok: true });
+  }
 }
