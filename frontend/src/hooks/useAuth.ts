@@ -15,18 +15,21 @@ export default function useAuth() {
   const [user, setUser] = useState<UserData | null>(MOCK_USER);
   const signOut = () => {
     // TODO: Implement real sign-out logic
+    //  Clear the token cookie (via an API call or by setting cookie to empty)
+    //  Set user to null
+    //  Redirect to /sign-in
   };
 
   const goToProfile = () => {
     // TODO: Implement navigation to profile page
   };
 
-  const signIn = async ({ email, password }: LoginInput) => {
+  const signIn = async (data: LoginInput) => {
     try {
       setLoading(true);
       setError(undefined);
 
-      await loginRequest(email, password);
+      await loginRequest(data);
 
       return true;
     } catch (err: unknown) {
