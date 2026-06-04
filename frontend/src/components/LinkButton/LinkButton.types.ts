@@ -10,4 +10,10 @@ export interface LinkButtonProps extends LinkProps {
    * Label displayed after the icon
    */
   children: React.ReactNode;
+
+  /** Controls the text color. Defaults to 'primary'. */
+  color?: 'primary' | 'secondary';
+
+  /** When true, the link is always underlined (not just on hover). */
+  underlined?: boolean;
 }
