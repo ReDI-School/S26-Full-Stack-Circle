@@ -13,7 +13,7 @@ export class AuthController {
         return res.status(400).json({ error: 'Email and password are required' });
       }
 
-      const token = await this.authService.login(email, password);
+      const { token, user } = await this.authService.login(email, password);
 
       res.cookie('token', token, {
         httpOnly: true,
@@ -22,7 +22,8 @@ export class AuthController {
         maxAge: 1000 * 60 * 10,
       });
 
-      return res.json({ ok: true });
+      const userResponse = new UserDTO(user);
+      return res.json({ ok: true, user: userResponse });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
