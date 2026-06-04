@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { loginRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
+import { config } from '../config';
 
 interface UserData {
   name: string;
   initials: string;
 }
 
-const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
-
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const [user, setUser] = useState<UserData | null>(MOCK_USER);
-  const signOut = () => {
-    // TODO: Implement real sign-out logic
-    //  Clear the token cookie (via an API call or by setting cookie to empty)
-    //  Set user to null
-    //  Redirect to /sign-in
+  const [user, setUser] = useState<UserData | null>(null);
+  const signOut = async () => {
+    try {
+      const { apiUrl } = await config();
+      await fetch(`${apiUrl}/auth/logout`, { method: 'POST', credentials: 'include' });
+    } finally {
+      setUser(null);
+    }
   };
 
   const goToProfile = () => {
@@ -29,7 +30,8 @@ export default function useAuth() {
       setLoading(true);
       setError(undefined);
 
-      await loginRequest(data);
+      const loggedUser: UserData = await loginRequest(data);
+      setUser(loggedUser);
 
       return true;
     } catch (err: unknown) {
@@ -38,6 +40,7 @@ export default function useAuth() {
       } else {
         setError('An unknown error occurred');
       }
+      return;
     } finally {
       setLoading(false);
     }
