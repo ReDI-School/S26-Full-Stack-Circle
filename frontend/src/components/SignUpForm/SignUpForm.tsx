@@ -34,7 +34,6 @@ const SignUpForm = ({
 
   const onValidSubmit = async ({ firstName, lastName, email, password }: RegisterInput) => {
     await onSubmit({ firstName, lastName, email, password });
-    reset();
   };
 
   const onInvalidSubmit = (errors: FieldErrors<RegisterInput>) => {
