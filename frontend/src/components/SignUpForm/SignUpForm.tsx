@@ -24,7 +24,6 @@ const SignUpForm = ({
   const {
     register,
     handleSubmit,
-    reset,
     setFocus,
     formState: { errors },
   } = useForm<RegisterInput>({
