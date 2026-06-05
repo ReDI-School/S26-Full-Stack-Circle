@@ -22,6 +22,10 @@
       "@types": ["./src/types"],
       "@hooks/*": ["./src/hooks/*"],
       "@validators/*": ["./src/validators/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@utils": ["./src/utils"],
+      "@context/*": ["./src/context/*"],
+      "@context": ["./src/context"],
       "@/*": ["./src/*"]
     },
     "plugins": [

@@ -1,24 +1,21 @@
 import { useState } from 'react';
+import { useAuthContext } from '@context/AuthContext';
 import { loginRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
-
-interface UserData {
-  name: string;
-  initials: string;
-}
-
-const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
+import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
-  const [user, setUser] = useState<UserData | null>(MOCK_USER);
+  const { authUser } = useAuthContext();
+  const router = useRouter();
+
   const signOut = () => {
-    // TODO: Implement real sign-out logic
+    // TODO: clear cookie, then setAuthUser(null) + redirect
   };
 
   const goToProfile = () => {
-    // TODO: Implement navigation to profile page
+    if (authUser) router.push(`/profiles/${authUser.id}`); // update route when profile page is implemented
   };
 
   const signIn = async ({ email, password }: LoginInput) => {
@@ -40,5 +37,5 @@ export default function useAuth() {
     }
   };
 
-  return { signIn, loading, error, goToProfile, signOut, user, setUser };
+  return { signIn, loading, error, goToProfile, signOut };
 }
