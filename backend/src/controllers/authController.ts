@@ -59,7 +59,7 @@ export class AuthController {
   async me(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.user!;
-      const user = await userService.getUserById(userId);
+      const user = await this.userService.getUserById(userId);
 
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
