@@ -76,8 +76,9 @@ export default function useAuth() {
       // Continue clearing local state
     } finally {
       clearAuthUser();
+      router.push('/sign-in');
     }
-  }, [clearAuthUser]);
+  }, [clearAuthUser, router]);
 
   const goToProfile = useCallback(() => {
     if (authUser) router.push(`/profiles/${authUser.id}`);
