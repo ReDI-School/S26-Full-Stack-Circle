@@ -11,13 +11,8 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-interface AuthProviderProps {
-  initialUser: AuthUser | null;
-  children: React.ReactNode;
-}
-
-export const AuthProvider = ({ initialUser, children }: AuthProviderProps) => {
-  const [authUser, setAuthUser] = useState<AuthUser | null>(initialUser);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
 
   const clearAuthUser = () => {
     setAuthUser(null);
