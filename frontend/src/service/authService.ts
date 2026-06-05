@@ -38,6 +38,11 @@ export async function getProfileRequest(): Promise<AuthUser | null> {
   return json.user;
 }
 
+export async function logoutRequest(): Promise<void> {
+  const { apiUrl } = await config();
+  await fetch(`${apiUrl}/auth/logout`, { method: 'POST', credentials: 'include' });
+}
+
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
   const { apiUrl } = await config();
 
