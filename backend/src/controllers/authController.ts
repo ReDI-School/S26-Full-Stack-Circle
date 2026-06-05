@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/authService.js';
 import { UserDTO } from '../dto/user.dto.js';
+import { UserService } from '../services/userService.js';
 
 export class AuthController {
   private readonly authService = new AuthService();
+  private readonly userService = new UserService();
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -50,6 +52,22 @@ export class AuthController {
         return res.status(409).json({ error: 'Email is already in use' });
       }
 
+      next(error);
+    }
+  }
+
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.user!;
+      const user = await userService.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const userResponse = new UserDTO(user);
+      return res.json({ user: userResponse });
+    } catch (error) {
       next(error);
     }
   }
