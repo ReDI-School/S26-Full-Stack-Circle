@@ -3,7 +3,7 @@
 import { SignUpForm } from '@components';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { registerRequest, loginRequest } from '@service/authService';
+import { registerRequest } from '@service/authService';
 import { RegisterInput } from '@/validators/schemas';
 import useAuth from '@hooks/useAuth';
 
