@@ -30,6 +30,14 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
   return json.user;
 }
 
+export async function getProfileRequest(): Promise<AuthUser | null> {
+  const { apiUrl } = await config();
+  const res = await fetch(`${apiUrl}/auth/me`, { credentials: 'include' });
+  const json = await res.json();
+  if (!res.ok) return null;
+  return json.user;
+}
+
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
   const { apiUrl } = await config();
 
