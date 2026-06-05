@@ -40,7 +40,7 @@ export default function useAuth() {
       } else {
         setError('An unknown error occurred');
       }
-      return;
+      return false;
     } finally {
       setLoading(false);
     }
