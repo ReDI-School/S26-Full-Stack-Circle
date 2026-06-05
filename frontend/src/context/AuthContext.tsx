@@ -11,8 +11,8 @@ export interface AuthUser {
 }
 
 interface AuthContextValue {
-  authUser: AuthUser | null;
-  setAuthUser: (user: AuthUser | null) => void;
+  authUser: Readonly<AuthUser> | null;
+  clearAuthUser: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -25,8 +25,14 @@ interface AuthProviderProps {
 export const AuthProvider = ({ initialUser, children }: AuthProviderProps) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(initialUser);
 
-  return <AuthContext.Provider value={{ authUser, setAuthUser }}>{children}</AuthContext.Provider>;
+  const clearAuthUser = () => {
+    setAuthUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ authUser, clearAuthUser }}>{children}</AuthContext.Provider>
+  );
 };
 
 export const useAuthContext = (): AuthContextValue =>
-  useContext(AuthContext) ?? { authUser: null, setAuthUser: () => {} };
+  useContext(AuthContext) ?? { authUser: null, clearAuthUser: () => {} };
