@@ -40,7 +40,13 @@ export async function getProfileRequest(): Promise<AuthUser | null> {
 
 export async function logoutRequest(): Promise<void> {
   const { apiUrl } = await config();
-  await fetch(`${apiUrl}/auth/logout`, { method: 'POST', credentials: 'include' });
+  const res = await fetch(`${apiUrl}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!res.ok) {
+    throw new Error('Logout failed');
+  }
 }
 
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
