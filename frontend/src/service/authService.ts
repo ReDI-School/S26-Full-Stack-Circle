@@ -1,8 +1,15 @@
-import { getInitials } from '@/utils/utils';
 import { config } from '../config';
 import type { LoginInput, RegisterInput } from '@validators/schemas';
 
-export async function loginRequest(data: LoginInput): Promise<{ name: string; initials: string }> {
+export interface AuthUser {
+  id: string;
+  email: string;
+  role: 'USER' | 'ADMIN';
+  firstName: string;
+  lastName: string;
+}
+
+export async function loginRequest(data: LoginInput): Promise<AuthUser> {
   const { apiUrl } = await config();
 
   const res = await fetch(`${apiUrl}/auth/login`, {
@@ -20,14 +27,7 @@ export async function loginRequest(data: LoginInput): Promise<{ name: string; in
     throw new Error(json?.error || 'Login failed');
   }
 
-  const firstName = json.user.firstName;
-  const lastName = json.user.lastName;
-  const initials = getInitials(firstName+' '+lastName);
-
-  return {
-    name: `${firstName} ${lastName}`,
-    initials: initials,
-  };
+  return json.user;
 }
 
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
