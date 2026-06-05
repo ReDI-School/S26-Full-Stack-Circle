@@ -13,14 +13,16 @@ export default function useAuth() {
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<UserData | null>(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     setError(undefined);
   }, []);
-  
+
   const signOut = async () => {
     try {
       const { apiUrl } = await config();
       await fetch(`${apiUrl}/auth/logout`, { method: 'POST', credentials: 'include' });
+    } catch {
+      // clear local state
     } finally {
       setUser(null);
     }
