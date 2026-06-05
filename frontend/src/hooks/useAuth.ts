@@ -1,57 +1,91 @@
-import { useState, useEffect } from 'react';
-import { loginRequest } from '@service/authService';
-import { LoginInput } from '@validators/schemas';
-import { config } from '../config';
+import { useState, useEffect, useCallback } from 'react';
+import { useAuthContext } from '@/contexts/AuthContext';
+import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
+import type { LoginInput } from '@validators/schemas';
+import { useRouter } from 'next/navigation';
 
 interface UserData {
   name: string;
   initials: string;
 }
 
-export default function useAuth() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
-  const [user, setUser] = useState<UserData | null>(null);
+function toUserData(authUser: { firstName: string; lastName: string } | null): UserData | null {
+  if (!authUser) return null;
+  return {
+    name: `${authUser.firstName} ${authUser.lastName}`,
+    initials: `${authUser.firstName[0]}${authUser.lastName[0]}`,
+  };
+}
 
+export default function useAuth() {
+  const { authUser, setAuthUser, clearAuthUser } = useAuthContext();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>();
+  const [hydrating, setHydrating] = useState(true);
+  const router = useRouter();
+
+  // Hydrate user from cookie on mount
+  useEffect(() => {
+    const hydrate = async () => {
+      try {
+        const user = await getProfileRequest();
+        if (user) setAuthUser(user);
+      } catch {
+        // Not authenticated â user stays null
+      } finally {
+        setHydrating(false);
+      }
+    };
+    hydrate();
+  }, [setAuthUser]);
+
+  // Clear stale error on mount
   useEffect(() => {
     setError(undefined);
   }, []);
 
-  const signOut = async () => {
-    try {
-      const { apiUrl } = await config();
-      await fetch(`${apiUrl}/auth/logout`, { method: 'POST', credentials: 'include' });
-    } catch {
-      // clear local state
-    } finally {
-      setUser(null);
-    }
-  };
-
-  const goToProfile = () => {
-    // TODO: Implement navigation to profile page
-  };
-
-  const signIn = async (data: LoginInput) => {
-    try {
-      setLoading(true);
-      setError(undefined);
-
-      const loggedUser: UserData = await loginRequest(data);
-      setUser(loggedUser);
-
-      return true;
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
+  const signIn = useCallback(
+    async (data: LoginInput) => {
+      try {
+        setLoading(true);
+        setError(undefined);
+        const user = await loginRequest(data);
+        setAuthUser(user);
+        return true;
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+        return false;
+      } finally {
+        setLoading(false);
       }
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [setAuthUser]
+  );
 
-  return { signIn, loading, error, goToProfile, signOut, user, setUser };
+  const signOut = useCallback(async () => {
+    try {
+      await logoutRequest();
+    } catch {
+      // Continue clearing local state
+    } finally {
+      clearAuthUser();
+    }
+  }, [clearAuthUser]);
+
+  const goToProfile = useCallback(() => {
+    if (authUser) router.push(`/profiles/${authUser.id}`);
+  }, [authUser, router]);
+
+  return {
+    user: toUserData(authUser),
+    loading: loading || hydrating,
+    error,
+    signIn,
+    signOut,
+    goToProfile,
+  };
 }
