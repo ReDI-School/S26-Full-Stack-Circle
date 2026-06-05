@@ -3,6 +3,7 @@ import { useAuthContext } from '@/contexts/AuthContext';
 import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
+import { getInitials } from '../utils/utils';
 
 interface UserData {
   name: string;
@@ -11,9 +12,11 @@ interface UserData {
 
 function toUserData(authUser: { firstName: string; lastName: string } | null): UserData | null {
   if (!authUser) return null;
+  const userFullName = `${authUser.firstName} ${authUser.lastName}`;
+  const userInitials = getInitials(userFullName);
   return {
-    name: `${authUser.firstName} ${authUser.lastName}`,
-    initials: `${authUser.firstName[0]}${authUser.lastName[0]}`,
+    name: userFullName,
+    initials: userInitials,
   };
 }
 
@@ -31,7 +34,7 @@ export default function useAuth() {
         const user = await getProfileRequest();
         if (user) setAuthUser(user);
       } catch {
-        // Not authenticated â user stays null
+        // Not authenticated, user stays null
       } finally {
         setHydrating(false);
       }
