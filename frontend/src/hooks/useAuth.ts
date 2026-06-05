@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loginRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
 import { config } from '../config';
@@ -12,6 +12,11 @@ export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<UserData | null>(null);
+
+  useEffect(()=>{
+    setError(undefined);
+  }, []);
+  
   const signOut = async () => {
     try {
       const { apiUrl } = await config();
