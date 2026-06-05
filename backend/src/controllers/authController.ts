@@ -16,12 +16,14 @@ export class AuthController {
       const token = await this.authService.login(email, password);
 
       res.cookie('token', token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 10,
+        //maxAge: 1000 * 60 * 10,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días en ms
       });
 
+      //return res.json({ ok: true, token });
       return res.json({ ok: true });
     } catch (error) {
       console.error('Error logging in:', error);

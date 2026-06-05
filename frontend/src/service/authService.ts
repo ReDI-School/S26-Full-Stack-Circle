@@ -1,4 +1,5 @@
 import { config } from '../config';
+import Cookies from 'js-cookie';
 
 export async function loginRequest(email: string, password: string): Promise<void> {
   const { apiUrl } = await config();
@@ -17,4 +18,15 @@ export async function loginRequest(email: string, password: string): Promise<voi
   if (!res.ok) {
     throw new Error(data?.error || 'Login failed');
   }
+  /*
+  const tokenValue = data.token || data.accessToken;
+
+  if (tokenValue) {
+    localStorage.setItem('token', tokenValue);
+  } else {
+    console.warn(
+      "Logueado, pero el backend no mandó un 'token' en el JSON. Estructura recibida:",
+      data
+    );
+  }*/
 }

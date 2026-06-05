@@ -14,7 +14,8 @@ export default function LoginPage() {
     const loggedIn = await signIn(data);
 
     if (loggedIn) {
-      router.push('/events');
+      //router.push('/events');
+      router.push('/dashboard');
     }
   };
 
