@@ -1,5 +1,4 @@
 import { config } from '../config';
-import Cookies from 'js-cookie';
 import type { RegisterInput } from '@validators/schemas';
 
 export async function loginRequest(email: string, password: string): Promise<void> {

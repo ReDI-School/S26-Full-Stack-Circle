@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
@@ -34,22 +34,25 @@ export default function DashboardPage() {
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchDashboardEvents = async (isMounted: boolean = true) => {
-    try {
-      const data = await eventsService.getDashboardEvents(
-        currentParam as 'all' | 'future' | 'archived'
-      );
-      console.log('--- DATA REAL RECIÉN LLEGADA DEL BACKEND ---', data);
-      if (isMounted) {
-        const realEvents = Array.isArray(data) ? data : data?.events || [];
-        setEvents(realEvents);
+  const fetchDashboardEvents = useCallback(
+    async (isMounted: boolean = true) => {
+      try {
+        const data = await eventsService.getDashboardEvents(
+          currentParam as 'all' | 'future' | 'archived'
+        );
+        console.log('--- DATA REAL RECIÉN LLEGADA DEL BACKEND ---', data);
+        if (isMounted) {
+          const realEvents = Array.isArray(data) ? data : data?.events || [];
+          setEvents(realEvents);
+        }
+      } catch (err) {
+        console.error('Dashboard failed to retrieve view data:', err);
+      } finally {
+        if (isMounted) setIsLoading(false);
       }
-    } catch (err) {
-      console.error('Dashboard failed to retrieve view data:', err);
-    } finally {
-      if (isMounted) setIsLoading(false);
-    }
-  };
+    },
+    [currentParam]
+  );
   // Update URL parameter
   const handleTabChange = (selectedTab: string) => {
     setIsLoading(true);
@@ -121,7 +124,7 @@ export default function DashboardPage() {
     return () => {
       isMounted = false;
     };
-  }, [currentParam]);
+  }, [fetchDashboardEvents]);
 
   console.log('My events are:', events);
 
