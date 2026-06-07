@@ -38,4 +38,17 @@ export class AttendanceService {
       data: { userId, eventId },
     });
   }
+
+  async cancelAttendance(userId: string, eventId: string) {
+    const deleteResult = await prisma.attendance.deleteMany({
+      where: {
+        userId: userId,
+        eventId: eventId,
+      },
+    });
+
+    if (deleteResult.count === 0) {
+      throw new Error('NOT_REGISTERED');
+    }
+  }
 }

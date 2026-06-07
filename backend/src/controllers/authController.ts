@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/authService.js';
+import { UserDTO } from '../dto/user.dto.js';
 
 export class AuthController {
   private readonly authService = new AuthService();
@@ -14,7 +15,14 @@ export class AuthController {
 
       const token = await this.authService.login(email, password);
 
-      return res.status(200).json({ token });
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 10,
+      });
+
+      return res.json({ ok: true });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
@@ -31,8 +39,7 @@ export class AuthController {
 
       const newUser = await this.authService.register(email, firstName, lastName, password);
 
-      const userResponse = { ...newUser } as any;
-      delete userResponse.passwordHash;
+      const userResponse = new UserDTO(newUser);
 
       return res.status(201).json(userResponse);
     } catch (error) {

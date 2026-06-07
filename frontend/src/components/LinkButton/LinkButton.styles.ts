@@ -8,19 +8,25 @@ export const linkButtonStyles = tv({
     'gap-1.5',
     'md:gap-2.5',
     'w-fit',
-    'text-xs',
-    'md:text-base',
+    'text-base',
     'font-medium',
-    'text-button-secondary',
     'transition-colors',
     'duration-200',
-    'hover:text-button-secondary-hovered',
     'hover:underline',
     'underline-offset-4',
     'cursor-pointer',
   ],
+  variants: {
+    color: {
+      primary: ['text-button-primary', 'hover:text-button-primary-hovered'],
+      secondary: ['text-button-secondary', 'hover:text-button-secondary-hovered'],
+    },
+    underlined: {
+      true: ['underline'],
+    },
+  },
 });
 
 export const iconStyles = tv({
-  base: ['text-xs', 'md:text-lg', 'shrink-0'],
+  base: ['text-base', 'md:text-lg', 'shrink-0'],
 });
