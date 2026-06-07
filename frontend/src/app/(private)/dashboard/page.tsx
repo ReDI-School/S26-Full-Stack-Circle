@@ -118,7 +118,11 @@ export default function DashboardPage() {
   // Data fetching with loading state
   useEffect(() => {
     let isMounted = true;
-    fetchDashboardEvents(isMounted);
+    const initializeDashboard = async () => {
+      await fetchDashboardEvents(isMounted);
+    };
+
+    initializeDashboard();
 
     return () => {
       isMounted = false;
