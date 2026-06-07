@@ -1,5 +1,6 @@
 import { config } from '../config';
 import Cookies from 'js-cookie';
+import type { RegisterInput } from '@validators/schemas';
 
 export async function loginRequest(email: string, password: string): Promise<void> {
   const { apiUrl } = await config();
@@ -29,4 +30,23 @@ export async function loginRequest(email: string, password: string): Promise<voi
       data
     );
   }*/
+}
+
+export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
+  const { apiUrl } = await config();
+
+  const res = await fetch(`${apiUrl}/auth/register`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await res.json();
+
+  if (!res.ok) {
+    throw new Error(json?.error || 'Registration failed');
+  }
 }

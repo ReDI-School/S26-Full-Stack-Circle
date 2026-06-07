@@ -21,7 +21,8 @@
       "@service/*": ["./src/service/*"],
       "@types": ["./src/types"],
       "@hooks/*": ["./src/hooks/*"],
-      "@validators/*": ["./src/validators/*"]
+      "@validators/*": ["./src/validators/*"],
+      "@/*": ["./src/*"]
     },
     "plugins": [
       {
