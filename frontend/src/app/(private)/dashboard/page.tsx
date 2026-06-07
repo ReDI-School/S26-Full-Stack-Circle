@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
@@ -23,7 +23,7 @@ const parseTabToParam = (tab: TabType): string => {
   return 'all';
 };
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -214,5 +214,20 @@ export default function DashboardPage() {
         </section>
       )}
     </div>
+  );
+}
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full min-h-screen bg-gray-50 p-4 md:p-8 flex items-center justify-center">
+          <h3 className="text-sm font-medium text-tabs-idle tracking-wide uppercase animate-pulse">
+            LOADING DASHBOARD...
+          </h3>
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
   );
 }
