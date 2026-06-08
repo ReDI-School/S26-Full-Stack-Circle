@@ -42,10 +42,10 @@ export default function useAuth() {
     hydrate();
   }, [setAuthUser]);
 
-  // Clear stale error on mount
-  useEffect(() => {
-    setError(undefined);
-  }, []);
+  // Clear stale error on mount - do we need this? or is it enought with setting it in the original state as undefined?
+  // useEffect(() => {
+  //   setError(undefined);
+  // }, []);
 
   const signIn = useCallback(
     async (data: LoginInput) => {
