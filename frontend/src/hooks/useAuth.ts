@@ -42,11 +42,6 @@ export default function useAuth() {
     hydrate();
   }, [setAuthUser]);
 
-  // Clear stale error on mount
-  useEffect(() => {
-    setError(undefined);
-  }, []);
-
   const signIn = useCallback(
     async (data: LoginInput) => {
       try {
