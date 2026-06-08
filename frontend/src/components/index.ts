@@ -18,3 +18,4 @@ export * from './PublicLayout';
 export * from './SignInForm';
 export * from './ProtectedLayout';
 export * from './UserArea';
+export * from './UserSettingsForm';

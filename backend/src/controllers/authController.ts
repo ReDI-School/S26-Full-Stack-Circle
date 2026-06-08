@@ -22,7 +22,7 @@ export class AuthController {
         maxAge: 1000 * 60 * 10,
       });
 
-      return res.json({ ok: true });
+      return res.json({ ok: true, token });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {

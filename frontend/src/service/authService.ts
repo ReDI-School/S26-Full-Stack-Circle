@@ -1,4 +1,5 @@
 import { config } from '../config';
+import { tokenStorage } from '../utils/tokenStorage';
 import type { RegisterInput } from '@validators/schemas';
 
 export async function loginRequest(email: string, password: string): Promise<void> {
@@ -7,9 +8,7 @@ export async function loginRequest(email: string, password: string): Promise<voi
   const res = await fetch(`${apiUrl}/auth/login`, {
     method: 'POST',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
 
@@ -18,6 +17,8 @@ export async function loginRequest(email: string, password: string): Promise<voi
   if (!res.ok) {
     throw new Error(data?.error || 'Login failed');
   }
+
+  tokenStorage.set(data.token);
 }
 
 export async function registerRequest(

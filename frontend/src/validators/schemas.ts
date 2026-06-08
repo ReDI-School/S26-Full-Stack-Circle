@@ -50,6 +50,18 @@ const loginSchema = z.object({
     .max(100), // arbitrary DoS guard for bcrypt
 });
 
+const updateUserSchema = z
+  .object({
+    firstName: trimmedString.min(1, { error: errorRequiredField('First name') }),
+    lastName: trimmedString.min(1, { error: errorRequiredField('Last name') }),
+    newPassword: z.string().optional().or(z.literal('')),
+    confirmPassword: z.string().optional().or(z.literal('')),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    error: 'Passwords do not match.',
+    path: ['confirmPassword'],
+  });
+
 const createEventSchema = z.object({
   title: trimmedString
     .min(3, { error: 'Event title must contain at least 3 characters' })
@@ -77,9 +89,10 @@ const createEventSchema = z.object({
 
 const updateEventSchema = createEventSchema.partial();
 
-export { registerSchema, loginSchema, createEventSchema, updateEventSchema };
+export { registerSchema, loginSchema, updateUserSchema, createEventSchema, updateEventSchema };
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export type CreateEventInput = z.infer<typeof createEventSchema>;
 export type UpdateEventInput = z.infer<typeof updateEventSchema>;
