@@ -2,11 +2,17 @@ import type { PublicLayoutProps } from './PublicLayout.types';
 import { publicLayoutStyles } from './PublicLayout.styles';
 import { Sidebar } from '../Sidebar';
 import { Logo } from '../Logo';
+import { LinkButton } from '../LinkButton';
 
 const SIDEBAR_TAGLINE = 'Bringing people together';
 
-export default function PublicLayout({ children }: Readonly<PublicLayoutProps>) {
-  const { main, sidebar, logoMobile, content } = publicLayoutStyles();
+export default function PublicLayout({
+  children,
+  navText,
+  navLinkLabel,
+  navLinkHref,
+}: Readonly<PublicLayoutProps>) {
+  const { main, sidebar, logoMobile, content, navigBlock } = publicLayoutStyles();
 
   return (
     <main className={main()}>
@@ -17,7 +23,16 @@ export default function PublicLayout({ children }: Readonly<PublicLayoutProps>) 
       <div className={sidebar()}>
         <Sidebar tagline={SIDEBAR_TAGLINE} />
       </div>
-      <section className={content()}>{children}</section>
+
+      <section className={content()}>
+        {navText && navLinkLabel && navLinkHref && (
+          <nav className={navigBlock()}>
+            <span>{navText}</span>
+            <LinkButton href={navLinkHref} underlined>{navLinkLabel}</LinkButton>
+          </nav>
+        )}
+        {children}
+      </section>
     </main>
   );
 }
