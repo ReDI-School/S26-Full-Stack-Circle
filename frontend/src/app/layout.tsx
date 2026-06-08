@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import { IntlProvider } from '../components/IntlProvider';
 
 import '../assets/css/reset.css';
 import '../assets/css/global.css';
@@ -22,7 +23,9 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className={roboto.variable}>
-      <body>{children}</body>
+      <body>
+        <IntlProvider>{children}</IntlProvider>
+      </body>
     </html>
   );
 };
