@@ -36,7 +36,7 @@ export default function EventPage() {
     }
     return <div>Error: {error}</div>;
   }
-  if (!event) return <div>Couldn't find the event</div>;
+  if (!event) return <div>{"Couldn't find the event"}</div>;
 
   return (
     <main className="flex flex-col gap-8">
