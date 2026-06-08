@@ -8,7 +8,7 @@ const meta: Meta<typeof EventCard> = {
   tags: ['autodocs'],
   argTypes: {
     action: {
-      options: ['join', 'leave', 'edit'],
+      options: ['join', 'leave', 'edit', 'archived'],
       control: {
         type: 'radio',
       },
@@ -57,5 +57,12 @@ export const Edit: Story = {
   args: {
     isLoading: false,
     action: 'edit',
+  },
+};
+
+export const Archived: Story = {
+  args: {
+    isLoading: false,
+    action: 'archived',
   },
 };

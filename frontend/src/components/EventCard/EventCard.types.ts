@@ -1,4 +1,4 @@
-type EventCardAction = 'join' | 'leave' | 'edit';
+type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
 
 type EventCardBaseProps = {
   /**
@@ -6,6 +6,7 @@ type EventCardBaseProps = {
    * - `join` — Shows "JOIN" button with positive variant
    * - `leave` — Shows "LEAVE" button with negative variant
    * - `edit` — Shows "EDIT" button with idle variant
+   * - `archived` — Shows "ARCHIVED" button with idle variant and disabled state
    */
   action: EventCardAction;
 
@@ -55,6 +56,11 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * Maximum number of attendees allowed.
    */
   maxAttendees: number;
+
+  /**
+   * Button state.
+   */
+  buttonState?: 'default' | 'disabled' | 'loading';
 };
 
 export type EventCardProps = EventCardLoadingProps | EventCardLoadedProps;
