@@ -13,10 +13,9 @@ const meta: Meta<typeof EventCard> = {
         type: 'radio',
       },
     },
-    actionState: {
-      options: ['default', 'disabled', 'loading'],
+    isActionPending: {
       control: {
-        type: 'radio',
+        type: 'boolean',
       },
     },
   },
@@ -77,7 +76,7 @@ export const ActionLoading: Story = {
   args: {
     isLoading: false,
     action: 'join',
-    actionState: 'loading',
+    isActionPending: true,
     date: new Date('2017-04-04T14:17:00Z'),
     title: 'How to Network',
     author: 'Owner',

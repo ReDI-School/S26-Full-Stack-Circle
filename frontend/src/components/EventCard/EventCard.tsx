@@ -32,7 +32,7 @@ export default function EventCard(props: EventCardProps) {
 
   const buttonVariant = variantMap[props.action];
   const buttonState =
-    props.actionState ?? (props.action === 'archived' ? 'disabled' : 'default');
+    props.action === 'archived' ? 'disabled' : props.isActionPending ? 'loading' : 'default';
 
   const timeStamp = formatTimestamp(props.date);
 
