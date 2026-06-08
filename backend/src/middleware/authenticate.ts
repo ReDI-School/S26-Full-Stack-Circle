@@ -40,7 +40,6 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     }
 
     req.user = decoded as { userId: string; role: string };
-    console.log(req.user);
     next();
     return;
   } catch (error) {

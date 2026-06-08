@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { fetchEventById } from '@services/eventService';
 import { EventData, Attendance } from '../types/event';
 import { EventCardAction } from '@components/EventCard/EventCard.types';
 import { joinEvent, leaveEvent } from '@services/eventService';
+import useAuth from './useAuth';
 
 export default function useEvent({ id }: { id: string }) {
   const [event, setEvent] = useState<EventData | null>(null);
@@ -12,6 +14,8 @@ export default function useEvent({ id }: { id: string }) {
   const [error, setError] = useState<string | null>(null);
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [isAtending, setIsAtending] = useState<boolean>(false);
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -49,23 +53,39 @@ export default function useEvent({ id }: { id: string }) {
     }
 
     loadEvent();
-  }, [id, isAtending]);
+  }, [id]);
 
   const action: EventCardAction = isOwner ? 'edit' : isAtending ? 'leave' : 'join';
 
   const handleAction = async () => {
+    const previousState = isAtending;
+    const previousEvent = event;
+
     try {
-      if (action === 'join') {
-        await joinEvent(id);
+      if (action === 'edit' && event && user) {
+        router.push(`/events/update-${id}`);
+      } else if (action === 'join' && event && user) {
         setIsAtending(true);
-      } else if (action === 'leave') {
-        await leaveEvent(id);
+        setEvent({
+          ...event,
+          attendeeCount: event.attendeeCount + 1,
+          attendees: [...event.attendees, user.name],
+        });
+        await joinEvent(id);
+      } else if (action === 'leave' && event && user) {
         setIsAtending(false);
+        setEvent({
+          ...event,
+          attendeeCount: event.attendeeCount - 1,
+          attendees: event.attendees.filter((name) => name !== user.name),
+        });
+        await leaveEvent(id);
       }
-      // edit se maneja diferente, requiere form modal
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       setError(errorMessage);
+      setIsAtending(previousState);
+      setEvent(previousEvent);
     }
   };
 

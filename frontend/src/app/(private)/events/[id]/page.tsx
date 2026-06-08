@@ -4,14 +4,16 @@ import { EventCard } from '@components/EventCard';
 import Atendees from '@components/Atendees/Atendees';
 import AtendeesSkeleton from '@components/Atendees/AtendeesSkeleton';
 import useEvent from '@hooks/useEvent';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { LinkButton } from '@components/LinkButton';
 import { Button } from '@components/Button';
 import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
+import { StickyButton } from '@components/StickyButton';
 
 export default function EventPage() {
   const params = useParams();
   const id = params.id;
+  const router = useRouter();
 
   const { event, loading, error, action, handleAction } = useEvent({ id: id?.toString() ?? '' });
 
@@ -39,12 +41,21 @@ export default function EventPage() {
   return (
     <main className="flex flex-col gap-8">
       <div className="flex justify-between">
-        <LinkButton icon={<ArrowLeftIcon />} href="" onClick={() => window.history.back()}>
+        <LinkButton icon={<ArrowLeftIcon />} color="secondary" href="/events">
           GO BACK
         </LinkButton>
-        <Button size="default" variant="idle">
+        <Button
+          onClick={() => router.push('/event-creation-page')}
+          size="default"
+          variant="idle"
+          className="hidden md:block"
+        >
           CREATE NEW EVENT
         </Button>
+        <StickyButton
+          onClick={() => router.push('/event-creation-page')}
+          label="CREATE NEW EVENT"
+        ></StickyButton>
       </div>
       <div className="w-full flex flex-col gap-5 md:flex-row">
         <div className="flex-2">
