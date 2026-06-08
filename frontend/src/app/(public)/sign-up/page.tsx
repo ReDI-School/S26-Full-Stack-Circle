@@ -18,7 +18,8 @@ const SignUp = () => {
       await registerRequest(data);
       // After successful registration, log the user in and redirect to /events
       await loginRequest(data.email, data.password);
-      router.push('/events');
+      //router.push('/events');
+      router.push('/dashboard');
     } catch (err: unknown) {
       if (err instanceof Error) {
         setServerError(err.message);
