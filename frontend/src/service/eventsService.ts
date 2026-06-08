@@ -77,7 +77,6 @@ export const eventsService = {
     // 2: REAL API
     const { apiUrl } = await config();
     const token = Cookies.get('token');
-    //const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     if (!token) {
       throw new Error('UNAUTHORIZED');
     }

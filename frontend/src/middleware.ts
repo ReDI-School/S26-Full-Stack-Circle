@@ -24,8 +24,7 @@ export async function middleware(request: NextRequest) {
   const authenticated = token ? await isValidToken(token) : false;
 
   if (authenticated && isAuthPath) {
-    //return NextResponse.redirect(new URL('/events', request.url));
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/events', request.url));
   }
 
   if (!authenticated && !isAuthPath) {
