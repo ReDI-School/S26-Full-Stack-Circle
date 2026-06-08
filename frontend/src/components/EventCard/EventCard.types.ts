@@ -58,9 +58,15 @@ type EventCardLoadedProps = EventCardBaseProps & {
   maxAttendees: number;
 
   /**
-   * Button state.
+   * Controls the action button UI state.
+   *
+   * - `default` — standard button behavior
+   * - `loading` — shows the button loading indicator and disables click
+   * - `disabled` — disables the button
+   *
+   * This can be managed by the parent when an API call is in progress.
    */
-  buttonState?: 'default' | 'disabled' | 'loading';
+  actionState?: 'default' | 'disabled' | 'loading';
 };
 
 export type EventCardProps = EventCardLoadingProps | EventCardLoadedProps;

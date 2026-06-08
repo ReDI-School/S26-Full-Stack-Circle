@@ -13,6 +13,12 @@ const meta: Meta<typeof EventCard> = {
         type: 'radio',
       },
     },
+    actionState: {
+      options: ['default', 'disabled', 'loading'],
+      control: {
+        type: 'radio',
+      },
+    },
   },
 };
 
@@ -64,5 +70,20 @@ export const Archived: Story = {
   args: {
     isLoading: false,
     action: 'archived',
+  },
+};
+
+export const ActionLoading: Story = {
+  args: {
+    isLoading: false,
+    action: 'join',
+    actionState: 'loading',
+    date: new Date('2017-04-04T14:17:00Z'),
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
   },
 };

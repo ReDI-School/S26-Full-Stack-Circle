@@ -31,7 +31,8 @@ export default function EventCard(props: EventCardProps) {
   } = EventCardStyles();
 
   const buttonVariant = variantMap[props.action];
-  const buttonState = props.action === 'archived' ? 'disabled' : 'default';
+  const buttonState =
+    props.actionState ?? (props.action === 'archived' ? 'disabled' : 'default');
 
   const timeStamp = formatTimestamp(props.date);
 
@@ -56,7 +57,12 @@ export default function EventCard(props: EventCardProps) {
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
-          <Button variant={buttonVariant} state={buttonState} size="small" onClick={props.onActionClick}>
+          <Button
+            variant={buttonVariant}
+            state={buttonState}
+            size="small"
+            onClick={props.onActionClick}
+          >
             <span className={buttonText()}>{props.action}</span>
           </Button>
         </div>
