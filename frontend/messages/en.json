@@ -1,11 +1,6 @@
 {
   "userArea": {
     "profile": "Profile",
-    "signOut": "Sign Out",
-    "language": "Language"
-  },
-  "languages": {
-    "en": "English",
-    "de": "German"
+    "signOut": "Sign Out"
   }
 }
