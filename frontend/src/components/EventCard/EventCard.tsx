@@ -1,9 +1,9 @@
 import type { EventCardProps } from './EventCard.types';
-import EventCardSkeleton from './EventCardSkeleton';
 import { EventCardStyles } from './EventCard.styles';
-import { Card } from '../Card';
-import { Button } from '../Button';
-import { CalendarDotsIcon, UsersIcon } from '@phosphor-icons/react';
+import EventCardSkeleton from './EventCardSkeleton';
+import { Card, Button } from '@components';
+import Link from 'next/link';
+import { CalendarDotsIcon, UsersIcon, ArrowSquareUpRightIcon } from '@phosphor-icons/react';
 import { formatTimestamp } from '../../utils/utils';
 
 const variantMap = {
@@ -19,6 +19,7 @@ export default function EventCard(props: EventCardProps) {
 
   const {
     wrapper,
+    dateContainer,
     container,
     bottomContainer,
     date,
@@ -27,6 +28,7 @@ export default function EventCard(props: EventCardProps) {
     description,
     attendees,
     buttonText,
+    detailsContainer,
   } = EventCardStyles();
 
   const buttonVariant = variantMap[props.action];
@@ -36,8 +38,8 @@ export default function EventCard(props: EventCardProps) {
   return (
     <Card interactive>
       <div className={wrapper()}>
-        <div className={container()}>
-          <CalendarDotsIcon size={16.25} />
+        <div className={dateContainer()}>
+          <CalendarDotsIcon size={22} />
           <p className={date()}>{timeStamp}</p>
         </div>
         <div className={wrapper()}>
@@ -54,6 +56,16 @@ export default function EventCard(props: EventCardProps) {
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
+        </div>
+
+        <div className={bottomContainer()}>
+          <div className={container()}>
+            <Link href={`/events/${props.id}`} className={detailsContainer()}>
+              <ArrowSquareUpRightIcon size={22} />
+              <span>View details</span>
+            </Link>
+          </div>
+
           <Button variant={buttonVariant} size="small" onClick={props.onActionClick}>
             <span className={buttonText()}>{props.action}</span>
           </Button>

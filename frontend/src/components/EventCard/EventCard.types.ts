@@ -26,6 +26,9 @@ type EventCardLoadedProps = EventCardBaseProps & {
    */
   isLoading?: false;
 
+  /** Unique identifier for the event, used for navigation and actions. */
+  id: string;
+
   /**
    * Date of the event in stardart ISO: 2017-04-04T14:17:00Z
    */
