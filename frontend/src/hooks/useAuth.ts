@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
@@ -42,8 +42,7 @@ export default function useAuth() {
     hydrate();
   }, [authenticateUser]);
 
-  const signIn = useCallback(
-    async (data: LoginInput) => {
+  const signIn =  async (data: LoginInput) => {
       try {
         setLoading(true);
         setError(undefined);
@@ -60,11 +59,9 @@ export default function useAuth() {
       } finally {
         setLoading(false);
       }
-    },
-    [authenticateUser]
-  );
+    };
 
-  const signOut = useCallback(async () => {
+  const signOut = async () => {
     try {
       await logoutRequest();
     } catch {
@@ -73,11 +70,11 @@ export default function useAuth() {
       clearAuthUser();
       router.push('/sign-in');
     }
-  }, [clearAuthUser, router]);
+  };
 
-  const goToProfile = useCallback(() => {
+  const goToProfile = () => {
     if (authUser) router.push(`/profiles/${authUser.id}`);
-  }, [authUser, router]);
+  };
 
   return {
     user: toUserData(authUser),
