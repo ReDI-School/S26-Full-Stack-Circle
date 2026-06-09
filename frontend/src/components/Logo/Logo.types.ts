@@ -10,4 +10,6 @@ export interface LogoProps {
    * @default "default"
    */
   textColor?: 'default' | 'white';
+
+
 }

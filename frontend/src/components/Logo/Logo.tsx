@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import logoFull from '../../assets/images/logo.svg';
 import logoCompact from '../../assets/images/logo-compact.svg';
@@ -36,14 +37,15 @@ const LOGO_VARIANTS_DICTIONARY: LogoVariantsDictionary = {
 
 const Logo = ({ size = 'full', textColor = 'default' }: LogoProps) => {
   return (
-    <Image
-      src={LOGO_VARIANTS_DICTIONARY[size].textColor[textColor]}
-      alt="ReDi Events"
-      aria-hidden="true"
-      width={LOGO_VARIANTS_DICTIONARY[size].width}
-      height={LOGO_VARIANTS_DICTIONARY[size].height}
-      priority
-    />
+    <Link href="/">
+      <Image
+        src={LOGO_VARIANTS_DICTIONARY[size].textColor[textColor]}
+        alt="ReDi Events"
+        width={LOGO_VARIANTS_DICTIONARY[size].width}
+        height={LOGO_VARIANTS_DICTIONARY[size].height}
+        priority
+      />
+    </Link>
   );
 };
 

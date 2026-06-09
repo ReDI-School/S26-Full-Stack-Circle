@@ -1,6 +1,17 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-// TODO: Later we have to check if the user is logged in or not to make this redirect to the right page
-const Home = () => redirect('/sign-in');
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { tokenStorage } from '../utils/tokenStorage';
+
+const Home = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace(tokenStorage.get() ? '/events' : '/sign-in');
+  }, [router]);
+
+  return null;
+};
 
 export default Home;
