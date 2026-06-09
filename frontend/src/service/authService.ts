@@ -9,7 +9,7 @@ export interface AuthUser {
 }
 
 export async function loginRequest(data: LoginInput): Promise<AuthUser> {
-  const res = await fetch(`/api/auth/login`, {
+  const res = await fetch(`/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,14 +27,14 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
 }
 
 export async function getProfileRequest(): Promise<AuthUser | null> {
-  const res = await fetch(`/api/auth/me`);
+  const res = await fetch(`/auth/me`);
   const json = await res.json();
   if (!res.ok) return null;
   return json.user;
 }
 
 export async function logoutRequest(): Promise<void> {
-  const res = await fetch(`/api/auth/logout`, {
+  const res = await fetch(`/auth/logout`, {
     method: 'POST',
   });
   if (!res.ok) {
@@ -43,7 +43,7 @@ export async function logoutRequest(): Promise<void> {
 }
 
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
-  const res = await fetch(`/api/auth/register`, {
+  const res = await fetch(`/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
