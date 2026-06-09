@@ -1,4 +1,4 @@
-type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
+export type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
 
 type EventCardBaseProps = {
   /**
