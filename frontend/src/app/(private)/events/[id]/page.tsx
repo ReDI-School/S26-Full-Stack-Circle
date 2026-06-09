@@ -60,6 +60,7 @@ export default function EventPage() {
       <div className="w-full flex flex-col gap-5 md:flex-row">
         <div className="flex-2">
           <EventCard
+            id={event.id}
             isLoading={loading}
             action={action}
             date={event.date}
