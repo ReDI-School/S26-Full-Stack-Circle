@@ -10,6 +10,7 @@ const variantMap = {
   join: 'positive',
   leave: 'negative',
   edit: 'idle',
+  archived: 'idle',
 } as const;
 
 export default function EventCard(props: EventCardProps) {
@@ -30,6 +31,8 @@ export default function EventCard(props: EventCardProps) {
   } = EventCardStyles();
 
   const buttonVariant = variantMap[props.action];
+  const buttonState =
+    props.action === 'archived' ? 'disabled' : props.isActionPending ? 'loading' : 'default';
 
   const timeStamp = formatTimestamp(props.date);
 
@@ -54,7 +57,12 @@ export default function EventCard(props: EventCardProps) {
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
-          <Button variant={buttonVariant} size="small" onClick={props.onActionClick}>
+          <Button
+            variant={buttonVariant}
+            state={buttonState}
+            size="small"
+            onClick={props.onActionClick}
+          >
             <span className={buttonText()}>{props.action}</span>
           </Button>
         </div>
