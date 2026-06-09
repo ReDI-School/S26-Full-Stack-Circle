@@ -30,7 +30,9 @@ export default function EventCard(props: EventCardProps) {
     buttonText,
     title,
     detailsContainer,
-  } = EventCardStyles();
+  } = EventCardStyles({
+    titleSize: props.titleSize,
+  });
 
   const buttonVariant = variantMap[props.action];
   const buttonState =
@@ -74,13 +76,12 @@ export default function EventCard(props: EventCardProps) {
             </Link>
           </div>
 
-                <Button
+          <Button
             variant={buttonVariant}
             state={buttonState}
             size="small"
             onClick={props.onActionClick}
           >
-
             <span className={buttonText()}>{props.action}</span>
           </Button>
         </div>

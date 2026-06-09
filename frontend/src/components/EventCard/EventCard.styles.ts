@@ -8,7 +8,7 @@ export const EventCardStyles = tv({
     skeletonContainer: 'flex flex-col gap-2',
     bottomContainer: 'flex justify-between',
     date: 'text-sm text-input-primary',
-    title: 'text-xl',
+    title: '',
     author: 'text-sm text-ec-tertiary',
     description: 'text-base text-ec-secondary',
     attendees: 'text-sm text-ec-secondary',
