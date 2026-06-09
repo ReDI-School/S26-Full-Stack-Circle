@@ -3,12 +3,10 @@
 import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
-  fetchCreatedProfileEvents,
-  fetchGoingProfileEvents,
-  fetchArchivedProfileEvents,
+  fetchProfileEventsByTab,
   getAttendeesForEvent,
   getCreatedProfileEvents,
   getGoingProfileEvents,
@@ -44,33 +42,32 @@ const getEmptyStateMessage = (tab: ProfileTab) => {
   return 'You do not have any archived events yet.';
 };
 
-const fetchMockProfileEvents = async (tab: ProfileTab) => {
-  if (tab === 'created') {
-    return fetchCreatedProfileEvents();
-  }
-
-  if (tab === 'going') {
-    return fetchGoingProfileEvents();
-  }
-
-  return fetchArchivedProfileEvents();
-};
-
 const ProfilePage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const activeTab = normalizeTab(searchParams.get('tab'));
+  const activeTab = useMemo(() => normalizeTab(searchParams.get('tab')), [searchParams]);
 
   const [events, setEvents] = useState<ProfileEvent[]>([]);
   const [loadedTab, setLoadedTab] = useState<ProfileTab | null>(null);
+  const currentFetchId = useRef<symbol | null>(null);
 
   const isLoading = loadedTab !== activeTab;
 
-  const authoredEvents = getCreatedProfileEvents().length;
-  const goingToEvents = getGoingProfileEvents().length;
-  const participatedEvents = getArchivedProfileEvents().length;
+  const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
+    () => ({
+      authoredEvents: getCreatedProfileEvents().length,
+      goingToEvents: getGoingProfileEvents().length,
+      participatedEvents: getArchivedProfileEvents().length,
+    }),
+    []
+  );
+
+  const eventsWithActions = useMemo(
+    () => events.map((event) => ({ ...event, action: getActionForEvent(event) })),
+    [events]
+  );
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -86,33 +83,37 @@ const ProfilePage = () => {
     [activeTab, pathname, router, searchParams]
   );
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = useCallback(() => {
+    // For now, action is logged. In the future, this would navigate to a create event page or open a modal.
     console.log('Create new event clicked');
-  };
+  }, []);
 
-  const handleEventAction = (event: ProfileEvent) => {
-    const action = getActionForEvent(event);
+  const handleEventAction = useCallback(
+    (eventId: string) => {
+      const event = events.find((item) => item.id === eventId);
+      if (!event) return;
 
-    console.log(`${action} clicked`, {
-      eventId: event.id,
-      title: event.title,
-      attendees: getAttendeesForEvent(event.id),
-    });
-  };
+      const action = getActionForEvent(event);
+
+      console.log(`${action} clicked`, {
+        eventId: event.id,
+        title: event.title,
+        attendees: getAttendeesForEvent(event.id),
+      });
+    },
+    [events]
+  );
 
   useEffect(() => {
-    let isMounted = true;
+    const fetchId = Symbol();
+    currentFetchId.current = fetchId;
 
-    fetchMockProfileEvents(activeTab).then((fetchedEvents) => {
-      if (!isMounted) return;
+    fetchProfileEventsByTab(activeTab).then((fetchedEvents) => {
+      if (currentFetchId.current !== fetchId) return;
 
       setEvents(fetchedEvents);
       setLoadedTab(activeTab);
     });
-
-    return () => {
-      isMounted = false;
-    };
   }, [activeTab]);
 
   return (
@@ -145,9 +146,9 @@ const ProfilePage = () => {
               <EventCard key={index} isLoading action="edit" onActionClick={() => undefined} />
             ))}
           </div>
-        ) : events.length > 0 ? (
+        ) : eventsWithActions.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {events.map((event) => (
+            {eventsWithActions.map((event) => (
               <EventCard
                 key={event.id}
                 date={event.date}
@@ -156,8 +157,9 @@ const ProfilePage = () => {
                 description={event.description}
                 attendeeCount={event.attendeeCount}
                 maxAttendees={event.maxAttendees}
-                action={getActionForEvent(event)}
-                onActionClick={() => handleEventAction(event)}
+                action={event.action}
+                onActionClick={() => handleEventAction(event.id)}
+                id={event.id}
               />
             ))}
           </div>
