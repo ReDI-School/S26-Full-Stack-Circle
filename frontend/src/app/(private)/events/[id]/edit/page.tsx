@@ -1,5 +1,5 @@
 import { LinkButton } from '@components/LinkButton';
-import { ArrowLeftIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
 import { Button } from '@components/Button';
 import { buttonStyles } from '@components/Button/Button.styles';
 import { InputField } from '@components/InputField';
