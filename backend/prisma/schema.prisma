@@ -11,40 +11,40 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  firstName    String
-  lastName     String
-  passwordHash String
-  role         Role     @default(USER)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id           String       @id @default(uuid())
+  email        String       @unique
+  firstName    String       
+  lastName     String       
+  passwordHash String       
+  role         Role         @default(USER)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
   events       Event[]
-  attendances Attendance[]
+  attendances  Attendance[]
+
 }
 
 model Event {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   title       String
   description String?
   date        DateTime
   location    String
   capacity    Int
   organizerId String
-  organizer   User     @relation(fields: [organizerId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  organizer   User         @relation(fields: [organizerId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt 
   attendances Attendance[]
 }
 
 model Attendance {
-  id String @id @default(uuid())
-  userId String   @map("user_id")
-  eventId String @map("event_id")
-  user User @relation(fields: [userId], references: [id])
-  event Event @relation(fields: [eventId], references: [id])
-  createdAt DateTime @default(now()) @map("created_at")
-  @@map ("attendance")
+  id        String   @id @default(uuid())
+  userId    String
+  eventId   String
+  user      User     @relation(fields: [userId], references: [id])
+  event     Event    @relation(fields: [eventId], references: [id])
+  createdAt DateTime @default(now())
 
   @@unique([userId, eventId])
 }

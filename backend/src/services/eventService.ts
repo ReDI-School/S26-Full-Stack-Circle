@@ -1,6 +1,6 @@
 import prisma from '../libs/prisma.js';
 import { Prisma } from 'generated/prisma/client.js';
-
+import type { UpdateEventData } from '../types/event.js';
 export class EventService {
   async getEvents(filter?: 'upcoming' | 'past') {
     const currentDate = new Date();
@@ -67,6 +67,13 @@ export class EventService {
           },
         },
       },
+    });
+  }
+
+  async updateEvent(id: string, data: UpdateEventData) {
+    return prisma.event.update({
+      where: { id },
+      data,
     });
   }
 }

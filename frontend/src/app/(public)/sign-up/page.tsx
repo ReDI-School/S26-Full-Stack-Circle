@@ -1,23 +1,36 @@
-import Link from 'next/link';
+'use client';
 
-const SignIn = () => {
-  return (
-    <div className="size-full grid grid-rows-[auto_1fr]">
-      <div className="w-full flex justify-end gap-2 text-text-tertiary">
-        Already have account?{' '}
-        <Link
-          href="/sign-in"
-          className="text-primary hover:text-primary-dark underline underline-offset-3 transition-colors"
-        >
-          SIGN IN
-        </Link>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-5">
-        <h1>Sign Up</h1>
-        <p>add your form here</p>
-      </div>
-    </div>
-  );
+import { SignUpForm } from '@components';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { registerRequest, loginRequest } from '@service/authService';
+import { RegisterInput } from '@/validators/schemas';
+
+const SignUp = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState<string>();
+
+  const handleSubmit = async (data: Omit<RegisterInput, 'repeatPassword'>) => {
+    try {
+      setIsLoading(true);
+      setServerError(undefined);
+      await registerRequest(data);
+      // After successful registration, log the user in and redirect to /events
+      await loginRequest(data.email, data.password);
+      router.push('/events');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setServerError(err.message);
+      } else {
+        setServerError('Registration failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return <SignUpForm onSubmit={handleSubmit} isLoading={isLoading} serverError={serverError} />;
 };
 
-export default SignIn;
+export default SignUp;
