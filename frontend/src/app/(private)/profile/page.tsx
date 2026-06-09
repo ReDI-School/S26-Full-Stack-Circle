@@ -30,11 +30,11 @@ const normalizeTab = (tab: string | null): ProfileTab => {
   return 'created';
 };
 
-const getActionForEvent = (event: ProfileEvent): 'join' | 'leave' | 'edit' => {
+const getActionForEvent = (event: ProfileEvent): 'leave' | 'edit' | 'archived' => {
   if (event.status === 'created') return 'edit';
   if (event.status === 'going') return 'leave';
 
-  return 'join';
+  return 'archived';
 };
 
 const getEmptyStateMessage = (tab: ProfileTab) => {
