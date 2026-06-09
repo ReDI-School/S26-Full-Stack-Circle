@@ -5,7 +5,7 @@ import type { AuthUser } from '@service/authService';
 
 interface AuthContextValue {
   authUser: AuthUser | null;
-  setAuthUser: (user: AuthUser | null) => void;
+  authenticateUser: (user: AuthUser) => void;
   clearAuthUser: () => void;
 }
 
@@ -14,12 +14,16 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
 
+  const authenticateUser = (user: AuthUser) => {
+    setAuthUser(user);
+  };
+
   const clearAuthUser = () => {
     setAuthUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ authUser, setAuthUser, clearAuthUser }}>
+    <AuthContext.Provider value={{ authUser, authenticateUser, clearAuthUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -21,7 +21,7 @@ function toUserData(authUser: { firstName: string; lastName: string } | null): U
 }
 
 export default function useAuth() {
-  const { authUser, setAuthUser, clearAuthUser } = useAuthContext();
+  const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [hydrating, setHydrating] = useState(true);
@@ -32,7 +32,7 @@ export default function useAuth() {
     const hydrate = async () => {
       try {
         const user = await getProfileRequest();
-        if (user) setAuthUser(user);
+        if (user) authenticateUser(user);
       } catch {
         // Not authenticated, user stays null
       } finally {
@@ -40,7 +40,7 @@ export default function useAuth() {
       }
     };
     hydrate();
-  }, [setAuthUser]);
+  }, [authenticateUser]);
 
   const signIn = useCallback(
     async (data: LoginInput) => {
@@ -48,7 +48,7 @@ export default function useAuth() {
         setLoading(true);
         setError(undefined);
         const user = await loginRequest(data);
-        setAuthUser(user);
+        authenticateUser(user);
         return true;
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -61,7 +61,7 @@ export default function useAuth() {
         setLoading(false);
       }
     },
-    [setAuthUser]
+    [authenticateUser]
   );
 
   const signOut = useCallback(async () => {
