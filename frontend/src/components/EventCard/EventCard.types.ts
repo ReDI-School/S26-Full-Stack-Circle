@@ -67,7 +67,7 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * @default small
    */
   titleSize: 'big' | 'small';
-   * Controls the action button UI state.
+  /* Controls the action button UI state.
    *
    * - `false` — standard button behavior
    * - `true` — shows the button loading indicator and disables click

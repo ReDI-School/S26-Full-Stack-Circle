@@ -27,13 +27,13 @@ export default function EventCard(props: EventCardProps) {
     description,
     attendees,
     buttonText,
+    title,
   } = EventCardStyles();
 
   const buttonVariant = variantMap[props.action];
   const buttonState =
     props.action === 'archived' ? 'disabled' : props.isActionPending ? 'loading' : 'default';
 
-  const eventCardVariant = variantMap[props.action];
   const timeStamp = formatTimestamp(props.date);
 
   return (
