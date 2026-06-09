@@ -1,4 +1,3 @@
-import { config } from '../config';
 import type { LoginInput, RegisterInput } from '@validators/schemas';
 
 export interface AuthUser {
@@ -10,11 +9,8 @@ export interface AuthUser {
 }
 
 export async function loginRequest(data: LoginInput): Promise<AuthUser> {
-  const { apiUrl } = await config();
-
-  const res = await fetch(`${apiUrl}/auth/login`, {
+  const res = await fetch(`/api/auth/login`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -31,18 +27,15 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
 }
 
 export async function getProfileRequest(): Promise<AuthUser | null> {
-  const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/me`, { credentials: 'include' });
+  const res = await fetch(`/api/auth/me`);
   const json = await res.json();
   if (!res.ok) return null;
   return json.user;
 }
 
 export async function logoutRequest(): Promise<void> {
-  const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/logout`, {
+  const res = await fetch(`/api/auth/logout`, {
     method: 'POST',
-    credentials: 'include',
   });
   if (!res.ok) {
     throw new Error('Logout failed');
@@ -50,11 +43,8 @@ export async function logoutRequest(): Promise<void> {
 }
 
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
-  const { apiUrl } = await config();
-
-  const res = await fetch(`${apiUrl}/auth/register`, {
+  const res = await fetch(`/api/auth/register`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
