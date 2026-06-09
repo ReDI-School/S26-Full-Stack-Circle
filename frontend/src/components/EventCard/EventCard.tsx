@@ -39,8 +39,10 @@ export default function EventCard(props: EventCardProps) {
     <Card interactive>
       <div className={wrapper()}>
         <div className={dateContainer()}>
-          <CalendarDotsIcon size={22} />
-          <p className={date()}>{timeStamp}</p>
+          <CalendarDotsIcon size={22} aria-hidden="true" />
+          <p className={date()} aria-label={`Event date: ${timeStamp}`}>
+            {timeStamp}
+          </p>
         </div>
         <div className={wrapper()}>
           <div>
@@ -51,8 +53,11 @@ export default function EventCard(props: EventCardProps) {
         </div>
         <div className={bottomContainer()}>
           <div className={container()}>
-            <UsersIcon size={20} />
-            <p className={attendees()}>
+            <UsersIcon size={20} aria-hidden="true" />
+            <p
+              className={attendees()}
+              aria-label={`${props.attendeeCount} of ${props.maxAttendees} attendees`}
+            >
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
@@ -61,7 +66,7 @@ export default function EventCard(props: EventCardProps) {
         <div className={bottomContainer()}>
           <div className={container()}>
             <Link href={`/events/${props.id}`} className={detailsContainer()}>
-              <ArrowSquareUpRightIcon size={22} />
+              <ArrowSquareUpRightIcon size={22} aria-hidden="true" />
               <span>View details</span>
             </Link>
           </div>
