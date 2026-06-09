@@ -27,6 +27,12 @@ export default function EventCardSkeleton() {
             <Skeleton height={16} width={16} />
             <Skeleton height={16} width={60} />
           </div>
+        </div>
+        <div className={bottomContainer()}>
+          <div className={container()}>
+            <Skeleton height={16} width={16} />
+            <Skeleton height={16} width={80} />
+          </div>
           <Skeleton height={32} width={100} />
         </div>
       </div>
