@@ -4,15 +4,24 @@ import Card from '../Card/Card';
 import Avatar from '../Avatar/Avatar';
 import { getInitials } from '../../utils/utils';
 import { TrashIcon } from '@phosphor-icons/react';
+import { deleteMe } from '@service/userService';
 
 const ProfileCard = ({
   name,
   authoredEvents,
   goingToEvents,
   participatedEvents,
-  onDeleteProfile,
 }: ProfileCardProps) => {
   const nameInitials = getInitials(name);
+  const delteProfile = async () => {
+    try {
+      await deleteMe();
+      alert('User deleted');
+    } catch (err: unknown) {
+      console.error(err);
+    }
+  };
+
   return (
     <Card>
       <span className={profileCardStyles()}>
@@ -33,7 +42,7 @@ const ProfileCard = ({
           </span>
         </div>
         <button>
-          <TrashIcon size={32} onClick={() => console.log('Clicked')} />
+          <TrashIcon size={32} onClick={delteProfile} />
         </button>
       </span>
     </Card>
