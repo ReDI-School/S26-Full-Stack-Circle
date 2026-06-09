@@ -1,4 +1,4 @@
-export type EventCardAction = 'join' | 'leave' | 'edit';
+type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
 
 type EventCardBaseProps = {
   /**
@@ -6,6 +6,7 @@ type EventCardBaseProps = {
    * - `join` — Shows "JOIN" button with positive variant
    * - `leave` — Shows "LEAVE" button with negative variant
    * - `edit` — Shows "EDIT" button with idle variant
+   * - `archived` — Shows "ARCHIVED" button with idle variant and disabled state
    */
   action: EventCardAction;
 
@@ -66,6 +67,14 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * @default small
    */
   titleSize: 'big' | 'small';
+   * Controls the action button UI state.
+   *
+   * - `false` — standard button behavior
+   * - `true` — shows the button loading indicator and disables click
+   *
+   * This can be managed by the parent when an API call is in progress.
+   */
+  isActionPending?: boolean;
 };
 
 export type EventCardProps = EventCardLoadingProps | EventCardLoadedProps;

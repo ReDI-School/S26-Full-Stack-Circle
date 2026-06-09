@@ -8,7 +8,7 @@ const meta: Meta<typeof EventCard> = {
   tags: ['autodocs'],
   argTypes: {
     action: {
-      options: ['join', 'leave', 'edit'],
+      options: ['join', 'leave', 'edit', 'archived'],
       control: {
         type: 'radio',
       },
@@ -17,6 +17,9 @@ const meta: Meta<typeof EventCard> = {
       options: ['big', 'small'],
       control: {
         type: 'radio',
+    isActionPending: {
+      control: {
+        type: 'boolean',
       },
     },
   },
@@ -64,5 +67,27 @@ export const Edit: Story = {
   args: {
     isLoading: false,
     action: 'edit',
+  },
+};
+
+export const Archived: Story = {
+  args: {
+    isLoading: false,
+    action: 'archived',
+  },
+};
+
+export const ActionLoading: Story = {
+  args: {
+    isLoading: false,
+    action: 'join',
+    isActionPending: true,
+    date: new Date('2017-04-04T14:17:00Z'),
+    title: 'How to Network',
+    author: 'Owner',
+    description:
+      'Let’s get together and share techniques on how to network and communicate well our interests.',
+    attendeeCount: 10,
+    maxAttendees: 40,
   },
 };
