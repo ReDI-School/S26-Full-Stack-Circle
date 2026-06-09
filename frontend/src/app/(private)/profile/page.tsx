@@ -3,11 +3,16 @@
 import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
+  fetchCreatedProfileEvents,
+  fetchGoingProfileEvents,
+  fetchArchivedProfileEvents,
   getAttendeesForEvent,
-  getMockProfileEvents,
+  getCreatedProfileEvents,
+  getGoingProfileEvents,
+  getArchivedProfileEvents,
   getUserFullName,
   mockProfileUser,
   ProfileEvent,
@@ -40,11 +45,15 @@ const getEmptyStateMessage = (tab: ProfileTab) => {
 };
 
 const fetchMockProfileEvents = async (tab: ProfileTab) => {
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  if (tab === 'created') {
+    return fetchCreatedProfileEvents();
+  }
 
-  const profileEvents = getMockProfileEvents();
+  if (tab === 'going') {
+    return fetchGoingProfileEvents();
+  }
 
-  return profileEvents[tab];
+  return fetchArchivedProfileEvents();
 };
 
 const ProfilePage = () => {
@@ -59,11 +68,9 @@ const ProfilePage = () => {
 
   const isLoading = loadedTab !== activeTab;
 
-  const profileEvents = useMemo(() => getMockProfileEvents(), []);
-
-  const authoredEvents = profileEvents.created.length;
-  const goingToEvents = profileEvents.going.length;
-  const participatedEvents = profileEvents.archived.length;
+  const authoredEvents = getCreatedProfileEvents().length;
+  const goingToEvents = getGoingProfileEvents().length;
+  const participatedEvents = getArchivedProfileEvents().length;
 
   const handleTabChange = useCallback(
     (tab: string) => {

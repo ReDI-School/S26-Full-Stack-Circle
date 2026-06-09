@@ -216,17 +216,14 @@ export const getMockProfileEvents = () => ({
 });
 
 export const fetchCreatedProfileEvents = async () => {
-  await delay(600);
   return getCreatedProfileEvents();
 };
 
 export const fetchGoingProfileEvents = async () => {
-  await delay(600);
   return getGoingProfileEvents();
 };
 
 export const fetchArchivedProfileEvents = async () => {
-  await delay(600);
   return getArchivedProfileEvents();
 };
 
