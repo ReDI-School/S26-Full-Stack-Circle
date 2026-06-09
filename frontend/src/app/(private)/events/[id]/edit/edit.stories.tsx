@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { ProtectedLayout } from '@components';
 import EditEventPage from './page';
 
 const meta = {
@@ -13,5 +14,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <EditEventPage />,
+  render: () => (
+    <ProtectedLayout>
+      <EditEventPage />
+    </ProtectedLayout>
+  ),
 };

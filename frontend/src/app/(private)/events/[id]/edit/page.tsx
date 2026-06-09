@@ -1,39 +1,14 @@
-import Link from 'next/link';
-
-import { UserArea } from '@components/UserArea';
 import { LinkButton } from '@components/LinkButton';
-import { Logo } from '@components/Logo';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
 
 export default function EditEventPage() {
   return (
-    <div className="relative size-full min-h-screen bg-gray-50 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="flex justify-between items-center top-10">
-        <div className="left-10 sm:left-6 sm:top-8">
-          <Link href="/" aria-label="Go to home page">
-            <span className="inline-flex sm:hidden">
-              <Logo size="compact" />
-            </span>
-            <span className="hidden sm:inline-flex">
-              <Logo size="full" />
-            </span>
-          </Link>
-        </div>
-        <div className="right-10">
-          <UserArea
-            userName="Aliona Kolomyitseva"
-            avatarInitials="A. K."
-            onProfile={() => {}}
-            onSignOut={() => {}}
-          />
-        </div>
-      </div>
-
-      <div className="mt-8 flex justify-between items-center w-full">
+    <div className="relative size-full min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mt-2 flex justify-between items-center w-full">
         <div className="scale-90 origin-left">
-          <LinkButton href="/" icon={<ArrowLeftIcon />}>
+          <LinkButton href="/" icon={<ArrowLeftIcon />} color="secondary">
             GO BACK
           </LinkButton>
         </div>
