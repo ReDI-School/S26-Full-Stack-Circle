@@ -14,6 +14,6 @@ export const EventCardStyles = tv({
     attendees: 'text-sm text-ec-secondary',
     buttonText: 'uppercase',
     detailsContainer:
-      'text-sm flex gap-2 items-center text-ec-tertiary  hover:text-text-primary transition-color duration-200',
+      'text-sm flex gap-2 items-center text-ec-tertiary  hover:text-text-primary transition-colors duration-200',
   },
 });
