@@ -1,9 +1,46 @@
 import { LinkButton } from '@components/LinkButton';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { Button } from '@components/Button';
+import { buttonStyles } from '@components/Button/Button.styles';
 import { InputField } from '@components/InputField';
+import { config } from '@config';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 
-export default function EditEventPage() {
+type EditEventPageProps = {
+  params?: Promise<{ id: string }>;
+};
+
+export default async function EditEventPage({ params }: EditEventPageProps = {}) {
+  const id = params ? (await params).id : undefined;
+  const eventHref = id ? `/events/${id}` : '/events';
+
+  let event: {
+    title?: string | null;
+    date?: string | null;
+    time?: string | null;
+    capacity?: number | null;
+    description?: string | null;
+  } = {};
+
+  if (id) {
+    const cookieStore = await cookies();
+    const { apiUrl } = await config();
+    const token = cookieStore.get('token')?.value;
+
+    const res = await fetch(`${apiUrl}/events/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      cache: 'no-store',
+    });
+
+    const data = res.ok ? await res.json() : {};
+    event = data.event ?? {};
+  }
+
   return (
     <div className="relative size-full min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8">
       <div className="mt-2 flex justify-between items-center w-full">
@@ -31,18 +68,30 @@ export default function EditEventPage() {
               placeholder="Enter event title"
               required
               type="text"
+              defaultValue={event.title ?? ''}
             ></InputField>
           </div>
 
           <div className="mt-6 grid w-full grid-cols-3 gap-2 sm:gap-x-3 sm:gap-y-0">
-            <InputField label="Date" required type="date"></InputField>
-            <InputField label="Time" required type="time"></InputField>
+            <InputField
+              label="Date"
+              required
+              type="date"
+              defaultValue={event.date ? event.date.slice(0, 10) : ''}
+            ></InputField>
+            <InputField
+              label="Time"
+              required
+              type="time"
+              defaultValue={event.time ?? ''}
+            ></InputField>
             <InputField
               label="Capacity"
               placeholder="Enter capacity"
               required
               type="number"
               min="1"
+              defaultValue={event.capacity ?? ''}
             ></InputField>
           </div>
           <div className="mt-6 w-full">
@@ -52,16 +101,19 @@ export default function EditEventPage() {
               required
               as="textarea"
               rows={3}
+              defaultValue={event.description ?? ''}
             ></InputField>
           </div>
           <div className="hidden mt-6 justify-between sm:flex">
-            <Button variant="idle">CANCEL</Button>
+            <Link href={eventHref} className={buttonStyles({ variant: 'idle' })}>
+              CANCEL
+            </Link>
             <Button variant="positive">SAVE</Button>
           </div>
           <div className="flex mt-6 justify-between sm:hidden">
-            <Button variant="idle" size="small">
+            <Link href={eventHref} className={buttonStyles({ variant: 'idle', size: 'small' })}>
               CANCEL
-            </Button>
+            </Link>
             <Button variant="positive" size="small">
               SAVE
             </Button>
