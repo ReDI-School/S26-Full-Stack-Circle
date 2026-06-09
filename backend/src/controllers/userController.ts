@@ -55,4 +55,15 @@ export class UserController {
     await userService.deleteUser(id);
     return res.status(204).send();
   }
+
+  async deleteMe(req: Request, res: Response) {
+    const authenticatedUser = req.user;
+
+    if (!authenticatedUser) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    await userService.deleteUser(authenticatedUser.userId);
+    return res.status(204).send();
+  }
 }
