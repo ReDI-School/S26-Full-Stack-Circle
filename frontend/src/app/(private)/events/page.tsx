@@ -180,6 +180,7 @@ function EventsDashboardContent() {
           {events.map((event) => (
             <Link href={`/events/${event.id}`} key={event.id} className="block group">
               <EventCard
+                id={event.id}
                 key={event.id}
                 isLoading={false}
                 title={event.title}
