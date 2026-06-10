@@ -32,9 +32,11 @@ export default function EventCard(props: EventCardProps) {
     attendees,
     buttonText,
     detailsContainer,
+    interactive,
   } = EventCardStyles({ variant });
 
   const timeStamp = formatTimestamp(props.date);
+  const isInteractive = interactive() === 'true' ? true : false;
 
   /* Determine button variant and state based on action prop */
   const buttonVariant = variantMap[props.action];
@@ -48,7 +50,7 @@ export default function EventCard(props: EventCardProps) {
   );
 
   return (
-    <Card interactive>
+    <Card interactive={isInteractive}>
       <div className={wrapper()}>
         {/* Date Block */}
         <div className={dateContainer()}>
