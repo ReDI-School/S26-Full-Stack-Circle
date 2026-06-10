@@ -3,22 +3,6 @@ import { useAuthContext } from '@/contexts/AuthContext';
 import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
-// import { getInitials } from '../utils/utils';
-
-// interface UserData {
-//   name: string;
-//   initials: string;
-// }
-
-// function toUserData(authUser: { firstName: string; lastName: string } | null): UserData | null {
-//   if (!authUser) return null;
-//   const userFullName = `${authUser.firstName} ${authUser.lastName}`;
-//   const userInitials = getInitials(userFullName);
-//   return {
-//     name: userFullName,
-//     initials: userInitials,
-//   };
-// }
 
 export default function useAuth() {
   const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
