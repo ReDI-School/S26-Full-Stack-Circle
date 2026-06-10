@@ -14,8 +14,10 @@ const variantMap = {
 } as const;
 
 export default function EventCard(props: EventCardProps) {
-  if (props.isLoading) {
-    return <EventCardSkeleton />;
+  const { variant = 'preview', isLoading } = props;
+
+  if (isLoading) {
+    return <EventCardSkeleton variant={variant} />;
   }
 
   const {
@@ -30,25 +32,35 @@ export default function EventCard(props: EventCardProps) {
     buttonText,
     title,
     detailsContainer,
-  } = EventCardStyles({
-    titleSize: props.titleSize,
-  });
+    interactive,
+  } = EventCardStyles({ variant });
 
+  const timeStamp = formatTimestamp(props.date);
+  const isInteractive = interactive() === 'true' ? true : false;
+
+  /* Determine button variant and state based on action prop */
   const buttonVariant = variantMap[props.action];
   const buttonState =
     props.action === 'archived' ? 'disabled' : props.isActionPending ? 'loading' : 'default';
 
-  const timeStamp = formatTimestamp(props.date);
+  const actionButton = (
+    <Button variant={buttonVariant} state={buttonState} size="small" onClick={props.onActionClick}>
+      <span className={buttonText()}>{props.action}</span>
+    </Button>
+  );
 
   return (
-    <Card interactive={props.interactive}>
+    <Card interactive={isInteractive}>
       <div className={wrapper()}>
+        {/* Date Block */}
         <div className={dateContainer()}>
           <CalendarDotsIcon size={22} aria-hidden="true" />
           <p className={date()} aria-label={`Event date: ${timeStamp}`}>
             {timeStamp}
           </p>
         </div>
+
+        {/* Event Details Block - title, author, description */}
         <div className={wrapper()}>
           <div>
             <p className={title()}>{props.title}</p>
@@ -56,6 +68,8 @@ export default function EventCard(props: EventCardProps) {
           </div>
           <p className={description()}>{props.description}</p>
         </div>
+
+        {/* Attendees Block with action button in fullview mode */}
         <div className={bottomContainer()}>
           <div className={container()}>
             <UsersIcon size={20} aria-hidden="true" />
@@ -66,25 +80,22 @@ export default function EventCard(props: EventCardProps) {
               {props.attendeeCount} of {props.maxAttendees}
             </p>
           </div>
+          {variant === 'fullview' && actionButton}
         </div>
 
-        <div className={bottomContainer()}>
-          <div className={container()}>
-            <Link href={`/events/${props.id}`} className={detailsContainer()}>
-              <ArrowSquareUpRightIcon size={22} aria-hidden="true" />
-              <span>View details</span>
-            </Link>
+        {/* View Details block - only shown in preview mode */}
+        {variant === 'preview' && (
+          <div className={bottomContainer()}>
+            <div className={container()}>
+              <Link href={`/events/${props.id}`} className={detailsContainer()}>
+                <ArrowSquareUpRightIcon size={22} aria-hidden="true" />
+                <span>View details</span>
+              </Link>
+            </div>
+
+            {actionButton}
           </div>
-
-          <Button
-            variant={buttonVariant}
-            state={buttonState}
-            size="small"
-            onClick={props.onActionClick}
-          >
-            <span className={buttonText()}>{props.action}</span>
-          </Button>
-        </div>
+        )}
       </div>
     </Card>
   );
