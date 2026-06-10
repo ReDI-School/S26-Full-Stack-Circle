@@ -26,6 +26,7 @@ export const EventCardStyles = tv({
       fullview: {
         title: 'text-3xl',
         author: 'text-base',
+        description: 'whitespace-pre-line',
       },
     },
   },

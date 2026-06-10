@@ -8,7 +8,7 @@ const eventDetailsPlaceholder = {
   title: 'How to Network',
   author: 'Jane Doe',
   description:
-    'Let’s get together and share techniques on how to network and communicate well our interests. We’ll cover practical tips on introducing yourself, following up after meetings, using LinkedIn effectively, and building genuine long-term professional relationships in the tech industry.',
+    'Let’s get together and share techniques on how to network and communicate well our interests. We’ll cover practical tips on introducing yourself, following up after meetings, using LinkedIn effectively, and building genuine long-term professional relationships in the tech industry.\n\nLight refreshments provided. All levels welcome.',
   attendeeCount: 15,
   maxAttendees: 30,
 };
