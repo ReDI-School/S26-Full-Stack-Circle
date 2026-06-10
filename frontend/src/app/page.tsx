@@ -2,14 +2,17 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { tokenStorage } from '../utils/tokenStorage';
+import useAuth from '@/hooks/useAuth';
 
 const Home = () => {
   const router = useRouter();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    router.replace(tokenStorage.get() ? '/events' : '/sign-in');
-  }, [router]);
+    if (!loading) {
+      router.replace(user ? '/events' : '/sign-in');
+    }
+  }, [user, loading, router]);
 
   return null;
 };
