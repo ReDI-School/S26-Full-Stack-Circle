@@ -1,8 +1,9 @@
 import { Card } from '../Card';
 import { Skeleton } from '../Skeleton';
 import { EventCardStyles } from './EventCard.styles';
+import type { EventCardProps } from './EventCard.types';
 
-export default function EventCardSkeleton() {
+export default function EventCardSkeleton({ variant }: Pick<EventCardProps, 'variant'>) {
   const { wrapper, container, bottomContainer, skeletonContainer } = EventCardStyles();
 
   return (
@@ -27,14 +28,18 @@ export default function EventCardSkeleton() {
             <Skeleton height={16} width={16} />
             <Skeleton height={16} width={60} />
           </div>
+          {variant === 'fullview' && <Skeleton height={32} width={100} />}
         </div>
-        <div className={bottomContainer()}>
-          <div className={container()}>
-            <Skeleton height={16} width={16} />
-            <Skeleton height={16} width={80} />
+
+        {variant === 'preview' && (
+          <div className={bottomContainer()}>
+            <div className={container()}>
+              <Skeleton height={16} width={16} />
+              <Skeleton height={16} width={80} />
+            </div>
+            <Skeleton height={32} width={100} />
           </div>
-          <Skeleton height={32} width={100} />
-        </div>
+        )}
       </div>
     </Card>
   );
