@@ -31,7 +31,7 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
 
 export async function getProfileRequest(): Promise<AuthUser | null> {
   const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/me`);
+  const res = await fetch(`${apiUrl}/auth/me`, { credentials: 'include' });
   const json = await res.json();
   if (!res.ok) return null;
   return json.user;
