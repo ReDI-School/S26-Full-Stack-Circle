@@ -4,10 +4,14 @@ import { Logo } from '../Logo';
 import { UserArea } from '@components';
 import useAuth from '@hooks/useAuth';
 import { Skeleton } from '@components/Skeleton';
+import { getInitials } from '@/utils/utils';
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const { user, loading, signOut, goToProfile } = useAuth();
   const { main, headerBar, content } = protectedLayoutStyles();
+
+  const userFullName = user ? `${user.firstName} ${user.lastName}` : null;
+  const initials = user ? getInitials(userFullName!) : null;
 
   return (
     <main className={main()}>
@@ -28,8 +32,8 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
           </div>
         ) : user ? (
           <UserArea
-            userName={user.name}
-            avatarInitials={user.initials}
+            userName={userFullName || ''}
+            avatarInitials={initials || ''}
             onProfile={goToProfile}
             onSignOut={signOut}
           />
