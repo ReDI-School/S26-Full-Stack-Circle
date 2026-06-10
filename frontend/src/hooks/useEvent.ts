@@ -65,19 +65,21 @@ export default function useEvent({ id }: { id: string }) {
       if (action === 'edit' && event && user) {
         router.push(`/events/update-${id}`);
       } else if (action === 'join' && event && user) {
+        const userTag = `${user.firstName} ${user.lastName}`;
         setIsAtending(true);
         setEvent({
           ...event,
           attendeeCount: event.attendeeCount + 1,
-          attendees: [...event.attendees, user.name],
+          attendees: [...event.attendees, userTag],
         });
         await joinEvent(id);
       } else if (action === 'leave' && event && user) {
+        const userTag = `${user.firstName} ${user.lastName}`;
         setIsAtending(false);
         setEvent({
           ...event,
           attendeeCount: event.attendeeCount - 1,
-          attendees: event.attendees.filter((name) => name !== user.name),
+          attendees: event.attendees.filter((name) => name !== userTag),
         });
         await leaveEvent(id);
       }

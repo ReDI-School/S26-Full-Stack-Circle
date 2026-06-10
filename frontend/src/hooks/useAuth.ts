@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
+import { loginRequest, getProfileRequest, logoutRequest } from '@services/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
