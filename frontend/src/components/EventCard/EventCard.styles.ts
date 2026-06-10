@@ -1,4 +1,3 @@
-import { Interactive } from '@components/Card/Card.stories';
 import { tv } from 'tailwind-variants';
 
 export const EventCardStyles = tv({
@@ -33,19 +32,5 @@ export const EventCardStyles = tv({
         interactive: 'false',
       },
     },
-  },
-  variants: {
-    titleSize: {
-      big: {
-        title: 'text-2xl',
-      },
-      small: {
-        title: 'text-xl',
-      },
-    },
-  },
-
-  defaultVariants: {
-    titleSize: 'small',
   },
 });
