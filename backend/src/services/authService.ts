@@ -33,7 +33,7 @@ export class AuthService {
       expiresIn: '10m',
     });
 
-    return token;
+    return { token, user };
   }
 
   async register(email: string, firstName: string, lastName: string, password: string) {

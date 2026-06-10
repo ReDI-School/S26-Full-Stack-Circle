@@ -1,11 +1,19 @@
-type EventCardAction = 'join' | 'leave' | 'edit';
+type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
 
 type EventCardBaseProps = {
+  /**
+   * Display mode for the card.
+   * - `preview` — shows a "View details" link to the event page (default)
+   * - `fullview` — hides the link; intended for use on the event detail page itself
+   * @default 'preview'
+   */
+  variant?: 'preview' | 'fullview';
   /**
    * The action button text and behavior.
    * - `join` — Shows "JOIN" button with positive variant
    * - `leave` — Shows "LEAVE" button with negative variant
    * - `edit` — Shows "EDIT" button with idle variant
+   * - `archived` — Shows "ARCHIVED" button with idle variant and disabled state
    */
   action: EventCardAction;
 
@@ -25,6 +33,9 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * @default false
    */
   isLoading?: false;
+
+  /** Unique identifier for the event, used for navigation and actions. */
+  id: string;
 
   /**
    * Date of the event in stardart ISO: 2017-04-04T14:17:00Z
@@ -55,6 +66,16 @@ type EventCardLoadedProps = EventCardBaseProps & {
    * Maximum number of attendees allowed.
    */
   maxAttendees: number;
+
+  /**
+   * Controls the action button UI state.
+   *
+   * - `false` — standard button behavior
+   * - `true` — shows the button loading indicator and disables click
+   *
+   * This can be managed by the parent when an API call is in progress.
+   */
+  isActionPending?: boolean;
 };
 
 export type EventCardProps = EventCardLoadingProps | EventCardLoadedProps;

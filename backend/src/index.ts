@@ -8,6 +8,7 @@ import userRouter from './routes/userRoutes.js';
 import eventRouter from './routes/eventRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(cookieParser());
 
 // Routes
 app.use('/users', userRouter);
