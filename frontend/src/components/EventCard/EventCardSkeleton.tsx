@@ -15,8 +15,11 @@ export default function EventCardSkeleton({ variant }: Pick<EventCardProps, 'var
         </div>
         <div className={wrapper()}>
           <div className={skeletonContainer()}>
-            <Skeleton height={26} width={193} />
-            <Skeleton height={22} width={124} />
+            <Skeleton
+              height={variant === 'preview' ? 26 : 36}
+              width={variant === 'preview' ? 193 : 223}
+            />
+            <Skeleton height={variant === 'preview' ? 16 : 24} width={124} />
           </div>
           <div className="flex flex-col gap-2.5">
             <Skeleton height={16} width="100%" />
