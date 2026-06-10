@@ -72,6 +72,7 @@ export default function EventPage() {
             onActionClick={handleAction}
             titleSize="big"
             interactive={false}
+            variant={'fullview'}
           />
         </div>
         <div className="flex-1">
