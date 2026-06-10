@@ -1,10 +1,15 @@
+// Mock data and utility functions for the profile page, simulating backend responses for created, going, and archived events.
+
 export type ProfileTab = 'created' | 'going' | 'archived';
 
-export type MockUser = {
-  id: string;
-  email: string;
+export type NameParts = {
   firstName: string;
   lastName: string;
+};
+
+export type MockUser = NameParts & {
+  id: string;
+  email: string;
 };
 
 export type BackendEvent = {
@@ -17,16 +22,10 @@ export type BackendEvent = {
   organizerId: string;
   createdAt: string;
   updatedAt: string;
-  organizer: {
-    firstName: string;
-    lastName: string;
-  };
+  organizer: NameParts;
 };
 
-export type Attendee = {
-  firstName: string;
-  lastName: string;
-};
+export type Attendee = NameParts;
 
 export type ProfileEvent = {
   id: string;
@@ -152,28 +151,23 @@ export const mockAttendeesByEventId: Record<string, Attendee[]> = {
     { firstName: 'Jane', lastName: 'Smith' },
     { firstName: 'Michael', lastName: 'Brown' },
   ],
-
   'd9c841c1-0719-4611-b437-a7b775327718': [
     { firstName: 'Fabio', lastName: 'Rodriguez' },
     { firstName: 'Anna', lastName: 'Müller' },
   ],
-
   'cdee81b6-e03d-420c-923e-687fed77073d': [
     { firstName: 'Fabio', lastName: 'Rodriguez' },
     { firstName: 'Sara', lastName: 'Lee' },
     { firstName: 'David', lastName: 'Kim' },
   ],
-
   '7fdff9e2-91a1-4012-bd10-111111111111': [
     { firstName: 'Fabio', lastName: 'Rodriguez' },
     { firstName: 'Lukas', lastName: 'Weber' },
   ],
-
   '8aa3e68f-4f79-4f34-a616-222222222222': [
     { firstName: 'Clara', lastName: 'Schmidt' },
     { firstName: 'Noah', lastName: 'Becker' },
   ],
-
   '1b9923cb-d6ac-4f00-baaa-333333333333': [
     { firstName: 'Fabio', lastName: 'Rodriguez' },
     { firstName: 'David', lastName: 'Kim' },
@@ -184,13 +178,25 @@ export const getAttendeesForEvent = (eventId: string) => {
   return mockAttendeesByEventId[eventId] ?? [];
 };
 
+export const getUserFullName = (user: NameParts) => {
+  return `${user.firstName} ${user.lastName}`;
+};
+
+export const getProfileEventCounts = () => {
+  return {
+    authoredEvents: mockCreatedEvents.length,
+    goingToEvents: mockGoingEvents.length,
+    participatedEvents: mockArchivedEvents.length,
+  };
+};
+
 const toProfileEvent = (event: BackendEvent, status: ProfileTab): ProfileEvent => {
   return {
     id: event.id,
     status,
     date: new Date(event.date),
     title: event.title,
-    author: `${event.organizer.firstName} ${event.organizer.lastName}`,
+    author: getUserFullName(event.organizer),
     description: event.description ?? '',
     attendeeCount: getAttendeesForEvent(event.id).length,
     maxAttendees: event.capacity,
@@ -209,25 +215,34 @@ export const getArchivedProfileEvents = () => {
   return mockArchivedEvents.map((event) => toProfileEvent(event, 'archived'));
 };
 
-export const getMockProfileEvents = () => ({
-  created: getCreatedProfileEvents(),
-  going: getGoingProfileEvents(),
-  archived: getArchivedProfileEvents(),
-});
+export const getMockProfileEvents = () => {
+  return {
+    created: getCreatedProfileEvents(),
+    going: getGoingProfileEvents(),
+    archived: getArchivedProfileEvents(),
+  };
+};
+
+// Utility for simulating network latency
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const fetchCreatedProfileEvents = async () => {
+  await delay(800); // 800ms fake delay
   return getCreatedProfileEvents();
 };
 
 export const fetchGoingProfileEvents = async () => {
+  await delay(800);
   return getGoingProfileEvents();
 };
 
 export const fetchArchivedProfileEvents = async () => {
+  await delay(800);
   return getArchivedProfileEvents();
 };
 
 export const fetchProfileEventsByTab = async (tab: ProfileTab) => {
+  // You can also add randomized error throwing here later to test your error UI
   if (tab === 'created') {
     return fetchCreatedProfileEvents();
   }
@@ -237,8 +252,4 @@ export const fetchProfileEventsByTab = async (tab: ProfileTab) => {
   }
 
   return fetchArchivedProfileEvents();
-};
-
-export const getUserFullName = (user: MockUser) => {
-  return `${user.firstName} ${user.lastName}`;
 };

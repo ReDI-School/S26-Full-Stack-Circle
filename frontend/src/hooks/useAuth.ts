@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { loginRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
 
@@ -10,6 +11,7 @@ interface UserData {
 const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
 
 export default function useAuth() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<UserData | null>(MOCK_USER);
@@ -17,9 +19,7 @@ export default function useAuth() {
     // TODO: Implement real sign-out logic
   };
 
-  const goToProfile = () => {
-    // TODO: Implement navigation to profile page
-  };
+  const goToProfile = () => router.push('/profile');
 
   const signIn = async ({ email, password }: LoginInput) => {
     try {

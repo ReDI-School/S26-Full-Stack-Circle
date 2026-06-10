@@ -3,7 +3,7 @@
 import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
 import {
   fetchProfileEventsByTab,
@@ -24,96 +24,78 @@ const normalizeTab = (tab: string | null): ProfileTab => {
   if (tab === 'created' || tab === 'going' || tab === 'archived') {
     return tab;
   }
-
   return 'created';
 };
 
 const getActionForEvent = (event: ProfileEvent): 'leave' | 'edit' | 'archived' => {
   if (event.status === 'created') return 'edit';
   if (event.status === 'going') return 'leave';
-
   return 'archived';
 };
 
 const getEmptyStateMessage = (tab: ProfileTab) => {
   if (tab === 'created') return 'You have not created any upcoming events yet.';
   if (tab === 'going') return 'You are not going to any upcoming events yet.';
-
   return 'You do not have any archived events yet.';
 };
 
-const ProfilePage = () => {
+function ProfileContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const activeTab = useMemo(() => normalizeTab(searchParams.get('tab')), [searchParams]);
+  const activeTab = normalizeTab(searchParams.get('tab'));
 
   const [events, setEvents] = useState<ProfileEvent[]>([]);
   const [loadedTab, setLoadedTab] = useState<ProfileTab | null>(null);
-  const currentFetchId = useRef<symbol | null>(null);
 
   const isLoading = loadedTab !== activeTab;
 
-  const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
-    () => ({
-      authoredEvents: getCreatedProfileEvents().length,
-      goingToEvents: getGoingProfileEvents().length,
-      participatedEvents: getArchivedProfileEvents().length,
-    }),
-    []
-  );
+  const authoredEvents = getCreatedProfileEvents().length;
+  const goingToEvents = getGoingProfileEvents().length;
+  const participatedEvents = getArchivedProfileEvents().length;
 
-  const eventsWithActions = useMemo(
-    () => events.map((event) => ({ ...event, action: getActionForEvent(event) })),
-    [events]
-  );
+  const handleTabChange = (tab: string) => {
+    const nextTab = normalizeTab(tab.toLowerCase());
+    if (nextTab === activeTab) return;
 
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      const nextTab = normalizeTab(tab.toLowerCase());
+    const nextParams = new URLSearchParams(searchParams.toString());
+    nextParams.set('tab', nextTab);
+    router.push(`${pathname}?${nextParams.toString()}`);
+  };
 
-      if (nextTab === activeTab) return;
-
-      const nextParams = new URLSearchParams(searchParams.toString());
-      nextParams.set('tab', nextTab);
-
-      router.push(`${pathname}?${nextParams.toString()}`);
-    },
-    [activeTab, pathname, router, searchParams]
-  );
-
-  const handleCreateEvent = useCallback(() => {
-    // For now, action is logged. In the future, this would navigate to a create event page or open a modal.
+  const handleCreateEvent = () => {
     console.log('Create new event clicked');
-  }, []);
+  };
 
-  const handleEventAction = useCallback(
-    (eventId: string) => {
-      const event = events.find((item) => item.id === eventId);
-      if (!event) return;
-
-      const action = getActionForEvent(event);
-
-      console.log(`${action} clicked`, {
-        eventId: event.id,
-        title: event.title,
-        attendees: getAttendeesForEvent(event.id),
-      });
-    },
-    [events]
-  );
+  const handleEventAction = (event: ProfileEvent) => {
+    const action = getActionForEvent(event);
+    console.log(`${action} clicked`, {
+      eventId: event.id,
+      title: event.title,
+      attendees: getAttendeesForEvent(event.id),
+    });
+  };
 
   useEffect(() => {
-    const fetchId = Symbol();
-    currentFetchId.current = fetchId;
+    let ignore = false;
 
-    fetchProfileEventsByTab(activeTab).then((fetchedEvents) => {
-      if (currentFetchId.current !== fetchId) return;
+    fetchProfileEventsByTab(activeTab)
+      .then((fetchedEvents) => {
+        if (ignore) return;
+        setEvents(fetchedEvents);
+        setLoadedTab(activeTab);
+      })
+      .catch((error) => {
+        if (ignore) return;
+        console.error('Failed to fetch events', error);
+        setEvents([]);
+        setLoadedTab(activeTab);
+      });
 
-      setEvents(fetchedEvents);
-      setLoadedTab(activeTab);
-    });
+    return () => {
+      ignore = true;
+    };
   }, [activeTab]);
 
   return (
@@ -146,20 +128,20 @@ const ProfilePage = () => {
               <EventCard key={index} isLoading action="edit" onActionClick={() => undefined} />
             ))}
           </div>
-        ) : eventsWithActions.length > 0 ? (
+        ) : events.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {eventsWithActions.map((event) => (
+            {events.map((event) => (
               <EventCard
                 key={event.id}
+                id={event.id}
                 date={event.date}
                 title={event.title}
                 author={event.author}
                 description={event.description}
                 attendeeCount={event.attendeeCount}
                 maxAttendees={event.maxAttendees}
-                action={event.action}
-                onActionClick={() => handleEventAction(event.id)}
-                id={event.id}
+                action={getActionForEvent(event)}
+                onActionClick={() => handleEventAction(event)}
               />
             ))}
           </div>
@@ -174,6 +156,12 @@ const ProfilePage = () => {
       <StickyButton label="CREATE NEW EVENT" onClick={handleCreateEvent} />
     </main>
   );
-};
+}
 
-export default ProfilePage;
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={null}>
+      <ProfileContent />
+    </Suspense>
+  );
+}
