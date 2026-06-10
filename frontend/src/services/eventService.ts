@@ -24,7 +24,7 @@ export type RawEvent = {
   };
   attendances: Attendance[];
   isOwner: boolean;
-  isAtending: boolean;
+  isAttending: boolean;
 };
 
 export async function fetchEventById(id: string): Promise<RawEvent> {

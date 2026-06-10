@@ -1,7 +1,7 @@
 import { Card } from '@components/Card';
 import { Skeleton } from '@components/Skeleton';
 
-export default function AtendeesSkeleton() {
+export default function AttendeesSkeleton() {
   return (
     <Card>
       <div className="flex flex-col gap-7.5">

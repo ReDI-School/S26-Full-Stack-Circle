@@ -87,12 +87,12 @@ export class EventService {
     }
 
     const isOwner = event.organizerId === userId;
-    const isAtending = event.attendances.map((atendee) => atendee.user.id).includes(userId);
+    const isAttending = event.attendances.map((attendee) => attendee.user.id).includes(userId);
 
     return {
       ...event,
       isOwner,
-      isAtending,
+      isAttending,
     };
   }
 

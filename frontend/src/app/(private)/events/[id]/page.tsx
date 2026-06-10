@@ -1,8 +1,8 @@
 'use client';
 
 import { EventCard } from '@components/EventCard';
-import Atendees from '@components/Atendees/Atendees';
-import AtendeesSkeleton from '@components/Atendees/AtendeesSkeleton';
+import Attendees from '@components/Attendees/Attendees';
+import AttendeesSkeleton from '@components/Attendees/AttendeesSkeleton';
 import useEvent from '@hooks/useEvent';
 import { useParams, useRouter } from 'next/navigation';
 import { LinkButton } from '@components/LinkButton';
@@ -25,7 +25,7 @@ export default function EventPage() {
             <EventCard isLoading={loading} action={'join'} onActionClick={() => {}} />
           </div>
           <div className="flex-1 w-full">
-            <AtendeesSkeleton />
+            <AttendeesSkeleton />
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function EventPage() {
           />
         </div>
         <div className="flex-1">
-          <Atendees atendees={event.attendees} />
+          <Attendees attendees={event.attendees} />
         </div>
       </div>
     </main>

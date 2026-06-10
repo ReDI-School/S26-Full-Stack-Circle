@@ -13,7 +13,7 @@ export default function useEvent({ id }: { id: string }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const [isAtending, setIsAtending] = useState<boolean>(false);
+  const [isAttending, setIsAtending] = useState<boolean>(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function useEvent({ id }: { id: string }) {
         };
         setEvent(formatedEvent);
         setIsOwner(rawEvent.isOwner);
-        setIsAtending(rawEvent.isAtending);
+        setIsAtending(rawEvent.isAttending);
         setLoading(false);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -55,10 +55,10 @@ export default function useEvent({ id }: { id: string }) {
     loadEvent();
   }, [id]);
 
-  const action: EventCardAction = isOwner ? 'edit' : isAtending ? 'leave' : 'join';
+  const action: EventCardAction = isOwner ? 'edit' : isAttending ? 'leave' : 'join';
 
   const handleAction = async () => {
-    const previousState = isAtending;
+    const previousState = isAttending;
     const previousEvent = event;
 
     try {
