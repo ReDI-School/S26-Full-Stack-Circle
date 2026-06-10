@@ -21,6 +21,12 @@ export default function EventCardSkeleton({ variant }: Pick<EventCardProps, 'var
           <div className="flex flex-col gap-2.5">
             <Skeleton height={16} width="100%" />
             <Skeleton height={16} width="75%" />
+            {variant === 'fullview' && (
+              <>
+                <Skeleton height={16} width="90%" />
+                <Skeleton height={16} width="60%" />
+              </>
+            )}
           </div>
         </div>
         <div className={bottomContainer()}>

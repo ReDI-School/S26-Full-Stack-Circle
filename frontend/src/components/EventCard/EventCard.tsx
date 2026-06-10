@@ -32,13 +32,14 @@ export default function EventCard(props: EventCardProps) {
     attendees,
     buttonText,
     detailsContainer,
-  } = EventCardStyles();
+  } = EventCardStyles({ variant });
 
+  const timeStamp = formatTimestamp(props.date);
+
+  /* Determine button variant and state based on action prop */
   const buttonVariant = variantMap[props.action];
   const buttonState =
     props.action === 'archived' ? 'disabled' : props.isActionPending ? 'loading' : 'default';
-
-  const timeStamp = formatTimestamp(props.date);
 
   const actionButton = (
     <Button variant={buttonVariant} state={buttonState} size="small" onClick={props.onActionClick}>
