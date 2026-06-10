@@ -17,9 +17,6 @@ export default function useAuth() {
       try {
         const user = await getProfileRequest();
         if (user) authenticateUser(user);
-        console.log('cookie is missing');
-        console.log('cookie is missing');
-        console.log('cookie is missing');
       } catch {
         // Not authenticated, user stays null
       } finally {
@@ -27,13 +24,9 @@ export default function useAuth() {
       }
     };
     hydrate();
-  }, [authenticateUser]);
+  }, []);
 
-  const signIn =  async (data: LoginInput) => {
-      try {
-        setLoading(true);
         setError(undefined);
-        const user = await loginRequest(data);
         authenticateUser(user);
         return true;
       } catch (err: unknown) {
