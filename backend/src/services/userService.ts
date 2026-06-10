@@ -39,10 +39,21 @@ export class UserService {
     });
   }
 
-  async updateUser(id: string, data: { email?: string; firstName?: string; lastName?: string }) {
+  async updateUser(id: string, data: { email?: string; firstName?: string; lastName?: string; password?: string }) {
+    const updateData: { email?: string; firstName?: string; lastName?: string; passwordHash?: string } = {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+    };
+
+    if (data.password) {
+      updateData.passwordHash = await bcrypt.hash(data.password, 10);
+    }
+
     const user = await prisma.user.update({
+      omit: { passwordHash: true },
       where: { id },
-      data,
+      data: updateData,
     });
     return new UserDTO(user);
   }

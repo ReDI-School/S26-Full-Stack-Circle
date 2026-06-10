@@ -19,3 +19,4 @@ export * from './SignInForm';
 export * from './ProtectedLayout';
 export * from './UserArea';
 export * from './UserSettingsForm';
+export * from './EventCard';
