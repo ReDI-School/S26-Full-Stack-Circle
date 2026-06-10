@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../services/authService.js';
 import { UserDTO } from '../dto/user.dto.js';
+import { UserService } from '../services/userService.js';
 
 export class AuthController {
   private readonly authService = new AuthService();
+  private readonly userService = new UserService();
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -13,7 +15,7 @@ export class AuthController {
         return res.status(400).json({ error: 'Email and password are required' });
       }
 
-      const token = await this.authService.login(email, password);
+      const { token, user } = await this.authService.login(email, password);
 
       const isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,7 +26,8 @@ export class AuthController {
         maxAge: 1000 * 60 * 10,
       });
 
-      return res.json({ ok: true });
+      const userResponse = new UserDTO(user);
+      return res.json({ ok: true, user: userResponse });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
@@ -53,5 +56,26 @@ export class AuthController {
 
       next(error);
     }
+  }
+
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.user!;
+      const user = await this.userService.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const userResponse = new UserDTO(user);
+      return res.json({ user: userResponse });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response) {
+    res.clearCookie('token', { httpOnly: true, sameSite: 'lax' });
+    return res.json({ ok: true });
   }
 }

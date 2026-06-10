@@ -7,10 +7,12 @@ import jwt from 'jsonwebtoken';
  *
  * This middleware expects a `token` cookie containing the JWT. It performs the following steps:
  *
- * 1. Checks for the presence of the token cookie.
- * 2. Verifies the token using the configured secret.
- * 3. Ensures the decoded payload contains the required `userId` and `role` fields.
- * 4. Attaches the validated payload to `req.user` for downstream handlers.
+ * It reads the token from two sources (in priority order):
+ * 1. `token` cookie (`req.cookies.token`) used by the browser with httpOnly cookies.
+ * 2. `Authorization: Bearer <token>` header - fallback for API clients (Postman, etc.).
+ * 3. Verifies the token using the configured secret.
+ * 4. Ensures the decoded payload contains the required `userId` and `role` fields.
+ * 5. Attaches the validated payload to `req.user` for downstream handlers.
  *
  * If authentication fails (missing token, expired token, or invalid payload),
  * the middleware responds with HTTP 401 Unauthorized and an appropriate error message.
@@ -18,7 +20,16 @@ import jwt from 'jsonwebtoken';
  * On success, it calls `next()` to pass control to the next middleware or route handler.
  */
 export function authenticate(req: Request, res: Response, next: NextFunction) {
-  const token = req.cookies?.token;
+  let token: string | undefined;
+
+  if (req.cookies?.token) {
+    token = req.cookies.token;
+  } else {
+    const authHeader = req.headers.authorization;
+    if (authHeader?.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    }
+  }
 
   if (!token) {
     return res.status(401).json({ error: 'No token provided. Please log in.' });
