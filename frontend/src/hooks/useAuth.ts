@@ -26,7 +26,11 @@ export default function useAuth() {
     hydrate();
   }, []);
 
+  const signIn =  async (data: LoginInput) => {
+      try {
+        setLoading(true);
         setError(undefined);
+        const user = await loginRequest(data);
         authenticateUser(user);
         return true;
       } catch (err: unknown) {
