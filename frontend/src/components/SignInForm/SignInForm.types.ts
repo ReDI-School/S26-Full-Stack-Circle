@@ -1,7 +1,7 @@
-import { LoginInput } from "@/validators/schemas";
+import { LoginInput } from '@/validators/schemas';
 
 export interface SignInFormProps {
-  onSubmit: (data: LoginInput) => void;
+  onSubmit: (data: LoginInput) => Promise<void>;
   isLoading?: boolean;
   serverError?: string;
 }

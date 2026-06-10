@@ -5,6 +5,8 @@ import { IntlProvider } from '../components/IntlProvider';
 import '../assets/css/reset.css';
 import '../assets/css/global.css';
 
+import AuthProviderWrapper from './AuthProvider';
+
 const roboto = Roboto({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
@@ -24,7 +26,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className={roboto.variable}>
       <body>
-        <IntlProvider>{children}</IntlProvider>
+        <AuthProviderWrapper>
+          <IntlProvider>{children}</IntlProvider>
+        </AuthProviderWrapper>
       </body>
     </html>
   );
