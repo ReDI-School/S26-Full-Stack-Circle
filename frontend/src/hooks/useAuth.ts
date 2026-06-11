@@ -1,49 +1,34 @@
-import { useState, useEffect } from 'react';
-import { useAuthContext } from '@/contexts/AuthContext';
-import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
+import { useState } from 'react';
+import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
+import { loginRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
+  const { authUser, isHydrating } = useAuthContext();
+  const { setAuthUser } = useAuthDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [hydrating, setHydrating] = useState(true);
   const router = useRouter();
 
-  // Hydrate user from cookie on mount
-  useEffect(() => {
-    const hydrate = async () => {
-      try {
-        const user = await getProfileRequest();
-        if (user) authenticateUser(user);
-      } catch {
-        // Not authenticated, user stays null
-      } finally {
-        setHydrating(false);
+  const signIn = async (data: LoginInput) => {
+    try {
+      setLoading(true);
+      setError(undefined);
+      const user = await loginRequest(data);
+      setAuthUser(user);
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
       }
-    };
-    hydrate();
-  }, []);
-
-  const signIn =  async (data: LoginInput) => {
-      try {
-        setLoading(true);
-        setError(undefined);
-        const user = await loginRequest(data);
-        authenticateUser(user);
-        return true;
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unknown error occurred');
-        }
-        return false;
-      } finally {
-        setLoading(false);
-      }
-    };
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const signOut = async () => {
     try {
@@ -51,7 +36,7 @@ export default function useAuth() {
     } catch {
       // Continue clearing local state
     } finally {
-      clearAuthUser();
+      setAuthUser(null);
       router.push('/sign-in');
     }
   };
@@ -62,7 +47,7 @@ export default function useAuth() {
 
   return {
     user: authUser,
-    loading: loading || hydrating,
+    loading: loading || isHydrating,
     error,
     signIn,
     signOut,
