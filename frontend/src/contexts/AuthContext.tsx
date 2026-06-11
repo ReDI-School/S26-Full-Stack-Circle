@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
-import { getProfileRequest } from '@service/authService';
-import type { AuthUser } from '@service/authService';
+import { getProfileRequest } from '@services/authService';
+import type { AuthUser } from '@services/authService';
 
 interface AuthContextValue {
   authUser: AuthUser | null;
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = useMemo(
     () => ({ authUser, hydrating, authenticateUser, clearAuthUser }),
-    [authUser, hydrating, authenticateUser, clearAuthUser],
+    [authUser, hydrating, authenticateUser, clearAuthUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
