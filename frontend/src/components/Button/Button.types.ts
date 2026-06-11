@@ -9,7 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    * The state of the button
    * @default: medium
    */
-  size?: 'default' | 'small';
+  size?: 'default' | 'small' | 'responsive';
 
   /**
    * The state of the button
