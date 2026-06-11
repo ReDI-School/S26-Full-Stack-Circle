@@ -47,21 +47,6 @@ const ProfileCard = ({
         <button onClick={deleteProfile} className={TrashIconButton()}>
           <TrashIcon className="cursor-pointer" size={32} />
         </button>
-        {/* <button
-          onMouseDown={() => setIsActive(true)}
-          onMouseUp={() => setIsActive(false)}
-          onMouseLeave={() => setIsActive(false)}
-        >
-          <TrashIcon
-            className={`p-2 rounded-full border transition-colors duration-150 ${
-              isActive
-                ? 'bg-red-100 border-red-500 text-red-500'
-                : 'bg-gray-100 border-gray-400 text-gray-400'
-            }`}
-            size={38}
-            onClick={delteProfile}
-          />
-        </button> */}
       </span>
     </Card>
   );
