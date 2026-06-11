@@ -76,10 +76,10 @@ export const eventsService = {
 
     // 2: REAL API
     const { apiUrl } = await config();
-    const token = Cookies.get('token');
+    /*const token = Cookies.get('token');
     if (!token) {
       throw new Error('UNAUTHORIZED');
-    }
+    }*/
 
     const base = apiUrl || 'http://localhost:4000';
     const filterParam = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
@@ -88,13 +88,12 @@ export const eventsService = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        //Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
     });
 
     if (response.status === 401) {
-      // if unauthorized, clear token and redirect to login
-      Cookies.remove('token');
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || 'UNAUTHORIZED');
     }
@@ -109,7 +108,6 @@ export const eventsService = {
     }
 
     const { apiUrl } = await config();
-    const token = Cookies.get('token');
 
     const base = apiUrl || 'http://localhost:4000';
 
@@ -117,8 +115,9 @@ export const eventsService = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
+      body: JSON.stringify({}),
     });
 
     if (!response.ok) throw new Error('Failed to join the event');
@@ -130,7 +129,6 @@ export const eventsService = {
       return new Promise((resolve) => setTimeout(resolve, 400));
     }
     const { apiUrl } = await config();
-    const token = Cookies.get('token');
 
     const base = apiUrl || 'http://localhost:4000';
 
@@ -138,8 +136,8 @@ export const eventsService = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
     });
 
     if (!response.ok) throw new Error('Failed to leave the event');
