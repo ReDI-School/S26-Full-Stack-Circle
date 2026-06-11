@@ -111,7 +111,9 @@ export const eventsService = {
     const { apiUrl } = await config();
     const token = Cookies.get('token');
 
-    const response = await fetch(`${apiUrl}/events/${eventId}/join`, {
+    const base = apiUrl || 'http://localhost:4000';
+
+    const response = await fetch(`${base}/events/${eventId}/attend`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -130,8 +132,10 @@ export const eventsService = {
     const { apiUrl } = await config();
     const token = Cookies.get('token');
 
-    const response = await fetch(`${apiUrl}/events/${eventId}/leave`, {
-      method: 'POST',
+    const base = apiUrl || 'http://localhost:4000';
+
+    const response = await fetch(`${base}/events/${eventId}/attend`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
