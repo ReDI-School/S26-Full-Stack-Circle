@@ -5,6 +5,7 @@ import Avatar from '../Avatar/Avatar';
 import { getInitials } from '../../utils/utils';
 import { TrashIcon } from '@phosphor-icons/react';
 import { deleteMe } from '@service/userService';
+import { useState } from 'react';
 
 const ProfileCard = ({
   name,
@@ -13,7 +14,8 @@ const ProfileCard = ({
   participatedEvents,
 }: ProfileCardProps) => {
   const nameInitials = getInitials(name);
-  const delteProfile = async () => {
+  const [isActive, setIsActive] = useState(false);
+  const deleteProfile = async () => {
     try {
       await deleteMe();
       alert('User deleted');
@@ -21,10 +23,11 @@ const ProfileCard = ({
       console.error(err);
     }
   };
+  const { base, TrashIconButton } = profileCardStyles();
 
   return (
     <Card>
-      <span className={profileCardStyles()}>
+      <span className={base()}>
         <span className="w-fit">
           <Avatar initials={nameInitials} size="lg" />
         </span>
@@ -41,9 +44,24 @@ const ProfileCard = ({
             </p>
           </span>
         </div>
-        <button>
-          <TrashIcon size={32} onClick={delteProfile} />
+        <button onClick={deleteProfile} className={TrashIconButton()}>
+          <TrashIcon className="cursor-pointer" size={32} />
         </button>
+        {/* <button
+          onMouseDown={() => setIsActive(true)}
+          onMouseUp={() => setIsActive(false)}
+          onMouseLeave={() => setIsActive(false)}
+        >
+          <TrashIcon
+            className={`p-2 rounded-full border transition-colors duration-150 ${
+              isActive
+                ? 'bg-red-100 border-red-500 text-red-500'
+                : 'bg-gray-100 border-gray-400 text-gray-400'
+            }`}
+            size={38}
+            onClick={delteProfile}
+          />
+        </button> */}
       </span>
     </Card>
   );
