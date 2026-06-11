@@ -107,10 +107,10 @@ function EventsDashboardContent() {
       }
     } finally {
       setPendingEventIds((prev) => {
-      const next = new Set(prev);
-      next.delete(eventId);
-      return next;
-    });
+        const next = new Set(prev);
+        next.delete(eventId);
+        return next;
+      });
     }
   };
 
@@ -196,11 +196,13 @@ function EventsDashboardContent() {
               attendeeCount={event.attendeeCount ?? 0}
               maxAttendees={event.maxAttendees ?? 50}
               action={
-                event.relationship === 'author'
-                  ? 'edit'
-                  : event.relationship === 'joined'
-                    ? 'leave'
-                    : 'join'
+                currentTab === 'ARCHIVED'
+                  ? 'archived'
+                  : event.relationship === 'author'
+                    ? 'edit'
+                    : event.relationship === 'joined'
+                      ? 'leave'
+                      : 'join'
               }
               isActionPending={pendingEventIds.has(event.id)}
               onActionClick={() => {
