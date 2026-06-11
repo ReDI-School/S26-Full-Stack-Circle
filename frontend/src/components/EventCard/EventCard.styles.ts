@@ -1,4 +1,3 @@
-import { Interactive } from '@components/Card/Card.stories';
 import { tv } from 'tailwind-variants';
 
 export const EventCardStyles = tv({

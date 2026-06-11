@@ -10,9 +10,8 @@ const EventsPage = async () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Cookie: `token=${token}`,
     },
-    next: { tags: ['events'] },
   });
 
   const events = await res.json();

@@ -17,6 +17,7 @@ const meta: Meta<typeof EventCard> = {
   title: 'Components/EventCard',
   component: EventCard,
   tags: ['autodocs'],
+
   argTypes: {
     variant: {
       options: ['preview', 'fullview'],
@@ -33,6 +34,7 @@ const meta: Meta<typeof EventCard> = {
 };
 
 export default meta;
+
 type Story = StoryObj<typeof EventCard>;
 
 export const EventCardExample: Story = {
