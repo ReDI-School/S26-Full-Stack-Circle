@@ -35,7 +35,7 @@ export default function useAuth() {
     } catch {
       // Continue clearing local state
     } finally {
-      setAuthUser(null);
+      clearAuthUser();
       router.push('/sign-in');
     }
   };
@@ -46,7 +46,7 @@ export default function useAuth() {
 
   return {
     user: authUser,
-    loading: loading || isHydrating,
+    loading: loading || hydrating,
     error,
     signIn,
     signOut,
