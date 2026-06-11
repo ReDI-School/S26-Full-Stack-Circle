@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
 import { StickyButton } from '@components/StickyButton';
-import { eventsService, EventData } from '@service/eventsService';
+import { eventsService, EventData } from '@services/eventsService';
 import Image from 'next/image';
 import imageSrc from '../../../assets/images/empty-state.png';
 
