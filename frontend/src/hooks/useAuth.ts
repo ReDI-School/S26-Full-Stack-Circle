@@ -24,26 +24,26 @@ export default function useAuth() {
       }
     };
     hydrate();
-  }, []);
+  }, [authenticateUser]);
 
-  const signIn =  async (data: LoginInput) => {
-      try {
-        setLoading(true);
-        setError(undefined);
-        const user = await loginRequest(data);
-        authenticateUser(user);
-        return true;
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unknown error occurred');
-        }
-        return false;
-      } finally {
-        setLoading(false);
+  const signIn = async (data: LoginInput) => {
+    try {
+      setLoading(true);
+      setError(undefined);
+      const user = await loginRequest(data);
+      authenticateUser(user);
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
       }
-    };
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const signOut = async () => {
     try {
