@@ -37,10 +37,10 @@ const LOGO_VARIANTS_DICTIONARY: LogoVariantsDictionary = {
 
 const Logo = ({ size = 'full', textColor = 'default' }: LogoProps) => {
   return (
-    <Link href="/">
+    <Link href="/" aria-label="Go to homepage">
       <Image
         src={LOGO_VARIANTS_DICTIONARY[size].textColor[textColor]}
-        alt="ReDi Events"
+        alt=""
         width={LOGO_VARIANTS_DICTIONARY[size].width}
         height={LOGO_VARIANTS_DICTIONARY[size].height}
         priority
