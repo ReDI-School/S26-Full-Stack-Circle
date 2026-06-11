@@ -29,6 +29,8 @@ export async function middleware(request: NextRequest) {
   const isPublicAuthPath = PUBLIC_AUTH_PATHS.some((path) => pathname.startsWith(path));
   const authenticated = token ? await isValidToken(token) : false;
 
+  console.log({ isPublicAuthPath, authenticated, pathname });
+
   if (!isPublicAuthPath && !authenticated) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
