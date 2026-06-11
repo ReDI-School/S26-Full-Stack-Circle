@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
+import { loginRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
+  const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [hydrating, setHydrating] = useState(true);
   const router = useRouter();
 
   // Hydrate user from cookie on mount
@@ -26,6 +25,24 @@ export default function useAuth() {
     hydrate();
   }, []);
 
+  const signIn = async (data: LoginInput) => {
+    try {
+      setLoading(true);
+      setError(undefined);
+      const user = await loginRequest(data);
+      authenticateUser(user);
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
   const signIn = async (data: LoginInput) => {
     try {
       setLoading(true);
