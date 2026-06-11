@@ -29,8 +29,6 @@ export class AuthController {
 
       const { token, user } = await this.authService.login(email, password);
 
-      const isProduction = process.env.NODE_ENV === 'production';
-
       res.cookie('token', token, {
         ...authCookieOptions,
         maxAge: 1000 * 60 * 10,
