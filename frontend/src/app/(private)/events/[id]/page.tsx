@@ -9,6 +9,8 @@ import { LinkButton } from '@components/LinkButton';
 import { Button } from '@components/Button';
 import { ArrowLeftIcon } from '@phosphor-icons/react/ssr';
 import { StickyButton } from '@components/StickyButton';
+import { InfoBox } from '@components/InfoBox';
+import { useEffect } from 'react';
 
 export default function EventPage() {
   const params = useParams();
@@ -16,6 +18,12 @@ export default function EventPage() {
   const router = useRouter();
 
   const { event, loading, error, action, handleAction } = useEvent({ id: id?.toString() ?? '' });
+
+  useEffect(() => {
+    if (!loading && error && !error.includes('404')) {
+      router.replace('/network-error');
+    }
+  }, [error, loading, router]);
 
   if (loading)
     return (
@@ -30,13 +38,9 @@ export default function EventPage() {
         </div>
       </div>
     );
-  if (error) {
-    if (error.includes('404')) {
-      return <div>Network Error</div>;
-    }
-    return <div>Error: {error}</div>;
-  }
-  if (!event) return <div>{"Couldn't find the event"}</div>;
+
+  if (error?.includes('404') || !event)
+    return <InfoBox variant="error" message="Event not found" />;
 
   return (
     <main className="flex flex-col gap-8">
