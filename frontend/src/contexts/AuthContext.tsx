@@ -4,19 +4,14 @@ import { createContext, useContext, useState, useCallback, useMemo, useEffect } 
 import { getProfileRequest } from '@service/authService';
 import type { AuthUser } from '@service/authService';
 
-interface AuthState {
+interface AuthContextValue {
   authUser: AuthUser | null;
   hydrating: boolean;
   authenticateUser: (user: AuthUser) => void;
   clearAuthUser: () => void;
 }
 
-interface AuthDispatch {
-  setAuthUser: (user: AuthUser | null) => void;
-}
-
-const AuthStateContext = createContext<AuthState | null>(null);
-const AuthDispatchContext = createContext<AuthDispatch | null>(null);
+const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
@@ -52,14 +47,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuthContext = (): AuthState => {
-  const context = useContext(AuthStateContext);
+export const useAuthContext = (): AuthContextValue => {
+  const context = useContext(AuthContext);
   if (!context) throw new Error('useAuthContext must be used within an AuthProvider');
-  return context;
-};
-
-export const useAuthDispatch = (): AuthDispatch => {
-  const context = useContext(AuthDispatchContext);
-  if (!context) throw new Error('useAuthDispatch must be used within an AuthProvider');
   return context;
 };
