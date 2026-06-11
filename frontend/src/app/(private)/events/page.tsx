@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
 import { StickyButton } from '@components/StickyButton';
@@ -34,6 +33,7 @@ function EventsDashboardContent() {
 
   const [events, setEvents] = useState<EventData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [pendingEventIds, setPendingEventIds] = useState<Set<string>>(new Set());
 
   const fetchDashboardEvents = useCallback(
     async (isMounted: boolean = true) => {
@@ -74,8 +74,9 @@ function EventsDashboardContent() {
 
     const isJoining = currentRelationship === 'none';
 
+    setPendingEventIds((prev) => new Set(prev).add(eventId));
+
     try {
-      setIsLoading(true);
       if (isJoining) {
         await eventsService.joinEvent(eventId);
       } else {
@@ -89,7 +90,7 @@ function EventsDashboardContent() {
               relationship: isJoining ? 'joined' : 'none',
               attendeeCount: isJoining
                 ? (event.attendeeCount ?? 0) + 1
-                : (event.attendeeCount ?? 1) - 1,
+                : Math.max(0, (event.attendeeCount ?? 0) - 1),
             };
           }
           return event;
@@ -105,7 +106,11 @@ function EventsDashboardContent() {
         return;
       }
     } finally {
-      setIsLoading(false);
+      setPendingEventIds((prev) => {
+      const next = new Set(prev);
+      next.delete(eventId);
+      return next;
+    });
     }
   };
 
@@ -178,34 +183,32 @@ function EventsDashboardContent() {
       {!isLoading && events.length > 0 && (
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
           {events.map((event) => (
-            <Link href={`/events/${event.id}`} key={event.id} className="block group">
-              <EventCard
-                id={event.id}
-                key={event.id}
-                isLoading={false}
-                title={event.title}
-                author={
-                  event.author ||
-                  (event.relationship === 'author' ? 'Me (Author)' : 'ReDi Community')
+            <EventCard
+              id={event.id}
+              key={event.id}
+              isLoading={false}
+              title={event.title}
+              author={
+                event.author || (event.relationship === 'author' ? 'Me (Author)' : 'ReDi Community')
+              }
+              date={new Date(event.date)}
+              description={event.description}
+              attendeeCount={event.attendeeCount ?? 0}
+              maxAttendees={event.maxAttendees ?? 50}
+              action={
+                event.relationship === 'author'
+                  ? 'edit'
+                  : event.relationship === 'joined'
+                    ? 'leave'
+                    : 'join'
+              }
+              isActionPending={pendingEventIds.has(event.id)}
+              onActionClick={() => {
+                if (currentTab !== 'ARCHIVED') {
+                  handleEventAction(event.id, event.relationship);
                 }
-                date={new Date(event.date)}
-                description={event.description}
-                attendeeCount={event.attendeeCount ?? 0}
-                maxAttendees={event.maxAttendees ?? 50}
-                action={
-                  event.relationship === 'author'
-                    ? 'edit'
-                    : event.relationship === 'joined'
-                      ? 'leave'
-                      : 'join'
-                }
-                onActionClick={() => {
-                  if (currentTab !== 'ARCHIVED') {
-                    handleEventAction(event.id, event.relationship);
-                  }
-                }}
-              />
-            </Link>
+              }}
+            />
           ))}
         </section>
       )}
