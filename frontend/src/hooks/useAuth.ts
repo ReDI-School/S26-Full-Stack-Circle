@@ -1,30 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
+import { loginRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
+  const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [hydrating, setHydrating] = useState(true);
   const router = useRouter();
-
-  // Hydrate user from cookie on mount
-  useEffect(() => {
-    const hydrate = async () => {
-      try {
-        const user = await getProfileRequest();
-        if (user) authenticateUser(user);
-      } catch {
-        // Not authenticated, user stays null
-      } finally {
-        setHydrating(false);
-      }
-    };
-    hydrate();
-  }, [authenticateUser]);
 
   const signIn = async (data: LoginInput) => {
     try {
