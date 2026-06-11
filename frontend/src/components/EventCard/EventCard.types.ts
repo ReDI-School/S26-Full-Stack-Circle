@@ -1,4 +1,4 @@
-type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
+export type EventCardAction = 'join' | 'leave' | 'edit' | 'archived';
 
 type EventCardBaseProps = {
   /**
@@ -68,7 +68,11 @@ type EventCardLoadedProps = EventCardBaseProps & {
   maxAttendees: number;
 
   /**
-   * Controls the action button UI state.
+   * Maximum number of attendees allowed.
+   */
+  interactive: boolean;
+
+  /* Controls the action button UI state.
    *
    * - `false` — standard button behavior
    * - `true` — shows the button loading indicator and disables click

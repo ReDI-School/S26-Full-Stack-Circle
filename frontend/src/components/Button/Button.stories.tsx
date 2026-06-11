@@ -255,3 +255,27 @@ export const PositiveSmallLoading: Story = {
     state: 'loading',
   },
 };
+
+export const PrimaryResponsive: Story = {
+  args: {
+    children: 'Responsive Button (Resize screen)',
+    variant: 'primary',
+    size: 'responsive',
+  },
+};
+
+export const IdleResponsive: Story = {
+  args: {
+    children: 'Cancel (Responsive)',
+    variant: 'idle',
+    size: 'responsive',
+  },
+};
+
+export const PositiveResponsive: Story = {
+  args: {
+    children: 'Create Event (Responsive)',
+    variant: 'positive',
+    size: 'responsive',
+  },
+};

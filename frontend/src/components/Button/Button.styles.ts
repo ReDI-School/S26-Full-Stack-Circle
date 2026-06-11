@@ -23,6 +23,7 @@ export const buttonStyles = tv({
     size: {
       small: 'min-w-25  text-sm py-2 px-4',
       default: 'min-w-50 text-base py-3 px-6',
+      responsive: 'min-w-25 text-sm py-2 px-4 md:min-w-50 md:text-base md:py-3 md:px-6',
     },
     state: {
       default: 'cursor-pointer',

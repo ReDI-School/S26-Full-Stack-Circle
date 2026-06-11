@@ -26,11 +26,11 @@ export default function EventCard(props: EventCardProps) {
     container,
     bottomContainer,
     date,
-    title,
     author,
     description,
     attendees,
     buttonText,
+    title,
     detailsContainer,
     interactive,
   } = EventCardStyles({ variant });
