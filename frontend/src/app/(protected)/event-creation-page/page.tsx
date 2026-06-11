@@ -3,16 +3,14 @@
 import { useRouter } from 'next/navigation';
 import { CreateEventForm, LinkButton } from '@components';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
+import useCreateEvent from '@hooks/useCreateEvent';
 
 export default function EventCreationPage() {
   const router = useRouter();
+  const { createEvent, isLoading, serverError } = useCreateEvent();
 
   const handleCancel = () => {
     router.push('/');
-  };
-
-  const handleCreateEvent = () => {
-    router.push('/events/id');
   };
 
   return (
@@ -23,7 +21,12 @@ export default function EventCreationPage() {
         </LinkButton>
       </div>
 
-      <CreateEventForm onSubmit={handleCreateEvent} onCancel={handleCancel} />
+      <CreateEventForm
+        onSubmit={createEvent}
+        onCancel={handleCancel}
+        isLoading={isLoading}
+        serverError={serverError}
+      />
     </>
   );
 }

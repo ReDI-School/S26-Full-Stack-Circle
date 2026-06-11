@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { AuthService } from '../services/authService.js';
 import { UserDTO } from '../dto/user.dto.js';
 
@@ -16,7 +16,7 @@ export class AuthController {
       const token = await this.authService.login(email, password);
 
       res.cookie('token', token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 1000 * 60 * 10,
