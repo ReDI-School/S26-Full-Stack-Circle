@@ -10,39 +10,6 @@ export default function useAuth() {
   const [error, setError] = useState<string | undefined>();
   const router = useRouter();
 
-  // Hydrate user from cookie on mount
-  useEffect(() => {
-    const hydrate = async () => {
-      try {
-        const user = await getProfileRequest();
-        if (user) authenticateUser(user);
-      } catch {
-        // Not authenticated, user stays null
-      } finally {
-        setHydrating(false);
-      }
-    };
-    hydrate();
-  }, []);
-
-  const signIn = async (data: LoginInput) => {
-    try {
-      setLoading(true);
-      setError(undefined);
-      const user = await loginRequest(data);
-      authenticateUser(user);
-      return true;
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
-      }
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
   const signIn = async (data: LoginInput) => {
     try {
       setLoading(true);
