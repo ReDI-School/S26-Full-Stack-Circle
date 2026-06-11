@@ -1,12 +1,14 @@
 'use client';
 
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
 import { getProfileRequest } from '@service/authService';
 import type { AuthUser } from '@service/authService';
 
 interface AuthState {
   authUser: AuthUser | null;
-  isHydrating: boolean;
+  hydrating: boolean;
+  authenticateUser: (user: AuthUser) => void;
+  clearAuthUser: () => void;
 }
 
 interface AuthDispatch {
@@ -18,7 +20,15 @@ const AuthDispatchContext = createContext<AuthDispatch | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [isHydrating, setIsHydrating] = useState(true);
+  const [hydrating, setHydrating] = useState(true);
+
+  const authenticateUser = useCallback((user: AuthUser) => {
+    setAuthUser(user);
+  }, []);
+
+  const clearAuthUser = useCallback(() => {
+    setAuthUser(null);
+  }, []);
 
   useEffect(() => {
     const hydrate = async () => {
@@ -26,21 +36,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getProfileRequest();
         if (user) setAuthUser(user);
       } catch {
-        // Not authenticated â user stays null
+        // Not authenticated, user stays null
       } finally {
-        setIsHydrating(false);
+        setHydrating(false);
       }
     };
     hydrate();
   }, []);
 
-  return (
-    <AuthStateContext.Provider value={{ authUser, isHydrating }}>
-      <AuthDispatchContext.Provider value={{ setAuthUser }}>
-        {children}
-      </AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
+  const value = useMemo(
+    () => ({ authUser, hydrating, authenticateUser, clearAuthUser }),
+    [authUser, hydrating, authenticateUser, clearAuthUser]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = (): AuthState => {

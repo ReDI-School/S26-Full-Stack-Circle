@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
+import { useAuthContext } from '@/contexts/AuthContext';
 import { loginRequest, logoutRequest } from '@service/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, isHydrating } = useAuthContext();
-  const { setAuthUser } = useAuthDispatch();
+  const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const router = useRouter();
@@ -16,7 +15,7 @@ export default function useAuth() {
       setLoading(true);
       setError(undefined);
       const user = await loginRequest(data);
-      setAuthUser(user);
+      authenticateUser(user);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {

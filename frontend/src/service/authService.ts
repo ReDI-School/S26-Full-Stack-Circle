@@ -10,8 +10,7 @@ export interface AuthUser {
 }
 
 export async function loginRequest(data: LoginInput): Promise<AuthUser> {
-  const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/login`, {
+  const res = await fetch('/api/auth/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -30,16 +29,14 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
 }
 
 export async function getProfileRequest(): Promise<AuthUser | null> {
-  const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/me`, { credentials: 'include' });
+  const res = await fetch('/api/auth/me', { credentials: 'include' });
   const json = await res.json();
   if (!res.ok) return null;
   return json.user;
 }
 
 export async function logoutRequest(): Promise<void> {
-  const { apiUrl } = await config();
-  const res = await fetch(`${apiUrl}/auth/logout`, {
+  const res = await fetch('/api/auth/logout', {
     credentials: 'include',
     method: 'POST',
   });
