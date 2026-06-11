@@ -39,9 +39,6 @@ export default function EventPage() {
       </div>
     );
 
-  // if (error?.includes('404') || !event)
-  //   return <InfoBox variant="error" message="Event not found" />;
-
   return (
     <main className="flex flex-col gap-8">
       <div className="flex justify-between">
@@ -80,8 +77,7 @@ export default function EventPage() {
                 attendeeCount={event.attendeeCount}
                 maxAttendees={event.capacity}
                 onActionClick={handleAction}
-                titleSize="big"
-                interactive={false}
+interactive={false}
                 variant={'fullview'}
               />
             </div>

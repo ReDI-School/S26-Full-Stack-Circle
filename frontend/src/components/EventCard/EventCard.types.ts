@@ -72,11 +72,6 @@ type EventCardLoadedProps = EventCardBaseProps & {
    */
   interactive: boolean;
 
-  /**
-   * Title xl or 2xl depending on the use.
-   * @default small
-   */
-  titleSize: 'big' | 'small';
   /* Controls the action button UI state.
    *
    * - `false` — standard button behavior
