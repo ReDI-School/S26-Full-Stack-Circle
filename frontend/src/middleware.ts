@@ -26,15 +26,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const isAuthPath = PUBLIC_AUTH_PATHS.some((path) => pathname.startsWith(path));
+  const isPublicAuthPath = PUBLIC_AUTH_PATHS.some((path) => pathname.startsWith(path));
   const authenticated = token ? await isValidToken(token) : false;
 
-  if (authenticated && (isAuthPath || pathname === '/')) {
-    return NextResponse.redirect(new URL('/events', request.url));
-  }
-
-  if (!authenticated && !isAuthPath) {
+  if (!isPublicAuthPath && !authenticated) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
+  } else if (authenticated && (isPublicAuthPath || pathname === '/')) {
+    return NextResponse.redirect(new URL('/events', request.url));
   }
 
   return NextResponse.next();

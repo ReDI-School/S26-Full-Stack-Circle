@@ -1,7 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { AuthService } from '../services/authService.js';
 import { UserDTO } from '../dto/user.dto.js';
 import { UserService } from '../services/userService.js';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+// In production the frontend and API live on different *.vercel.app subdomains.
+// Because `vercel.app` is on the Public Suffix List, the browser treats them
+// as cross-site, so the cookie must be SameSite=None + Secure to be sent.
+// Domain is intentionally omitted (PSL blocks sharing a parent-domain cookie).
+const authCookieOptions: CookieOptions = {
+  httpOnly: false,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+};
 
 export class AuthController {
   private readonly authService = new AuthService();
@@ -18,9 +30,7 @@ export class AuthController {
       const { token, user } = await this.authService.login(email, password);
 
       res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        ...authCookieOptions,
         maxAge: 1000 * 60 * 10,
       });
 
@@ -73,7 +83,7 @@ export class AuthController {
   }
 
   async logout(req: Request, res: Response) {
-    res.clearCookie('token', { httpOnly: true, sameSite: 'lax' });
+    res.clearCookie('token', authCookieOptions);
     return res.json({ ok: true });
   }
 }

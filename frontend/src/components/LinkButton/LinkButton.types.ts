@@ -16,4 +16,6 @@ export interface LinkButtonProps extends LinkProps {
 
   /** When true, the link is always underlined (not just on hover). */
   underlined?: boolean;
+  /** Optional onClick handler */
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
