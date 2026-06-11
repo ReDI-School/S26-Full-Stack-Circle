@@ -39,8 +39,8 @@ export default function EventPage() {
       </div>
     );
 
-  if (error?.includes('404') || !event)
-    return <InfoBox variant="error" message="Event not found" />;
+  // if (error?.includes('404') || !event)
+  //   return <InfoBox variant="error" message="Event not found" />;
 
   return (
     <main className="flex flex-col gap-8">
@@ -52,7 +52,7 @@ export default function EventPage() {
           onClick={() => router.push('/event-creation-page')}
           size="default"
           variant="idle"
-          className="hidden md:block"
+          className="hidden sm:block"
         >
           CREATE NEW EVENT
         </Button>
@@ -61,27 +61,35 @@ export default function EventPage() {
           label="CREATE NEW EVENT"
         ></StickyButton>
       </div>
-      <div className="w-full flex flex-col gap-5 md:flex-row">
-        <div className="flex-2">
-          <EventCard
-            id={event.id}
-            isLoading={loading}
-            action={action}
-            date={event.date}
-            title={event.title}
-            author={event.organizer}
-            description={event.description}
-            attendeeCount={event.attendeeCount}
-            maxAttendees={event.capacity}
-            onActionClick={handleAction}
-            titleSize="big"
-            interactive={false}
-            variant={'fullview'}
-          />
-        </div>
-        <div className="flex-1">
-          <Attendees attendees={event.attendees} />
-        </div>
+      <div className="w-full flex flex-col gap-5 lg:flex-row">
+        {error?.includes('404') || !event ? (
+          <div className="w-full">
+            <InfoBox variant="error" message="Event not found" />
+          </div>
+        ) : (
+          <>
+            <div className="flex-2">
+              <EventCard
+                id={event.id}
+                isLoading={loading}
+                action={action}
+                date={event.date}
+                title={event.title}
+                author={event.organizer}
+                description={event.description}
+                attendeeCount={event.attendeeCount}
+                maxAttendees={event.capacity}
+                onActionClick={handleAction}
+                titleSize="big"
+                interactive={false}
+                variant={'fullview'}
+              />
+            </div>
+            <div className="flex-1">
+              <Attendees attendees={event.attendees} />
+            </div>
+          </>
+        )}
       </div>
     </main>
   );
