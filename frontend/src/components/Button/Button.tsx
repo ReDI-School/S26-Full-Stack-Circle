@@ -1,12 +1,20 @@
 import type { ButtonProps } from './Button.types';
 import { buttonStyles } from './Button.styles';
+import { twMerge } from 'tailwind-merge';
 
-export default function Button({ variant, size, state, children, ...rest }: ButtonProps) {
+export default function Button({
+  variant,
+  size,
+  state,
+  children,
+  className,
+  ...rest
+}: ButtonProps) {
   const isLoading = state === 'loading';
 
   return (
     <button
-      className={buttonStyles({ variant, size, state })}
+      className={twMerge(buttonStyles({ variant, size, state }), className)}
       disabled={state === 'disabled' || isLoading}
       {...rest}
     >

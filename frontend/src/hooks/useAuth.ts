@@ -1,51 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
-import { loginRequest, getProfileRequest, logoutRequest } from '@service/authService';
-import { updateUserRequest } from '@service/userService';
+import { loginRequest, logoutRequest } from '@services/authService';
+import { updateUserRequest } from '@services/userService';
 import type { LoginInput, UpdateUserInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, authenticateUser, clearAuthUser } = useAuthContext();
+  const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [hydrating, setHydrating] = useState(true);
   const [successMessage, setSuccessMessage] = useState<string>();
   const router = useRouter();
 
-  // Hydrate user from cookie on mount
-  useEffect(() => {
-    const hydrate = async () => {
-      try {
-        const user = await getProfileRequest();
-        if (user) authenticateUser(user);
-      } catch {
-        // Not authenticated, user stays null
-      } finally {
-        setHydrating(false);
+  const signIn = async (data: LoginInput) => {
+    try {
+      setLoading(true);
+      setError(undefined);
+      const user = await loginRequest(data);
+      authenticateUser(user);
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
       }
-    };
-    hydrate();
-  }, []);
-
-  const signIn =  async (data: LoginInput) => {
-      try {
-        setLoading(true);
-        setError(undefined);
-        const user = await loginRequest(data);
-        authenticateUser(user);
-        return true;
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('An unknown error occurred');
-        }
-        return false;
-      } finally {
-        setLoading(false);
-      }
-    };
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const signOut = async () => {
     try {
@@ -63,7 +47,8 @@ export default function useAuth() {
       setLoading(true);
       setError(undefined);
       setSuccessMessage(undefined);
-      await updateUserRequest({ firstName, lastName, password: newPassword || undefined });
+      if (!authUser) throw new Error('Not logged in.');
+      await updateUserRequest(authUser.id, { firstName, lastName, password: newPassword || undefined });
       setSuccessMessage('Settings saved successfully.');
       return true;
     } catch (err: unknown) {

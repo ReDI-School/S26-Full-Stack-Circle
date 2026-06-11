@@ -1,5 +1,4 @@
-import { config } from '@/config';
-import { tokenStorage } from '@/utils/tokenStorage';
+import { config } from '@config';
 
 export interface UpdateUserData {
   firstName: string;
@@ -7,14 +6,7 @@ export interface UpdateUserData {
   password?: string;
 }
 
-export async function updateUserRequest(data: UpdateUserData): Promise<void> {
-  const token = tokenStorage.get();
-  const userId = tokenStorage.getUserId();
-
-  if (!token || !userId) {
-    throw new Error('You are not logged in.');
-  }
-
+export async function updateUserRequest(userId: string, data: UpdateUserData): Promise<void> {
   const { apiUrl } = await config();
   const body: Record<string, string> = {
     firstName: data.firstName,
@@ -24,10 +16,8 @@ export async function updateUserRequest(data: UpdateUserData): Promise<void> {
 
   const res = await fetch(`${apiUrl}/users/${userId}`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
 
