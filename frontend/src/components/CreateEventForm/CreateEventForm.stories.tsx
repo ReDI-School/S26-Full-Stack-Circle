@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import FormCard from './FormCard';
+import CreateEventForm from './CreateEventForm';
 
-const meta: Meta<typeof FormCard> = {
-  title: 'Components/FormCard',
-  component: FormCard,
+const meta: Meta<typeof CreateEventForm> = {
+  title: 'Components/CreateEventForm',
+  component: CreateEventForm,
   parameters: {
     layout: 'centered',
   },
@@ -15,7 +15,7 @@ const meta: Meta<typeof FormCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof FormCard>;
+type Story = StoryObj<typeof CreateEventForm>;
 
 export const Default: Story = {
   args: {

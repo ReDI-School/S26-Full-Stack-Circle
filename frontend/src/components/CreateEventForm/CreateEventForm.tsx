@@ -5,34 +5,27 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Card, InputField } from '@components';
 import { InfoBox } from '../InfoBox';
-import type { FormCardProps } from './FormCard.types';
-import { FormCardStyles } from './FormCard.styles';
+import type { CreateEventFormProps } from './CreateEventForm.types';
+import { CreateEventFormStyles } from './CreateEventForm.styles';
 
-const eventSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  date: z.string().min(1, 'Date is required'),
-  time: z.string().min(1, 'Time is required'),
-  capacity: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)),
-    z.number({ message: 'Capacity is required' }).min(1, 'Capacity must be at least 1')
-  ),
-  description: z.string().min(1, 'Description is required'),
-});
+import { createEventSchema } from '@/validators/schemas';
 
-type EventSchemaInput = z.input<typeof eventSchema>;
-type EventSchemaOutput = z.output<typeof eventSchema>;
+const formSchema = createEventSchema.omit({ location: true });
 
-export default function FormCard(props: FormCardProps) {
+type FormSchemaInput = z.input<typeof formSchema>;
+type FormSchemaOutput = z.output<typeof formSchema>;
+
+export default function CreateEventForm(props: CreateEventFormProps) {
   const { onSubmit, onCancel, isLoading, serverError } = props;
 
-  const { form, title, gridContainer, fieldsWrapper, footer } = FormCardStyles();
+  const { form, title, gridContainer, fieldsWrapper, footer } = CreateEventFormStyles();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EventSchemaInput, unknown, EventSchemaOutput>({
-    resolver: zodResolver(eventSchema),
+  } = useForm<FormSchemaInput, unknown, FormSchemaOutput>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
       date: '',

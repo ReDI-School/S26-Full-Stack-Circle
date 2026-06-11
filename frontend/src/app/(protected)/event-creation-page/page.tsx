@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FormCard, LinkButton } from '@components';
+import { CreateEventForm, LinkButton } from '@components';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 
 export default function EventCreationPage() {
@@ -12,18 +12,18 @@ export default function EventCreationPage() {
   };
 
   const handleCreateEvent = () => {
-    router.push('/event-details/new-id');
+    router.push('/events/id');
   };
 
   return (
-    <div className="flex flex-col gap-[50px] w-full max-w-[1340px] mx-auto pt-4 pb-4">
-      <div className="flex items-center justify-start">
-        <LinkButton href="/" icon={<ArrowLeftIcon size={16} />}>
+    <>
+      <div className="flex items-center justify-start mb-6 lg:mb-12">
+        <LinkButton href="/" icon={<ArrowLeftIcon size={16} />} onClick={handleCancel}>
           GO BACK
         </LinkButton>
       </div>
 
-      <FormCard onSubmit={handleCreateEvent} onCancel={handleCancel} />
-    </div>
+      <CreateEventForm onSubmit={handleCreateEvent} onCancel={handleCancel} />
+    </>
   );
 }

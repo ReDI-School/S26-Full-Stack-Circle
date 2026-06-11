@@ -6,7 +6,7 @@ export interface FormData {
   description: string;
 }
 
-export interface FormCardProps {
+export interface CreateEventFormProps {
   onSubmit: (data: FormData) => void;
   onCancel: () => void;
   isLoading?: boolean;

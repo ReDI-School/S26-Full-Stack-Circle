@@ -1,6 +1,6 @@
 import { tv } from 'tailwind-variants';
 
-export const FormCardStyles = tv({
+export const CreateEventFormStyles = tv({
   slots: {
     form: 'flex flex-col gap-6',
     title: 'text-xl font-normal text-text-primary uppercase',
