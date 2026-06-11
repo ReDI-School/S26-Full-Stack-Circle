@@ -3,7 +3,8 @@
 import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useMemo, useState, Suspense } from 'react';
+import useAuth from '@hooks/useAuth';
 
 import {
   fetchProfileEventsByTab,
@@ -11,8 +12,6 @@ import {
   getCreatedProfileEvents,
   getGoingProfileEvents,
   getArchivedProfileEvents,
-  getUserFullName,
-  mockProfileUser,
   ProfileEvent,
   ProfileTab,
 } from './mockProfileData';
@@ -40,20 +39,31 @@ const getEmptyStateMessage = (tab: ProfileTab) => {
 };
 
 function ProfileContent() {
+  const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const activeTab = normalizeTab(searchParams.get('tab'));
 
-  const [events, setEvents] = useState<ProfileEvent[]>([]);
-  const [loadedTab, setLoadedTab] = useState<ProfileTab | null>(null);
+  const [eventsState, setEventsState] = useState<{ tab: ProfileTab | null; data: ProfileEvent[] }>({
+    tab: null,
+    data: [],
+  });
 
-  const isLoading = loadedTab !== activeTab;
+  const isLoading = eventsState.tab !== activeTab;
+  const events = isLoading ? [] : eventsState.data;
 
-  const authoredEvents = getCreatedProfileEvents().length;
-  const goingToEvents = getGoingProfileEvents().length;
-  const participatedEvents = getArchivedProfileEvents().length;
+  const userFullName = user ? `${user.firstName} ${user.lastName}` : '';
+
+  const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
+    () => ({
+      authoredEvents: getCreatedProfileEvents().length,
+      goingToEvents: getGoingProfileEvents().length,
+      participatedEvents: getArchivedProfileEvents().length,
+    }),
+    []
+  );
 
   const handleTabChange = (tab: string) => {
     const nextTab = normalizeTab(tab.toLowerCase());
@@ -83,14 +93,12 @@ function ProfileContent() {
     fetchProfileEventsByTab(activeTab)
       .then((fetchedEvents) => {
         if (ignore) return;
-        setEvents(fetchedEvents);
-        setLoadedTab(activeTab);
+        setEventsState({ tab: activeTab, data: fetchedEvents });
       })
       .catch((error) => {
         if (ignore) return;
         console.error('Failed to fetch events', error);
-        setEvents([]);
-        setLoadedTab(activeTab);
+        setEventsState({ tab: activeTab, data: [] });
       });
 
     return () => {
@@ -101,7 +109,7 @@ function ProfileContent() {
   return (
     <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 md:py-10">
       <ProfileCard
-        name={getUserFullName(mockProfileUser)}
+        name={userFullName}
         authoredEvents={authoredEvents}
         goingToEvents={goingToEvents}
         participatedEvents={participatedEvents}
