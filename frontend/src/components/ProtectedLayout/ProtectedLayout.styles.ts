@@ -11,7 +11,7 @@ export const protectedLayoutStyles = tv({
       'px-7.5',
       'lg:px-12.5',
       'py-4',
-      'bg-white',
+      'bg-bg-primary',
     ],
     content: ['flex-1', 'overflow-y-auto', 'px-7.5', 'lg:px-12.5', 'py-4'],
   },

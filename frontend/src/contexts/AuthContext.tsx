@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
-import { getProfileRequest } from '@service/authService';
-import type { AuthUser } from '@service/authService';
+import { getProfileRequest } from '@services/authService';
+import type { AuthUser } from '@services/authService';
 
 interface AuthContextValue {
   authUser: AuthUser | null;

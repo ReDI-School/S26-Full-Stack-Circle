@@ -1,5 +1,5 @@
 import prisma from '../libs/prisma.js';
-import { Prisma } from 'generated/prisma/client.js';
+import { Prisma } from '../../generated/prisma/client.js';
 import type { UpdateEventData } from '../types/event.js';
 export class EventService {
   // List all events, filtering based on the provided criteria.
@@ -78,18 +78,44 @@ export class EventService {
     });
   }
 
-  async getEventById(id: string) {
-    return await prisma.event.findUnique({
+  async getEventById(id: string, userId: string) {
+    const event = await prisma.event.findUnique({
       where: { id },
       include: {
         organizer: {
           select: {
+            id: true,
             firstName: true,
             lastName: true,
           },
         },
+        attendances: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    if (!event) {
+      return null;
+    }
+
+    const isOwner = event.organizerId === userId;
+    const isAttending = event.attendances.map((attendee) => attendee.user.id).includes(userId);
+
+    return {
+      ...event,
+      isOwner,
+      isAttending,
+    };
   }
 
   async updateEvent(id: string, data: UpdateEventData) {

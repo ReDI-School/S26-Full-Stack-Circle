@@ -76,19 +76,15 @@ export const eventsService = {
 
     // 2: REAL API
     const { apiUrl } = await config();
-    const token = Cookies.get('token');
-    if (!token) {
-      throw new Error('UNAUTHORIZED');
-    }
 
     const base = apiUrl || 'http://localhost:4000';
     const filterParam = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
     const url = filterParam ? `${base}/events?filter=${filterParam}` : `${base}/events`;
     const response = await fetch(url, {
       method: 'GET',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
     });
 
