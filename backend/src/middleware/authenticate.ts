@@ -8,8 +8,9 @@ import jwt from 'jsonwebtoken';
  * This middleware expects an `Authorization` header in the format:
  * `Bearer <token>`. It performs the following steps:
  *
- * 1. Checks for the presence of the Authorization header and validates its format.
- * 2. Extracts the JWT from the header.
+ * It reads the token from two sources (in priority order):
+ * 1. `token` cookie (`req.cookies.token`) used by the browser with httpOnly cookies.
+ * 2. `Authorization: Bearer <token>` header - fallback for API clients (Postman, etc.).
  * 3. Verifies the token using the configured secret.
  * 4. Ensures the decoded payload contains the required `userId` and `role` fields.
  * 5. Attaches the validated payload to `req.user` for downstream handlers.
@@ -20,13 +21,20 @@ import jwt from 'jsonwebtoken';
  * On success, it calls `next()` to pass control to the next middleware or route handler.
  */
 export function authenticate(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization;
+  let token: string | undefined;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No token provided. Please log in.' });
+  if (req.cookies?.token) {
+    token = req.cookies.token;
+  } else {
+    const authHeader = req.headers.authorization;
+    if (authHeader?.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    }
   }
 
-  const token = authHeader.substring(7);
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided. Please log in.' });
+  }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET!);
