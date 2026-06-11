@@ -104,6 +104,10 @@ export const eventsService = {
   },
   // Join an event
   joinEvent: async (eventId: string): Promise<void> => {
+    if (USE_MOCKS) {
+      return new Promise((resolve) => setTimeout(resolve, 400));
+    }
+
     const { apiUrl } = await config();
     const token = Cookies.get('token');
 
@@ -120,6 +124,9 @@ export const eventsService = {
 
   // Leave an event
   leaveEvent: async (eventId: string): Promise<void> => {
+    if (USE_MOCKS) {
+      return new Promise((resolve) => setTimeout(resolve, 400));
+    }
     const { apiUrl } = await config();
     const token = Cookies.get('token');
 
