@@ -63,7 +63,7 @@ export default function useEvent({ id }: { id: string }) {
 
     try {
       if (action === 'edit' && event && user) {
-        router.push(`/events/update-${id}`);
+        router.push(`/events/${id}/edit`);
       } else if (action === 'join' && event && user) {
         const userTag = `${user.firstName} ${user.lastName}`;
         setIsAtending(true);
