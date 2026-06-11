@@ -31,6 +31,8 @@ export async function middleware(request: NextRequest) {
 
   if (!isPublicAuthPath && !authenticated) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
+  } else if (authenticated && isPublicAuthPath) {
+    return NextResponse.redirect(new URL('/events', request.url));
   }
 
   return NextResponse.next();
