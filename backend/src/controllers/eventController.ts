@@ -7,6 +7,10 @@ const eventService = new EventService();
 const attendanceService = new AttendanceService();
 type EventFilter = 'upcoming' | 'past';
 
+function composeEventDateTime(date: string, time?: string): Date {
+  return new Date(time ? `${date}T${time}:00` : date);
+}
+
 function parseEventFilter(value: unknown): {
   isValid: boolean;
   filter?: EventFilter;
@@ -58,7 +62,7 @@ export class EventController {
   }
 
   async createEvent(req: Request, res: Response) {
-    const { title, description, date, location, capacity } = req.body;
+    const { title, description, date, time, location, capacity } = req.body;
     const organizerId = req.user?.userId;
 
     if (!organizerId) {
@@ -69,7 +73,7 @@ export class EventController {
     const event = await eventService.createEvent(organizerId, {
       title,
       description,
-      date: new Date(date),
+      date: composeEventDateTime(date, time),
       location,
       capacity,
     });
@@ -121,10 +125,18 @@ export class EventController {
       });
     }
 
+    let composedDate: Date | undefined;
+
+    if (req.body.date || req.body.time) {
+      const datePart = req.body.date ?? event.date.toISOString().slice(0, 10);
+      const timePart = req.body.time ?? event.date.toISOString().slice(11, 16);
+      composedDate = composeEventDateTime(datePart, timePart);
+    }
+
     const updateData: UpdateEventData = {
       title: req.body.title,
       description: req.body.description,
-      date: req.body.date ? new Date(req.body.date) : undefined,
+      date: composedDate,
       location: req.body.location,
       capacity: req.body.capacity,
     };
