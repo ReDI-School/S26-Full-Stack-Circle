@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   const isAuthPath = PUBLIC_AUTH_PATHS.some((path) => pathname.startsWith(path));
   const authenticated = token ? await isValidToken(token) : false;
 
-  if (authenticated && isAuthPath) {
+  if (authenticated && (isAuthPath || pathname === '/')) {
     return NextResponse.redirect(new URL('/events', request.url));
   }
 
