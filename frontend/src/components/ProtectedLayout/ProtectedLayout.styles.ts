@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const protectedLayoutStyles = tv({
   slots: {
-    main: ['flex', 'flex-col', 'h-screen', 'overflow-hidden'],
+    main: ['flex', 'flex-col', 'h-screen', 'overflow-visible'],
     headerBar: [
       'min-h-16',
       'flex',
