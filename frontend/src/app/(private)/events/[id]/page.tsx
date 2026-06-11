@@ -77,7 +77,7 @@ export default function EventPage() {
                 attendeeCount={event.attendeeCount}
                 maxAttendees={event.capacity}
                 onActionClick={handleAction}
-interactive={false}
+                interactive={false}
                 variant={'fullview'}
               />
             </div>
