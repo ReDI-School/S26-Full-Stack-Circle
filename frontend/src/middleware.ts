@@ -21,6 +21,8 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get('token')?.value;
 
+  console.log({ pathname, token });
+
   // bypass auth entirely — accessible to both authenticated and unauthenticated users
   if (ALWAYS_PUBLIC_PATHS.some((path) => pathname.startsWith(path))) {
     return NextResponse.next();
