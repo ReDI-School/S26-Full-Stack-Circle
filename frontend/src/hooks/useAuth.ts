@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
-import { loginRequest, logoutRequest } from '@service/authService';
+import { loginRequest, logoutRequest } from '@services/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
