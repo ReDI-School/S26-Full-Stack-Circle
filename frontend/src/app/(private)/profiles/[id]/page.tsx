@@ -75,7 +75,7 @@ function ProfileContent() {
   };
 
   const handleCreateEvent = () => {
-    console.log('Create new event clicked');
+    router.push('/create-event');
   };
 
   const handleEventAction = (event: ProfileEvent) => {
