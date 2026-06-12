@@ -6,10 +6,6 @@ function getHeaders(): HeadersInit {
   };
 }
 
-function getApiUrl(): string {
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-}
-
 export type RawEvent = {
   id: string;
   title: string;
@@ -28,10 +24,9 @@ export type RawEvent = {
 };
 
 export async function fetchEventById(id: string): Promise<RawEvent> {
-  const url = `${getApiUrl()}/events/${id}`;
-  const res = await fetch(url, {
+  const res = await fetch(`/api/events/${id}`, {
     headers: getHeaders(),
-    credentials: 'include',
+    cache: 'no-store',
   });
 
   if (!res.ok) {
@@ -43,11 +38,9 @@ export async function fetchEventById(id: string): Promise<RawEvent> {
 }
 
 export async function joinEvent(eventId: string): Promise<RawEvent> {
-  const url = `${getApiUrl()}/events/${eventId}/attend`;
-  const res = await fetch(url, {
+  const res = await fetch(`/api/events/${eventId}/attend`, {
     method: 'POST',
     headers: getHeaders(),
-    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -59,11 +52,9 @@ export async function joinEvent(eventId: string): Promise<RawEvent> {
 }
 
 export async function leaveEvent(eventId: string): Promise<void> {
-  const url = `${getApiUrl()}/events/${eventId}/attend`;
-  const res = await fetch(url, {
+  const res = await fetch(`/api/events/${eventId}/attend`, {
     method: 'DELETE',
     headers: getHeaders(),
-    credentials: 'include',
   });
 
   if (!res.ok) {
@@ -72,11 +63,9 @@ export async function leaveEvent(eventId: string): Promise<void> {
 }
 
 export async function updateEvent(id: string, updates: Partial<RawEvent>): Promise<RawEvent> {
-  const url = `${getApiUrl()}/events/${id}`;
-  const res = await fetch(url, {
+  const res = await fetch(`/api/events/${id}`, {
     method: 'PUT',
-    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
-    credentials: 'include',
+    headers: getHeaders(),
     body: JSON.stringify(updates),
   });
 
