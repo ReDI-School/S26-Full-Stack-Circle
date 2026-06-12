@@ -149,6 +149,7 @@ function ProfileContent() {
                 attendeeCount={event.attendeeCount}
                 maxAttendees={event.maxAttendees}
                 action={getActionForEvent(event)}
+                interactive={true}
                 onActionClick={() => handleEventAction(event)}
               />
             ))}
