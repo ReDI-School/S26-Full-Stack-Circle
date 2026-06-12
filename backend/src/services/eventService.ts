@@ -1,6 +1,6 @@
 import prisma from '../libs/prisma.js';
 import { Prisma } from '../../generated/prisma/client.js';
-import type { UpdateEventData } from '../types/event.js';
+import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 export class EventService {
   async getEvents(filter?: 'upcoming' | 'past') {
     const currentDate = new Date();
@@ -100,6 +100,25 @@ export class EventService {
     return prisma.event.update({
       where: { id },
       data,
+    });
+  }
+
+  async getEventsByUserId(userId: string, filter: UserEventFilter) {
+    const now = new Date();
+
+    const where: Prisma.EventWhereInput =
+      filter === 'created'
+        ? { organizerId: userId, date: { gte: now } }
+        : filter === 'attending'
+          ? { attendances: { some: { userId } }, date: { gte: now } }
+          : {
+              date: { lt: now },
+              OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
+            };
+
+    return prisma.event.findMany({
+      where,
+      orderBy: { date: filter === 'archived' ? 'desc' : 'asc' },
     });
   }
 }

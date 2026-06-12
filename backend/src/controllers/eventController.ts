@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AttendanceService } from '../services/attendanceService.js';
 import { EventService } from '../services/eventService.js';
-import type { UpdateEventData } from '../types/event.js';
+import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 
 const eventService = new EventService();
 const attendanceService = new AttendanceService();
@@ -28,6 +28,16 @@ function parseEventFilter(value: unknown): {
   return {
     isValid: false,
   };
+}
+
+function parseUserEventFilter(value: unknown): {
+  isValid: boolean;
+  filter?: UserEventFilter;
+} {
+  if (value === 'created' || value === 'attending' || value === 'archived') {
+    return { isValid: true, filter: value };
+  }
+  return { isValid: false };
 }
 
 export class EventController {
@@ -141,5 +151,24 @@ export class EventController {
     const updatedEvent = await eventService.updateEvent(eventId, updateData);
 
     return res.status(200).json({ event: updatedEvent });
+  }
+
+  async getEventsByUserId(req: Request, res: Response) {
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { isValid, filter } = parseUserEventFilter(req.query.filter);
+
+    if (!isValid || !filter) {
+      return res.status(400).json({
+        error: 'Invalid or missing event filter. Must be one of: created, attending, archived',
+      });
+    }
+
+    const events = await eventService.getEventsByUserId(userId, filter);
+    return res.json({ events });
   }
 }
