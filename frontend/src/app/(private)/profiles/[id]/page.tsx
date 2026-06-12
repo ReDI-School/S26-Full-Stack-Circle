@@ -4,7 +4,7 @@ import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@component
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState, Suspense } from 'react';
-import useAuth from '@hooks/useAuth';
+import { useAuthContext } from '@/contexts/AuthContext';
 
 import {
   fetchProfileEventsByTab,
@@ -39,7 +39,7 @@ const getEmptyStateMessage = (tab: ProfileTab) => {
 };
 
 function ProfileContent() {
-  const { user } = useAuth();
+  const { authUser } = useAuthContext();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,7 +54,7 @@ function ProfileContent() {
   const isLoading = eventsState.tab !== activeTab;
   const events = isLoading ? [] : eventsState.data;
 
-  const userFullName = user ? `${user.firstName} ${user.lastName}` : '';
+  const userFullName = authUser ? `${authUser.firstName} ${authUser.lastName}` : '';
 
   const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
     () => ({
