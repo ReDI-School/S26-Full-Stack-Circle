@@ -16,6 +16,7 @@ export * from './TabNav';
 export * from './Tag';
 export * from './PublicLayout';
 export * from './SignInForm';
+export * from './CreateEventForm';
 export * from './ProtectedLayout';
 export * from './UserArea';
 export * from './EventCard';
