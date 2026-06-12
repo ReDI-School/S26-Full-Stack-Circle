@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getProfileRequest();
         if (user) setAuthUser(user);
       } catch {
-        // Not authenticated â user stays null
+        // Not authenticated user stays null
       } finally {
         setIsHydrating(false);
       }
