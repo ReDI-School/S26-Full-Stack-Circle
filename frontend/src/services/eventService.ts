@@ -27,6 +27,22 @@ export type RawEvent = {
   isAttending: boolean;
 };
 
+export async function getDashboardEvents(tab: 'all' | 'future' | 'archived') {
+  const filter = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
+
+  const url = filter ? `${getApiUrl()}/events?filter=${filter}` : `${getApiUrl()}/events`;
+
+  const res = await fetch(url, {
+    credentials: 'include',
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch events');
+
+  const data = await res.json();
+
+  return Array.isArray(data) ? data : data.events;
+}
+
 export async function fetchEventById(id: string): Promise<RawEvent> {
   const url = `${getApiUrl()}/events/${id}`;
   const res = await fetch(url, {
