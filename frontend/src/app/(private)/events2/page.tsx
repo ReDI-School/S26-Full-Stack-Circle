@@ -127,6 +127,7 @@ function EventsDashboardContent() {
               description={event.description}
               attendeeCount={event.attendeeCount ?? 0}
               maxAttendees={event.maxAttendees ?? 50}
+              interactive={true} 
               action={
                 currentTab === 'ARCHIVED'
                   ? 'archived'
