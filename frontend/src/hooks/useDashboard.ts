@@ -22,21 +22,39 @@ export function useDashboardEvents(tab: TabType) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [pending, setPending] = useState<Set<string>>(new Set());
+  const [prevTab, setPrevTab] = useState<TabType>(tab);
 
-  const fetchEvents = useCallback(async () => {
+  // Synchronous state reset when tab changes (avoids cascading render flash)
+  if (tab !== prevTab) {
+    setPrevTab(tab);
     setLoading(true);
+  }
 
-    try {
-      const data = await getDashboardEvents(tab);
-      setEvents(data);
-    } finally {
-      setLoading(false);
-    }
-  }, [tab]);
-
+// Effect for handling race-condition free data fetching on tab changes
   useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+    let active = true;
+
+    const load = async () => {
+      try {
+        const data = await getDashboardEvents(tab);
+        if (active) {
+          setEvents(data);
+        }
+      } catch (err) {
+        console.error('Failed to load events:', err);
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, [tab]);
 
   const join = async (eventId: string) => {
     setPending((prev) => new Set(prev).add(eventId));
@@ -100,12 +118,25 @@ export function useDashboardEvents(tab: TabType) {
     }
   };
 
+   const refetch = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await getDashboardEvents(tab);
+      setEvents(data);
+    } catch (err) {
+      console.error('Failed to refetch events:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [tab]);
+
+
   return {
     events,
     loading,
     pending,
     join,
     leave,
-    refetch: fetchEvents,
+    refetch,
   };
 }

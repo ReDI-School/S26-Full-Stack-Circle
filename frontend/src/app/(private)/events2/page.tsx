@@ -34,9 +34,9 @@ function EventsDashboardContent() {
   const { events, loading, join, leave, pending } = useDashboardEvents(currentParam);
 
   // Tab change (only URL logic here)
-  const handleTabChange = (selectedTab: TabType) => {
+  const handleTabChange = (selectedTab: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('tab', parseTabToParam(selectedTab));
+    params.set('tab', parseTabToParam(selectedTab as TabType));
     router.push(`?${params.toString()}`);
   };
 
@@ -128,7 +128,11 @@ function EventsDashboardContent() {
                       : 'join'
               }
               isActionPending={pending.has(event.id)}
-              onActionClick={() => handleEventAction(event.id, event.relationship)}
+              onActionClick={() => {
+                if (currentTab !== 'ARCHIVED') {
+                  handleEventAction(event.id, event.relationship);
+                }
+              }}
             />
           ))}
         </section>
