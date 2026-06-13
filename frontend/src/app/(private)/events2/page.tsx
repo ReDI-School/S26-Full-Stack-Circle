@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
 import { StickyButton } from '@components/StickyButton';
+import { Button } from '@components/Button';
 import { useDashboardEvents, Relationship } from '@hooks/useDashboard';
 import { TabType as HookTabType } from '@hooks/useDashboard';
 import Image from 'next/image';
@@ -64,11 +65,17 @@ function EventsDashboardContent() {
         </div>
 
         <div className="w-full md:w-auto fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 md:static md:border-none md:p-0 md:bg-transparent z-50">
+          <Button
+              onClick={() => router.push('/events/create')}
+              size="default"
+              variant="idle"
+              className="hidden sm:block">
+                    CREATE NEW EVENT
+          </Button>
           <StickyButton
-            label="CREATE NEW EVENT"
-            onClick={() => router.push('/events/create')}
-            className="w-full md:w-max block"
-          />
+              onClick={() => router.push('/events/create')}
+              label="CREATE NEW EVENT"></StickyButton>
+        
         </div>
       </header>
 
