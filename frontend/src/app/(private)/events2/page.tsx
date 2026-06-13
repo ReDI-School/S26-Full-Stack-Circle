@@ -89,12 +89,14 @@ function EventsDashboardContent() {
       {/* EMPTY */}
       {!loading && events.length === 0 && (
         <section className="flex flex-col items-center justify-center min-h-[300px] text-center gap-4 w-full">
-          <Image
-            src={imageSrc}
-            alt="No events found"
-            className="object-contain w-full h-full"
-            priority
-          />
+          <div>
+            <Image
+              src={imageSrc}
+              alt="No events found"
+              className="object-contain w-full h-full"
+              priority
+            />
+          </div>
 
           <h3 className="text-sm font-medium text-tabs-idle tracking-wide uppercase">
             THERE ARE NO EVENTS TO DISPLAY
