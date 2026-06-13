@@ -6,6 +6,7 @@ import { TabNav } from '@components/TabNav';
 import { EventCard } from '@components/EventCard';
 import { StickyButton } from '@components/StickyButton';
 import { useDashboardEvents, Relationship } from '@hooks/useDashboard';
+import { TabType as HookTabType } from '@hooks/useDashboard';
 import Image from 'next/image';
 import imageSrc from '../../../assets/images/empty-state.png';
 
@@ -17,7 +18,7 @@ const parseParamToTab = (param: string | null): TabType => {
   return 'ALL EVENTS';
 };
 
-const parseTabToParam = (tab: TabType): string => {
+const parseTabToParam = (tab: TabType): HookTabType => {
   if (tab === 'FUTURE EVENTS') return 'future';
   if (tab === 'ARCHIVED') return 'archived';
   return 'all';
