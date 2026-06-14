@@ -16,9 +16,10 @@ const ProfileCard = ({
   const nameInitials = getInitials(name);
   const [isActive, setIsActive] = useState(false);
   const deleteProfile = async () => {
+    const okay = window.confirm('Do you want to delte your profile?');
+    if (!okay) return;
     try {
       await deleteMe();
-      alert('User deleted');
     } catch (err: unknown) {
       console.error(err);
     }
