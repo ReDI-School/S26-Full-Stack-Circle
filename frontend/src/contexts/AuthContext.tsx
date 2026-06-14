@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { getProfileRequest } from '@services/authService';
 import type { AuthUser } from '@services/authService';
 
@@ -16,6 +16,9 @@ interface AuthDispatch {
 const AuthStateContext = createContext<AuthState | null>(null);
 const AuthDispatchContext = createContext<AuthDispatch | null>(null);
 
+AuthStateContext.displayName = 'AuthStateContext';
+AuthDispatchContext.displayName = 'AuthDispatchContext';
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
   const [isHydrating, setIsHydrating] = useState(true);
@@ -26,7 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const user = await getProfileRequest();
         if (user) setAuthUser(user);
       } catch {
-        // Not authenticated user stays null
+        // Not authenticated, user stays null
       } finally {
         setIsHydrating(false);
       }
@@ -34,11 +37,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     hydrate();
   }, []);
 
+  const authState = useMemo(() => ({ authUser, isHydrating }), [authUser, isHydrating]);
+  const dispatch = useMemo(() => ({ setAuthUser }), []);
+
   return (
-    <AuthStateContext.Provider value={{ authUser, isHydrating }}>
-      <AuthDispatchContext.Provider value={{ setAuthUser }}>
-        {children}
-      </AuthDispatchContext.Provider>
+    <AuthStateContext.Provider value={authState}>
+      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
     </AuthStateContext.Provider>
   );
 };
