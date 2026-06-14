@@ -110,7 +110,7 @@ function EventsDashboardContent() {
 
       {/* LIST */}
       {!loading && events.length > 0 && (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full pb-8">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full pb-20 sm:pb-8">
           {events.map((event) => (
             <EventCard
               key={event.id}
