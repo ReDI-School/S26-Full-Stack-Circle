@@ -1,29 +1,27 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useMemo, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { getProfileRequest } from '@services/authService';
 import type { AuthUser } from '@services/authService';
 
 interface AuthContextValue {
   authUser: AuthUser | null;
-  hydrating: boolean;
-  authenticateUser: (user: AuthUser) => void;
-  clearAuthUser: () => void;
+  isHydrating: boolean;
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null);
+interface AuthDispatch {
+  setAuthUser: (user: AuthUser | null) => void;
+}
+
+const AuthStateContext = createContext<AuthState | null>(null);
+const AuthDispatchContext = createContext<AuthDispatch | null>(null);
+
+AuthStateContext.displayName = 'AuthStateContext';
+AuthDispatchContext.displayName = 'AuthDispatchContext';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [hydrating, setHydrating] = useState(true);
-
-  const authenticateUser = useCallback((user: AuthUser) => {
-    setAuthUser(user);
-  }, []);
-
-  const clearAuthUser = useCallback(() => {
-    setAuthUser(null);
-  }, []);
+  const [isHydrating, setIsHydrating] = useState(true);
 
   useEffect(() => {
     const hydrate = async () => {
@@ -33,18 +31,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch {
         // Not authenticated, user stays null
       } finally {
-        setHydrating(false);
+        setIsHydrating(false);
       }
     };
     hydrate();
   }, []);
 
-  const value = useMemo(
-    () => ({ authUser, hydrating, authenticateUser, clearAuthUser }),
-    [authUser, hydrating, authenticateUser, clearAuthUser]
-  );
+  const authState = useMemo(() => ({ authUser, isHydrating }), [authUser, isHydrating]);
+  const dispatch = useMemo(() => ({ setAuthUser }), []);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthStateContext.Provider value={authState}>
+      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
+    </AuthStateContext.Provider>
+  );
 };
 
 export const useAuthContext = (): AuthContextValue => {

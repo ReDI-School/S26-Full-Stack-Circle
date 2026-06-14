@@ -19,10 +19,7 @@ export default function useCreateEvent() {
         ...formData,
         location: 'Online',
       };
-
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-      const response = await fetch(`${baseUrl}/events`, {
+      const response = await fetch('/api/events', {
         method: 'POST',
         credentials: 'include',
         headers: {
