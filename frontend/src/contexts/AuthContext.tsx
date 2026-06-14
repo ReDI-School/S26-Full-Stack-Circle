@@ -4,7 +4,7 @@ import { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import { getProfileRequest } from '@services/authService';
 import type { AuthUser } from '@services/authService';
 
-interface AuthContextValue {
+interface AuthState {
   authUser: AuthUser | null;
   isHydrating: boolean;
 }
@@ -47,8 +47,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuthContext = (): AuthContextValue => {
-  const context = useContext(AuthContext);
+export const useAuthContext = (): AuthState => {
+  const context = useContext(AuthStateContext);
   if (!context) throw new Error('useAuthContext must be used within an AuthProvider');
+  return context;
+};
+
+export const useAuthDispatch = (): AuthDispatch => {
+  const context = useContext(AuthDispatchContext);
+  if (!context) throw new Error('useAuthDispatch must be used within an AuthProvider');
   return context;
 };
