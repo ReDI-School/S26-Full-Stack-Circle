@@ -25,6 +25,24 @@ const parseTabToParam = (tab: TabType): HookTabType => {
   return 'all';
 };
 
+type EventAction = 'archived' | 'edit' | 'leave' | 'join';
+const now = new Date();
+
+function getEventAction(
+  relationship: Relationship,
+  eventDate: Date,
+  currentTab: TabType
+): EventAction {
+  if (currentTab === 'ARCHIVED') return 'archived';
+
+  const isPast = eventDate < now;
+  if (isPast) return 'archived';
+
+  if (relationship === 'author') return 'edit';
+  if (relationship === 'joined') return 'leave';
+  return 'join';
+}
+
 function EventsDashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -33,6 +51,8 @@ function EventsDashboardContent() {
   const currentParam = parseTabToParam(currentTab);
 
   const { events, loading, join, leave, pending } = useDashboardEvents(currentParam);
+
+  console.log('EVENTS: ', events);
 
   // Tab change (only URL logic here)
   const handleTabChange = (selectedTab: string) => {
@@ -53,7 +73,7 @@ function EventsDashboardContent() {
   };
 
   const handleCreateEvent = () => {
-    router.push('/events/create-event');
+    router.push('/create-event');
   };
 
   return (
@@ -125,15 +145,7 @@ function EventsDashboardContent() {
               attendeeCount={event.attendeeCount ?? 0}
               maxAttendees={event.maxAttendees ?? 50}
               interactive={true}
-              action={
-                currentTab === 'ARCHIVED'
-                  ? 'archived'
-                  : event.relationship === 'author'
-                    ? 'edit'
-                    : event.relationship === 'joined'
-                      ? 'leave'
-                      : 'join'
-              }
+              action={getEventAction(event.relationship, new Date(event.date), currentTab)}
               isActionPending={pending.has(event.id)}
               onActionClick={() => {
                 if (currentTab !== 'ARCHIVED') {
