@@ -77,7 +77,7 @@ function EventsDashboardContent() {
   };
 
   return (
-    <div className="size-full flex flex-col bg-gray-50 p-4 md:p-8 pb-24 md:pb-8 relative">
+    <div className="size-full flex flex-col pb-24 md:pb-8">
       {/* HEADER */}
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-gray-200 pb-4 mb-8 w-full">
         <div className="w-full md:w-auto">
