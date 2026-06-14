@@ -16,6 +16,7 @@ export class EventService {
 
     const events = await prisma.event.findMany({
       where,
+      orderBy: { date: 'asc' },
       include: {
         organizer: {
           select: {
