@@ -52,8 +52,12 @@ function EventsDashboardContent() {
     else leave(id);
   };
 
+  const handleCreateEvent = () => {
+    router.push('/events/create-event');
+  };
+
   return (
-    <div className="w-full min-h-screen bg-gray-50 p-4 md:p-8 pb-24 md:pb-8 relative">
+    <div className="size-full flex flex-col bg-gray-50 p-4 md:p-8 pb-24 md:pb-8 relative">
       {/* HEADER */}
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-gray-200 pb-4 mb-8 w-full">
         <div className="w-full md:w-auto">
@@ -64,19 +68,12 @@ function EventsDashboardContent() {
           />
         </div>
 
-        <div className="w-full md:w-auto fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 md:static md:border-none md:p-0 md:bg-transparent z-50">
-          <Button
-              onClick={() => router.push('/events/create')}
-              size="default"
-              variant="idle"
-              className="hidden sm:block">
-                    CREATE NEW EVENT
+        <div className="hidden sm:block">
+          <Button onClick={handleCreateEvent} size="default" variant="idle">
+            CREATE NEW EVENT
           </Button>
-          <StickyButton
-              onClick={() => router.push('/events/create')}
-              label="CREATE NEW EVENT"></StickyButton>
-        
         </div>
+        <StickyButton onClick={handleCreateEvent} label="CREATE NEW EVENT"></StickyButton>
       </header>
 
       {/* LOADING */}
@@ -95,7 +92,7 @@ function EventsDashboardContent() {
 
       {/* EMPTY */}
       {!loading && events.length === 0 && (
-        <section className="flex flex-col items-center justify-center min-h-[300px] text-center gap-4 w-full">
+        <section className="flex-1 flex flex-col items-center justify-center text-center gap-4 w-full">
           <div>
             <Image
               src={imageSrc}
@@ -113,7 +110,7 @@ function EventsDashboardContent() {
 
       {/* LIST */}
       {!loading && events.length > 0 && (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full pb-8">
           {events.map((event) => (
             <EventCard
               key={event.id}
@@ -127,7 +124,7 @@ function EventsDashboardContent() {
               description={event.description}
               attendeeCount={event.attendeeCount ?? 0}
               maxAttendees={event.maxAttendees ?? 50}
-              interactive={true} 
+              interactive={true}
               action={
                 currentTab === 'ARCHIVED'
                   ? 'archived'
