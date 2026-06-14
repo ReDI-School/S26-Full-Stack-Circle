@@ -25,17 +25,12 @@ export type RawEvent = {
 
 export async function getDashboardEvents(tab: 'all' | 'future' | 'archived') {
   const filter = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
+  const url = filter ? `/api/events?filter=${filter}` : `/api/events`;
 
-  const url = filter ? `${getApiUrl()}/events?filter=${filter}` : `${getApiUrl()}/events`;
-
-  const res = await fetch(url, {
-    credentials: 'include',
-  });
-
+  const res = await fetch(url);
   if (!res.ok) throw new Error('Failed to fetch events');
 
   const data = await res.json();
-
   return Array.isArray(data) ? data : data.events;
 }
 
