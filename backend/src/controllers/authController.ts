@@ -32,7 +32,6 @@ export class AuthController {
       res.cookie('token', token, {
         ...authCookieOptions,
         maxAge: 1000 * 60 * 10,
-        //maxAge: 1000 * 60 * 60 * 24 * 7, // 7 días en ms
       });
 
       const userResponse = new UserDTO(user);

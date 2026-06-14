@@ -43,17 +43,6 @@ export async function logoutRequest(): Promise<void> {
   if (!res.ok) {
     throw new Error('Logout failed');
   }
-  /*
-  const tokenValue = data.token || data.accessToken;
-
-  if (tokenValue) {
-    localStorage.setItem('token', tokenValue);
-  } else {
-    console.warn(
-      "Logueado, pero el backend no mandó un 'token' en el JSON. Estructura recibida:",
-      data
-    );
-  }*/
 }
 
 export async function registerRequest(data: Omit<RegisterInput, 'repeatPassword'>): Promise<void> {
