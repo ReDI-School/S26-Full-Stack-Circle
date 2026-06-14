@@ -154,11 +154,7 @@ export class EventController {
   }
 
   async getEventsByUserId(req: Request, res: Response) {
-    const userId = req.user?.userId;
-
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    const userId = req.user!.userId;
 
     const { isValid, filter } = parseUserEventFilter(req.query.filter);
 

@@ -103,18 +103,22 @@ export class EventService {
     });
   }
 
-  async getEventsByUserId(userId: string, filter: UserEventFilter) {
-    const now = new Date();
+  async getEventsByUserId(userId: string, filter: UserEventFilter, now: Date = new Date()) {
+    let where: Prisma.EventWhereInput;
 
-    const where: Prisma.EventWhereInput =
-      filter === 'created'
-        ? { organizerId: userId, date: { gte: now } }
-        : filter === 'attending'
-          ? { attendances: { some: { userId } }, date: { gte: now } }
-          : {
-              date: { lt: now },
-              OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
-            };
+    switch (filter) {
+      case 'created':
+        where = { organizerId: userId, date: { gte: now } };
+        break;
+      case 'attending':
+        where = { attendances: { some: { userId } }, date: { gte: now } };
+        break;
+      default:
+        where = {
+          date: { lt: now },
+          OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
+        };
+    }
 
     return prisma.event.findMany({
       where,
