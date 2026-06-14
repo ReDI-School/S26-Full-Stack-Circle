@@ -57,13 +57,7 @@ export class UserController {
   }
 
   async deleteMe(req: Request, res: Response) {
-    const authenticatedUser = req.user;
-
-    if (!authenticatedUser) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    await userService.deleteUser(authenticatedUser.userId);
+    await userService.deleteUser(req.user!.userId);
     return res.status(204).send();
   }
 }
