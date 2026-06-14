@@ -2,7 +2,7 @@ import type { TabNavProps } from './TabNav.types';
 import { tabStyles } from './TabNav.styles';
 
 const TabNav = ({ tabs, activeTab, onTabChange }: TabNavProps) => (
-  <div role="tablist" className="flex">
+  <div role="tablist" className="flex justify-between">
     {tabs.map((tab) => (
       <button
         key={tab}
