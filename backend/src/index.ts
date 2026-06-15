@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
+import cookieParser from 'cookie-parser';
 import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -13,6 +14,7 @@ const app = express();
 
 // Middleware
 app.use(helmet());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

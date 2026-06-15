@@ -21,12 +21,14 @@ import jwt from 'jsonwebtoken';
  */
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
+  const cookie = req.cookies['token'];
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if ((!authHeader || !authHeader.startsWith('Bearer ')) && !cookie) {
     return res.status(401).json({ error: 'No token provided. Please log in.' });
   }
-
-  const token = authHeader.substring(7);
+  let token = '';
+  if (!authHeader) token = cookie;
+  else token = authHeader.substring(7);
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET!);

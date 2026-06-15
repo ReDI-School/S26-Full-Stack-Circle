@@ -52,4 +52,9 @@ export class AuthController {
       next(error);
     }
   }
+
+  async logout(req: Request, res: Response) {
+    res.clearCookie('token', { httpOnly: true });
+    res.status(200).json({ success: true, message: 'User logged out successfully' });
+  }
 }
