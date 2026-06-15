@@ -7,6 +7,6 @@ export const CreateEventFormStyles = tv({
     gridContainer: 'grid grid-cols-3 gap-4',
     fieldsWrapper: 'flex flex-col gap-5',
     footer: 'flex justify-between items-center mt-4',
-    dateTimeWrapper: 'min-w-0 w-full',
+    dateTimeWrapper: 'min-w-0',
   },
 });
