@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { loginRequest } from '@service/authService';
+import { loginRequest, logoutRequest } from '@service/authService';
 import { LoginInput } from '@validators/schemas';
 
 interface UserData {
@@ -13,8 +13,21 @@ export default function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [user, setUser] = useState<UserData | null>(null);
-  const signOut = () => {
-    // TODO: Implement real sign-out logic
+  const signOut = async () => {
+    try {
+      setLoading(true);
+      setError(undefined);
+      await logoutRequest();
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const goToProfile = () => {

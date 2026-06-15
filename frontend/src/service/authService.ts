@@ -18,3 +18,15 @@ export async function loginRequest(email: string, password: string): Promise<voi
     throw new Error(data?.error || 'Login failed');
   }
 }
+
+export async function logoutRequest(): Promise<void> {
+  const { apiUrl } = await config();
+  const res = await fetch(`${apiUrl}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data?.error || 'Logout failed');
+  }
+}
