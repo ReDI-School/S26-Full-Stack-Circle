@@ -18,7 +18,8 @@ type FormSchemaOutput = z.output<typeof formSchema>;
 export default function CreateEventForm(props: CreateEventFormProps) {
   const { onSubmit, onCancel, isLoading, serverError } = props;
 
-  const { form, title, gridContainer, fieldsWrapper, footer } = CreateEventFormStyles();
+  const { form, title, gridContainer, fieldsWrapper, footer, dateTimeWrapper } =
+    CreateEventFormStyles();
 
   const {
     register,
@@ -52,30 +53,36 @@ export default function CreateEventForm(props: CreateEventFormProps) {
           />
 
           <div className={gridContainer()}>
-            <InputField
-              label="Date"
-              type="date"
-              required
-              disabled={isLoading}
-              error={errors.date?.message}
-              {...register('date')}
-            />
-            <InputField
-              label="Time"
-              type="time"
-              required
-              disabled={isLoading}
-              error={errors.time?.message}
-              {...register('time')}
-            />
-            <InputField
-              label="Capacity"
-              type="number"
-              required
-              disabled={isLoading}
-              error={errors.capacity?.message}
-              {...register('capacity')}
-            />
+            <div className={dateTimeWrapper()}>
+              <InputField
+                label="Date"
+                type="date"
+                required
+                disabled={isLoading}
+                error={errors.date?.message}
+                {...register('date')}
+              />
+            </div>
+            <div className={dateTimeWrapper()}>
+              <InputField
+                label="Time"
+                type="time"
+                required
+                disabled={isLoading}
+                error={errors.time?.message}
+                {...register('time')}
+              />
+            </div>
+            <div className={dateTimeWrapper()}>
+              <InputField
+                label="Capacity"
+                type="number"
+                required
+                disabled={isLoading}
+                error={errors.capacity?.message}
+                {...register('capacity')}
+              />
+            </div>
           </div>
 
           <InputField
