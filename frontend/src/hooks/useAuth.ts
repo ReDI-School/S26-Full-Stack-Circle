@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { loginRequest, logoutRequest } from '@services/authService';
-import { updateUserRequest } from '@services/userService';
-import type { LoginInput, UpdateUserInput } from '@validators/schemas';
+import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
   const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [successMessage, setSuccessMessage] = useState<string>();
   const router = useRouter();
 
   const signIn = async (data: LoginInput) => {
@@ -42,26 +40,6 @@ export default function useAuth() {
     }
   };
 
-  const updateUser = async ({ firstName, lastName, newPassword }: UpdateUserInput) => {
-    try {
-      setLoading(true);
-      setError(undefined);
-      setSuccessMessage(undefined);
-      if (!authUser) throw new Error('Not logged in.');
-      await updateUserRequest(authUser.id, { firstName, lastName, password: newPassword || undefined });
-      setSuccessMessage('Settings saved successfully.');
-      return true;
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unknown error occurred');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const goToProfile = () => {
     if (authUser) router.push(`/profiles/${authUser.id}`);
   };
@@ -70,10 +48,8 @@ export default function useAuth() {
     user: authUser,
     loading: loading || hydrating,
     error,
-    successMessage,
     signIn,
     signOut,
-    updateUser,
     goToProfile,
   };
 }

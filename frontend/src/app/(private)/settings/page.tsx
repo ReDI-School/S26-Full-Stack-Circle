@@ -1,10 +1,10 @@
 'use client';
 
 import { UserSettingsForm } from '@components';
-import useAuth from '@hooks/useAuth';
+import useUser from '@hooks/useUser';
 
 export default function SettingsPage() {
-  const { updateUser, loading, error, successMessage } = useAuth();
+  const { updateUser, loading, error, successMessage } = useUser();
 
   return (
     <UserSettingsForm

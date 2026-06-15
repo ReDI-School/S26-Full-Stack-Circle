@@ -2,6 +2,27 @@ import prisma from '../libs/prisma.js';
 import bcrypt from 'bcrypt';
 import { UserDTO } from '../dto/user.dto.js';
 
+type CreateUserData = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
+type UpdateUserData = {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  password?: string;
+};
+
+type UpdateUserDbData = {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  passwordHash?: string;
+};
+
 export class UserService {
   async getAllUsers() {
     return await prisma.user.findMany({ omit: { passwordHash: true } });
@@ -17,7 +38,7 @@ export class UserService {
     });
   }
 
-  async createUser(data: { email: string; firstName: string; lastName: string; password: string }) {
+  async createUser(data: CreateUserData) {
     const existingUser = await this.findUserByEmail(data.email);
 
     if (existingUser) {
@@ -39,8 +60,8 @@ export class UserService {
     });
   }
 
-  async updateUser(id: string, data: { email?: string; firstName?: string; lastName?: string; password?: string }) {
-    const updateData: { email?: string; firstName?: string; lastName?: string; passwordHash?: string } = {
+  async updateUser(id: string, data: UpdateUserData) {
+    const updateData: UpdateUserDbData = {
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
