@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { forwardAuthHeaders } from '@/lib/forwardAuthHeaders';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
+import { backendFetch } from '@/lib/backendClient';
 
 export async function GET(req: NextRequest) {
-  const apiUrl = await getBackendApiUrl();
-
-  const backendRes = await fetch(`${apiUrl}/auth/me`, {
+  const res = await backendFetch(req, '/auth/me', {
+    method: 'GET',
     cache: 'no-store',
-    headers: forwardAuthHeaders(req),
   });
 
-  const json = await backendRes.json();
-
-  return NextResponse.json(json, {
-    status: backendRes.status,
+  return NextResponse.json(await res.json(), {
+    status: res.status,
   });
 }

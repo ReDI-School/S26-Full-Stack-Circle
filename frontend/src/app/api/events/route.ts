@@ -1,18 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
+import { backendFetch } from '@/lib/backendClient';
+import { jsonHeaders } from '@/lib/forwardAuthHeaders';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const filter = searchParams.get('filter');
 
-  const apiUrl = await getBackendApiUrl();
-  const url = filter ? `${apiUrl}/events?filter=${filter}` : `${apiUrl}/events`;
+  const query = filter ? `/events?filter=${filter}` : '/events';
 
-  const backendRes = await fetch(url, {
+  const backendRes = await backendFetch(request, query, {
+    method: 'GET',
     cache: 'no-store',
-    headers: {
-      cookie: request.headers.get('cookie') || '',
-    },
   });
 
   const json = await backendRes.json();
@@ -23,20 +21,15 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const apiUrl = await getBackendApiUrl();
   const body = await request.json();
 
-  const backendRes = await fetch(`${apiUrl}/events`, {
+  const backendRes = await backendFetch(request, '/events', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      cookie: request.headers.get('cookie') || '',
+      ...jsonHeaders,
     },
     body: JSON.stringify(body),
   });
-
-  const text = await backendRes.text();
-  console.log('BACKEND RESPONSE:', backendRes.status, text);
 
   const json = await backendRes.json();
 

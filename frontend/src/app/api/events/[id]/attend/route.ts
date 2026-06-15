@@ -1,18 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
-import { forwardAuthHeaders } from '@/lib/forwardAuthHeaders';
+import { backendFetch } from '@/lib/backendClient';
 
-async function proxy(method: string, req: NextRequest, id: string) {
-  const apiUrl = await getBackendApiUrl();
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
-  const backendRes = await fetch(`${apiUrl}/events/${id}/attend`, {
-    method,
-    headers: forwardAuthHeaders(req),
-  });
-
-  if (method === 'DELETE' && backendRes.status === 204) {
-    return new NextResponse(null, { status: 204 });
-  }
+  const backendRes = await backendFetch(req, `/events/${id}/attend`, { method: 'POST' });
 
   const json = await backendRes.json();
 
@@ -21,12 +13,18 @@ async function proxy(method: string, req: NextRequest, id: string) {
   });
 }
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  return proxy('POST', req, id);
-}
-
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  return proxy('DELETE', req, id);
+
+  const backendRes = await backendFetch(req, `/events/${id}/attend`, { method: 'DELETE' });
+
+  if (backendRes.status === 204) {
+    return new NextResponse(null, { status: 204 });
+  }
+
+  const json = await backendRes.json();
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
 }
