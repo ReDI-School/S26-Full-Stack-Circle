@@ -1,11 +1,11 @@
 import 'dotenv/config';
+import './config/env.js';
 import express, { Request, Response } from 'express';
 import 'express-async-errors';
 import helmet from 'helmet';
 import cors from 'cors';
 import userRouter from './routes/userRoutes.js';
 import eventRouter from './routes/eventRoutes.js';
-import './config/env.js';
 import authRouter from './routes/authRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 import cookieParser from 'cookie-parser';
