@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useAuthContext } from '@/contexts/AuthContext';
+import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
 import { loginRequest, logoutRequest } from '@services/authService';
 import type { LoginInput } from '@validators/schemas';
 import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
-  const { authUser, hydrating, authenticateUser, clearAuthUser } = useAuthContext();
+  const { authUser, isHydrating } = useAuthContext();
+  const { setAuthUser } = useAuthDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function useAuth() {
       setLoading(true);
       setError(undefined);
       const user = await loginRequest(data);
-      authenticateUser(user);
+      setAuthUser(user);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -35,7 +36,7 @@ export default function useAuth() {
     } catch {
       // Continue clearing local state
     } finally {
-      clearAuthUser();
+      setAuthUser(null);
       router.push('/sign-in');
     }
   };
@@ -46,7 +47,7 @@ export default function useAuth() {
 
   return {
     user: authUser,
-    loading: loading || hydrating,
+    loading: loading || isHydrating,
     error,
     signIn,
     signOut,

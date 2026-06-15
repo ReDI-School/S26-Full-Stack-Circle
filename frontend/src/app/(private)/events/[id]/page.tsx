@@ -25,6 +25,10 @@ export default function EventPage() {
     }
   }, [error, loading, router]);
 
+  const handleCreateEventRedirect = () => {
+    router.push('/create-event');
+  };
+
   if (loading)
     return (
       <div className="w-full">
@@ -46,17 +50,14 @@ export default function EventPage() {
           GO BACK
         </LinkButton>
         <Button
-          onClick={() => router.push('/event-creation-page')}
+          onClick={handleCreateEventRedirect}
           size="default"
           variant="idle"
           className="hidden sm:block"
         >
           CREATE NEW EVENT
         </Button>
-        <StickyButton
-          onClick={() => router.push('/event-creation-page')}
-          label="CREATE NEW EVENT"
-        ></StickyButton>
+        <StickyButton onClick={handleCreateEventRedirect} label="CREATE NEW EVENT"></StickyButton>
       </div>
       <div className="w-full flex flex-col gap-5 lg:flex-row">
         {error?.includes('404') || !event ? (

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
 import { type CreateEventInput } from '@validators/schemas';
 import { type FormData } from '@components/CreateEventForm/CreateEventForm.types';
 
@@ -20,15 +19,11 @@ export default function useCreateEvent() {
         ...formData,
         location: 'Online',
       };
-
-      const token = Cookies.get('token');
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-      const response = await fetch(`${baseUrl}/events`, {
+      const response = await fetch('/api/events', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify(payload),
       });

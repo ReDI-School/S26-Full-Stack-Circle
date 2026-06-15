@@ -2,7 +2,9 @@ import prisma from '../libs/prisma.js';
 import { Prisma } from '../../generated/prisma/client.js';
 import type { UpdateEventData } from '../types/event.js';
 export class EventService {
-  async getEvents(filter?: 'upcoming' | 'past') {
+  // List all events, filtering based on the provided criteria.
+  // Receive the currentUserId to determine if the user is the author of any event, which is needed for the frontend to display the correct relationship status (author/joined/none).
+  async getEvents(currentUserId: string, filter?: 'upcoming' | 'past') {
     const currentDate = new Date();
 
     const where: Prisma.EventWhereInput | undefined =
@@ -14,6 +16,7 @@ export class EventService {
 
     const events = await prisma.event.findMany({
       where,
+      orderBy: { date: 'asc' },
       include: {
         organizer: {
           select: {
@@ -21,10 +24,30 @@ export class EventService {
             lastName: true,
           },
         },
+        attendances: {
+          select: {
+            userId: true,
+          },
+        },
       },
     });
 
-    return events;
+    return events.map((event) => {
+      const isAuthor = event.organizerId === currentUserId;
+      // Verify if the current user is in the attendances of this event
+      const isJoined = event.attendances?.some((a) => a.userId === currentUserId) || false;
+
+      return {
+        id: event.id,
+        title: event.title,
+        date: event.date,
+        description: event.description || '',
+        relationship: isAuthor ? 'author' : isJoined ? 'joined' : 'none',
+        author: `${event.organizer.firstName} ${event.organizer.lastName}`,
+        attendeeCount: event.attendances?.length || 0,
+        maxAttendees: event.capacity,
+      };
+    });
   }
   async getEvent(id: string) {
     return await prisma.event.findUnique({

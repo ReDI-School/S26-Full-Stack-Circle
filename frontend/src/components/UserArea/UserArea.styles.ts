@@ -24,6 +24,7 @@ export const userArea = tv({
       'top-full',
       'right-0',
       'mt-3',
+      'z-[60]',
       'flex',
       'flex-col',
       'w-44',
