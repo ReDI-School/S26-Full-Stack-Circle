@@ -10,7 +10,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 // as cross-site, so the cookie must be SameSite=None + Secure to be sent.
 // Domain is intentionally omitted (PSL blocks sharing a parent-domain cookie).
 const authCookieOptions: CookieOptions = {
-  httpOnly: false,
+  httpOnly: true,
   secure: isProduction,
   sameSite: isProduction ? 'none' : 'lax',
 };

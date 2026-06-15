@@ -19,24 +19,24 @@ import jwt from 'jsonwebtoken';
  *
  * On success, it calls `next()` to pass control to the next middleware or route handler.
  */
-export function authenticate(req: Request, res: Response, next: NextFunction) {
-  let token: string | undefined;
 
-  if (req.cookies?.token) {
-    token = req.cookies.token;
-  } else {
-    const authHeader = req.headers.authorization;
-    if (authHeader?.startsWith('Bearer ')) {
-      token = authHeader.substring(7);
-    }
-  }
+type AuthPayload = {
+  userId: string;
+  role: string;
+};
+
+export function authenticate(req: Request, res: Response, next: NextFunction) {
+  const token = req.cookies.token;
 
   if (!token) {
     return res.status(401).json({ error: 'No token provided. Please log in.' });
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET!);
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined');
+    }
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     if (
       typeof decoded !== 'object' ||
@@ -50,7 +50,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
       });
     }
 
-    req.user = decoded as { userId: string; role: string };
+    req.user = decoded as AuthPayload;
     next();
     return;
   } catch (error) {

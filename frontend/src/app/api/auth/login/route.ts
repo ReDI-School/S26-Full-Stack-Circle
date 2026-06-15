@@ -1,11 +1,5 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
-import {
-  AUTH_COOKIE_NAME,
-  authCookieOptions,
-  extractTokenFromSetCookieHeaders,
-} from '@/lib/authCookie';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -13,7 +7,9 @@ export async function POST(request: Request) {
 
   const backendRes = await fetch(`${apiUrl}/auth/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(body),
   });
 
@@ -23,10 +19,13 @@ export async function POST(request: Request) {
     return NextResponse.json(json, { status: backendRes.status });
   }
 
-  const token = extractTokenFromSetCookieHeaders(backendRes.headers);
-  if (token) {
-    (await cookies()).set(AUTH_COOKIE_NAME, token, authCookieOptions);
+  const response = NextResponse.json(json);
+
+  const setCookie = backendRes.headers.get('set-cookie');
+
+  if (setCookie) {
+    response.headers.set('set-cookie', setCookie);
   }
 
-  return NextResponse.json(json);
+  return response;
 }

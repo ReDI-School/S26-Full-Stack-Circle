@@ -51,7 +51,6 @@ export async function fetchEventById(id: string): Promise<RawEvent> {
 export async function joinEvent(eventId: string): Promise<RawEvent> {
   const res = await fetch(`/api/events/${eventId}/attend`, {
     method: 'POST',
-    headers: getHeaders(),
   });
 
   if (!res.ok) {
