@@ -2,10 +2,10 @@ import { tv } from 'tailwind-variants';
 
 export const inputFieldStyles = tv({
   slots: {
-    wrapper: 'flex flex-col gap-2.5 text-input-secondary w-full min-w-0',
-    inputContainer: 'relative flex flex-col w-full',
+    wrapper: 'flex flex-col gap-2.5 text-input-secondary',
+    inputContainer: 'relative flex flex-col',
     input:
-      'w-full min-w-0 border border-input-secondary rounded-base px-5 py-3 text-input-primary placeholder:text-input-tertiary appearance-none md:appearance-auto',
+      'border border-input-secondary rounded-base px-5 py-3  text-input-primary placeholder:text-input-tertiary appearance-none md:appearance-auto',
     errorText: 'text-input-error text-xs',
     asterisk: 'text-input-error text-lg',
     visibilityIcon: 'absolute top-1/2 -translate-y-1/2 right-5 text-input-secondary cursor-pointer',
