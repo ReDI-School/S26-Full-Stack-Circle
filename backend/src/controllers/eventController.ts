@@ -154,7 +154,7 @@ export class EventController {
     return res.status(200).json({ event: updatedEvent });
   }
 
-  async getEventsByUserId(req: Request, res: Response) {
+  async getEventsByUserId(req: Request, res: Response): Promise<Response> {
     const userId = req.user!.userId;
 
     const { isValid, filter } = parseUserEventFilter(req.query.filter);
