@@ -15,8 +15,14 @@ export default function useCreateEvent() {
     setServerError(undefined);
 
     try {
+      const utcDate = Temporal.PlainDateTime.from(`${formData.date}T${formData.time}`)
+        .toZonedDateTime(Temporal.Now.timeZoneId())
+        .toInstant()
+        .toString();
+
       const payload: CreateEventInput = {
         ...formData,
+        date: utcDate,
         location: 'Online',
       };
       const response = await fetch('/api/events', {
