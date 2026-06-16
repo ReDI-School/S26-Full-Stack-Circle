@@ -149,9 +149,14 @@ export class EventService {
       default:
         throw new Error(`Invalid filter: ${filter}`);
     }
+    // each event carries organizer.{firstName,lastName} and _count.attendances, satisfying EventCard
     return prisma.event.findMany({
       where,
       orderBy: { date: filter === 'archived' ? 'desc' : 'asc' },
+      include: {
+        organizer: { select: { firstName: true, lastName: true } },
+        _count: { select: { attendances: true } },
+      },
     });
   }
 }
