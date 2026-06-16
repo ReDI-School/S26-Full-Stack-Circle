@@ -6,7 +6,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useParams } from 'next/navigation';
-import { fetchUserEvents, ProfileEvent, ProfileTab } from '@services/eventService';
+import { fetchUserEvents } from '@services/eventService';
+import { ProfileEvent, ProfileTab } from '@/types/event';
 
 /* import {
   fetchProfileEventsByTab,

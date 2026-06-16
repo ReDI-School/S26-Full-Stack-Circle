@@ -1,4 +1,4 @@
-import { Attendance } from '../types/event';
+import { ProfileEvent, ProfileTab, RawProfileEvent, RawEvent } from '@/types/event';
 
 function getHeaders(): HeadersInit {
   return {
@@ -6,52 +6,10 @@ function getHeaders(): HeadersInit {
   };
 }
 
-export type ProfileTab = 'created' | 'going' | 'archived';
-
 const TAB_TO_FILTER: Record<ProfileTab, 'created' | 'attending' | 'archived'> = {
   created: 'created',
   going: 'attending',
   archived: 'archived',
-};
-
-export type RawProfileEvent = {
-  id: string;
-  title: string;
-  description: string | null;
-  date: string;
-  location: string;
-  capacity: number;
-  organizerId: string;
-  organizer: { firstName: string; lastName: string };
-  _count: { attendances: number };
-};
-
-export type ProfileEvent = {
-  id: string;
-  status: ProfileTab;
-  date: Date;
-  title: string;
-  author: string;
-  description: string;
-  attendeeCount: number;
-  maxAttendees: number;
-};
-
-export type RawEvent = {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  capacity: number;
-  organizer: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  };
-  attendances: Attendance[];
-  isOwner: boolean;
-  isAttending: boolean;
 };
 
 function toProfileEvent(event: RawProfileEvent, status: ProfileTab): ProfileEvent {

@@ -1,6 +1,5 @@
 // Mock data and utility functions for the profile page, simulating backend responses for created, going, and archived events.
-
-export type ProfileTab = 'created' | 'going' | 'archived';
+import { ProfileEvent, ProfileTab } from '@/types/event';
 
 export type NameParts = {
   firstName: string;
@@ -26,17 +25,6 @@ export type BackendEvent = {
 };
 
 export type Attendee = NameParts;
-
-export type ProfileEvent = {
-  id: string;
-  status: ProfileTab;
-  date: Date;
-  title: string;
-  author: string;
-  description: string;
-  attendeeCount: number;
-  maxAttendees: number;
-};
 
 export const mockProfileUser: MockUser = {
   id: 'b0ef0ed6-0f63-4723-9211-d2f62cb9a0b7',
