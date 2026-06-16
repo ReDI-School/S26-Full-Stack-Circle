@@ -29,6 +29,16 @@ export type EditEventFormData = {
   location: string;
 };
 
+function getAuthCookieHeader(token?: string) {
+  const headers: HeadersInit = {};
+
+  if (token) {
+    headers.Cookie = `token=${token}`;
+  }
+
+  return headers;
+}
+
 export default async function EditEventPage({ params }: EditEventPageProps = {}) {
   const id = params ? (await params).id : undefined;
   const eventHref = id ? `/events/${id}` : '/events';
@@ -56,7 +66,7 @@ export default async function EditEventPage({ params }: EditEventPageProps = {})
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${actionToken}`,
+        ...getAuthCookieHeader(actionToken),
       },
       body: JSON.stringify(payload),
       cache: 'no-store',
@@ -88,7 +98,7 @@ export default async function EditEventPage({ params }: EditEventPageProps = {})
     const res = await fetch(`${actionApiUrl}/events/${id}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${actionToken}`,
+        ...getAuthCookieHeader(actionToken),
       },
       cache: 'no-store',
     });
@@ -115,7 +125,7 @@ export default async function EditEventPage({ params }: EditEventPageProps = {})
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...getAuthCookieHeader(token),
       },
       cache: 'no-store',
     });

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LinkButton } from '@components/LinkButton';
@@ -8,6 +8,7 @@ import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { Button } from '@components/Button';
 import { InputField } from '@components/InputField';
 import type { EditEventFormData, EventActionResult, UpdateEventPayload } from './page';
+import { InfoBox } from '@components/InfoBox';
 
 type Props = {
   eventId?: string;
@@ -30,6 +31,11 @@ export default function EditEventFormClient({
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setForm(initialEvent);
+  }, [initialEvent]);
 
   const updateField = (field: keyof EditEventFormData, value: string) => {
     setForm((prev: EditEventFormData) => ({
@@ -58,9 +64,8 @@ export default function EditEventFormClient({
       if (!result.ok) {
         throw new Error(result.error || 'Failed to update event');
       }
-
-      // Tamporary used, because we don't have a pade for details, redirect to events list
-      router.push('/events');
+      setSuccessMessage('Changes successfully saved');
+      router.push(eventHref);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
@@ -102,12 +107,12 @@ export default function EditEventFormClient({
           </LinkButton>
         </div>
         <div className="hidden lg:inline-flex">
-          <Link href="/events">
+          <Link href="/create-event">
             <Button variant="idle">CREATE NEW EVENT</Button>
           </Link>
         </div>
         <div className="lg:hidden">
-          <Link href="/events">
+          <Link href="/create-event">
             <Button variant="idle" size="small">
               CREATE NEW EVENT
             </Button>
@@ -121,6 +126,8 @@ export default function EditEventFormClient({
           className="w-full bg-white p-4 shadow-sm shadow-neutral-200 ring-1 ring-black/3 sm:p-6"
         >
           <p className="text-lg text-gray-700">EDIT EVENT</p>
+
+          {successMessage && <InfoBox variant="success" message={successMessage}></InfoBox>}
 
           {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
 
