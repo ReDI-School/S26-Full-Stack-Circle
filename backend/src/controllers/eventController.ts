@@ -60,7 +60,7 @@ export class EventController {
   }
 
   async createEvent(req: Request, res: Response) {
-    const { title, description, date, location, capacity } = req.body;
+    const { title, description, date, time, location, capacity } = req.body;
     const organizerId = req.user?.userId;
 
     if (!organizerId) {
@@ -71,7 +71,7 @@ export class EventController {
     const event = await eventService.createEvent(organizerId, {
       title,
       description,
-      date: new Date(date),
+      date: new Date(`${date}T${time}`),
       location,
       capacity,
     });
@@ -133,7 +133,7 @@ export class EventController {
     const updateData: UpdateEventData = {
       title: req.body.title,
       description: req.body.description,
-      date: req.body.date ? new Date(req.body.date) : undefined,
+      date: req.body.date ? new Date(`${req.body.date}T${req.body.time}`) : undefined,
       location: req.body.location,
       capacity: req.body.capacity,
     };
