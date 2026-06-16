@@ -1,5 +1,5 @@
 import prisma from '../libs/prisma.js';
-import { Prisma } from '../../generated/prisma/client.js';
+import { Prisma, Event } from '../../generated/prisma/client.js';
 import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 export class EventService {
   // List all events, filtering based on the provided criteria.
@@ -126,7 +126,11 @@ export class EventService {
     });
   }
 
-  async getEventsByUserId(userId: string, filter: UserEventFilter, now: Date = new Date()) {
+  async getEventsByUserId(
+    userId: string,
+    filter: UserEventFilter,
+    now: Date = new Date()
+  ): Promise<Event[]> {
     let where: Prisma.EventWhereInput;
 
     switch (filter) {
