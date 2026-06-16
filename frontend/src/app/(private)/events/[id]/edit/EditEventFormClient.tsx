@@ -57,6 +57,7 @@ export default function EditEventFormClient({
         description: form.description,
         date: form.date,
         time: form.time,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         location: form.location,
         capacity: Number(form.capacity),
       });
@@ -65,8 +66,6 @@ export default function EditEventFormClient({
         throw new Error(result.error || 'Failed to update event');
       }
       setSuccessMessage('Changes successfully saved');
-      router.push(eventHref);
-      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -90,7 +89,6 @@ export default function EditEventFormClient({
       }
 
       router.push('/events');
-      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {

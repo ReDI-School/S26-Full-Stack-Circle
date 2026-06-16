@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { DateTime } from 'luxon';
 import { AttendanceService } from '../services/attendanceService.js';
 import { EventService } from '../services/eventService.js';
 import type { UpdateEventData } from '../types/event.js';
@@ -6,9 +7,30 @@ import type { UpdateEventData } from '../types/event.js';
 const eventService = new EventService();
 const attendanceService = new AttendanceService();
 type EventFilter = 'upcoming' | 'past';
+const DEFAULT_EVENT_TIME_ZONE = 'Europe/Berlin';
 
-function composeEventDateTime(date: string, time?: string): Date {
-  return new Date(time ? `${date}T${time}:00` : date);
+/**
+ * This function compose a local calendar
+ *  date and local clock time into a UTC Date.
+ *
+ * Expected inputs:
+ * `date`: `yyyy-MM-dd`
+ * `time`: optional `HH:mm`, defaults to `00:00`
+ * `timezone`: IANA timezone (example: `Europe/Berlin`)
+ */
+function composeEventDateTime(
+  date: string,
+  time?: string,
+  timezone: string = DEFAULT_EVENT_TIME_ZONE
+): Date {
+  const input = `${date} ${time ?? '00:00'}`;
+  const localDateTime = DateTime.fromFormat(input, 'yyyy-MM-dd HH:mm', { zone: timezone });
+
+  if (!localDateTime.isValid) {
+    throw new Error(`Invalid event date/time input: ${localDateTime.invalidExplanation || input}`);
+  }
+
+  return localDateTime.toUTC().toJSDate();
 }
 
 function parseEventFilter(value: unknown): {
@@ -64,7 +86,7 @@ export class EventController {
   }
 
   async createEvent(req: Request, res: Response) {
-    const { title, description, date, time, location, capacity } = req.body;
+    const { title, description, date, time, location, capacity, timezone } = req.body;
     const organizerId = req.user?.userId;
 
     if (!organizerId) {
@@ -75,7 +97,7 @@ export class EventController {
     const event = await eventService.createEvent(organizerId, {
       title,
       description,
-      date: composeEventDateTime(date, time),
+      date: composeEventDateTime(date, time, timezone),
       location,
       capacity,
     });
@@ -100,6 +122,7 @@ export class EventController {
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const userId = req.user?.userId;
+    const timezone = typeof req.query.timezone === 'string' ? req.query.timezone : undefined;
 
     if (!userId) {
       return res.status(404).json({
@@ -112,6 +135,18 @@ export class EventController {
     if (!event) {
       return res.status(404).json({
         error: 'Event not found',
+      });
+    }
+
+    if (timezone) {
+      const localDateTime = DateTime.fromJSDate(event.date, { zone: 'utc' }).setZone(timezone);
+
+      return res.json({
+        event: {
+          ...event,
+          formDate: localDateTime.toFormat('yyyy-MM-dd'),
+          formTime: localDateTime.toFormat('HH:mm'),
+        },
       });
     }
 
@@ -137,9 +172,11 @@ export class EventController {
     let composedDate: Date | undefined;
 
     if (req.body.date || req.body.time) {
-      const datePart = req.body.date ?? event.date.toISOString().slice(0, 10);
-      const timePart = req.body.time ?? event.date.toISOString().slice(11, 16);
-      composedDate = composeEventDateTime(datePart, timePart);
+      const timezone = req.body.timezone || DEFAULT_EVENT_TIME_ZONE;
+      const localEventTime = DateTime.fromJSDate(event.date, { zone: 'utc' }).setZone(timezone);
+      const datePart = req.body.date ?? localEventTime.toFormat('yyyy-MM-dd');
+      const timePart = req.body.time ?? localEventTime.toFormat('HH:mm');
+      composedDate = composeEventDateTime(datePart, timePart, timezone);
     }
 
     const updateData: UpdateEventData = {

@@ -4,6 +4,7 @@ import EditEventFormClient from './EditEventFormClient';
 
 type EditEventPageProps = {
   params?: Promise<{ id: string }>;
+  searchParams?: Promise<{ timezone?: string }>;
 };
 
 export type UpdateEventPayload = {
@@ -11,6 +12,7 @@ export type UpdateEventPayload = {
   description: string;
   date: string;
   time: string;
+  timezone: string;
   location: string;
   capacity: number;
 };
@@ -39,9 +41,10 @@ function getAuthCookieHeader(token?: string) {
   return headers;
 }
 
-export default async function EditEventPage({ params }: EditEventPageProps = {}) {
+export default async function EditEventPage({ params, searchParams }: EditEventPageProps = {}) {
   const id = params ? (await params).id : undefined;
   const eventHref = id ? `/events/${id}` : '/events';
+  const timezone = searchParams ? (await searchParams).timezone : undefined;
 
   const { apiUrl } = await config();
   const cookieStore = await cookies();
@@ -121,7 +124,8 @@ export default async function EditEventPage({ params }: EditEventPageProps = {})
   };
 
   if (id) {
-    const res = await fetch(`${apiUrl}/events/${id}`, {
+    const query = timezone ? `?${new URLSearchParams({ timezone }).toString()}` : '';
+    const res = await fetch(`${apiUrl}/events/${id}${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -133,15 +137,10 @@ export default async function EditEventPage({ params }: EditEventPageProps = {})
     const data = res.ok ? await res.json() : {};
     const event = data.event ?? {};
 
-    // Backend stores date like ISO, we take date and time separately
-    const rawDate = typeof event.date === 'string' ? event.date : '';
-    const datePart = rawDate ? rawDate.slice(0, 10) : '';
-    const timePart = rawDate ? rawDate.slice(11, 16) : (event.time ?? '');
-
     initialEvent = {
       title: event.title ?? '',
-      date: datePart,
-      time: timePart,
+      date: event.formDate ?? '',
+      time: event.formTime ?? '',
       capacity: event.capacity ?? '',
       description: event.description ?? '',
       location: event.location ?? '',

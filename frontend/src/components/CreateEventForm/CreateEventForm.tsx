@@ -10,7 +10,7 @@ import { CreateEventFormStyles } from './CreateEventForm.styles';
 
 import { createEventSchema } from '@/validators/schemas';
 
-const formSchema = createEventSchema.omit({ location: true });
+const formSchema = createEventSchema.omit({ location: true, timezone: true });
 
 type FormSchemaInput = z.input<typeof formSchema>;
 type FormSchemaOutput = z.output<typeof formSchema>;

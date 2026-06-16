@@ -15,9 +15,12 @@ export default function useCreateEvent() {
     setServerError(undefined);
 
     try {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
       const payload: CreateEventInput = {
         ...formData,
         location: 'Online',
+        timezone,
       };
       const response = await fetch('/api/events', {
         method: 'POST',
@@ -39,7 +42,7 @@ export default function useCreateEvent() {
       if (newEventId) {
         router.push(`/events/${newEventId}`);
       } else {
-        router.push('/');
+        router.push('/events');
       }
 
       return true;

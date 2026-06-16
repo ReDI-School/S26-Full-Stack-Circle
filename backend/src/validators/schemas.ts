@@ -65,6 +65,8 @@ const createEventSchema = z.object({
   date: z.iso.date({ error: errorInvalidField('Date') }), // expected format YYYY-MM-DD from <input type="date">
 
   time: z.iso.time({ error: errorInvalidField('Time') }), // expected format HH:MM from <input type="time">
+
+  timezone: trimmedString.min(1, { error: errorRequiredField('Timezone') }),
 });
 
 const updateEventSchema = createEventSchema.partial();
