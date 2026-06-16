@@ -1,5 +1,6 @@
 'use client';
 
+import { Temporal } from '@js-temporal/polyfill';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { type CreateEventInput } from '@validators/schemas';
@@ -15,8 +16,9 @@ export default function useCreateEvent() {
     setServerError(undefined);
 
     try {
+     
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+      
       const payload: CreateEventInput = {
         ...formData,
         location: 'Online',
