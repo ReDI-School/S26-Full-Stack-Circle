@@ -1,33 +1,22 @@
 import { useState } from 'react';
-import { loginRequest } from '@service/authService';
-import { LoginInput } from '@validators/schemas';
-
-interface UserData {
-  name: string;
-  initials: string;
-}
-
-const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
+import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
+import { loginRequest, logoutRequest } from '@services/authService';
+import type { LoginInput } from '@validators/schemas';
+import { useRouter } from 'next/navigation';
 
 export default function useAuth() {
+  const { authUser, isHydrating } = useAuthContext();
+  const { setAuthUser } = useAuthDispatch();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
-  const [user, setUser] = useState<UserData | null>(MOCK_USER);
-  const signOut = () => {
-    // TODO: Implement real sign-out logic
-  };
+  const [error, setError] = useState<string | undefined>();
+  const router = useRouter();
 
-  const goToProfile = () => {
-    // TODO: Implement navigation to profile page
-  };
-
-  const signIn = async ({ email, password }: LoginInput) => {
+  const signIn = async (data: LoginInput) => {
     try {
       setLoading(true);
       setError(undefined);
-
-      await loginRequest(email, password);
-
+      const user = await loginRequest(data);
+      setAuthUser(user);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -35,10 +24,33 @@ export default function useAuth() {
       } else {
         setError('An unknown error occurred');
       }
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  return { signIn, loading, error, goToProfile, signOut, user, setUser };
+  const signOut = async () => {
+    try {
+      await logoutRequest();
+    } catch {
+      // Continue clearing local state
+    } finally {
+      setAuthUser(null);
+      router.push('/sign-in');
+    }
+  };
+
+  const goToProfile = () => {
+    if (authUser) router.push(`/profiles/${authUser.id}`);
+  };
+
+  return {
+    user: authUser,
+    loading: loading || isHydrating,
+    error,
+    signIn,
+    signOut,
+    goToProfile,
+  };
 }

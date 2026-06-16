@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AttendanceService } from 'src/services/attendanceService.js';
+import { AttendanceService } from '../services/attendanceService.js';
 import { EventService } from '../services/eventService.js';
 import type { UpdateEventData } from '../types/event.js';
 
@@ -43,14 +43,16 @@ export class EventController {
         error: 'Invalid event filter',
       });
     }
-
-    const events = await eventService.getEvents(filter);
+    const userId = req.user?.userId || '';
+    const events = await eventService.getEvents(userId, filter);
     return res.json({ events });
   }
 
   async getAttendees(req: Request, res: Response) {
     const eventId = req.params.id;
-    const event = await eventService.getEventById(eventId);
+    const event = await eventService.getEventById(eventId, '1');
+    //Are we going to use this endpoint?
+    //There's a circular dependency between getAttendees and getEventById;
 
     if (!event) {
       return res.status(404).json({ error: 'Event does not exist' });
@@ -97,8 +99,15 @@ export class EventController {
   }
   getEventById = async (req: Request, res: Response) => {
     const { id } = req.params;
+    const userId = req.user?.userId;
 
-    const event = await eventService.getEventById(id);
+    if (!userId) {
+      return res.status(404).json({
+        error: 'User not found',
+      });
+    }
+
+    const event = await eventService.getEventById(id, userId);
 
     if (!event) {
       return res.status(404).json({
@@ -113,7 +122,7 @@ export class EventController {
     const eventId = req.params.id;
     const userId = req.user!.userId;
 
-    const event = await eventService.getEventById(eventId);
+    const event = await eventService.getEventById(eventId, userId);
 
     if (!event) {
       return res.status(404).json({ error: 'Event not found' });
