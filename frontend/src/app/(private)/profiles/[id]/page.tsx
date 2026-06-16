@@ -3,10 +3,12 @@
 import { Button, EventCard, ProfileCard, StickyButton, TabNav } from '@components';
 import { ProhibitIcon } from '@phosphor-icons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useMemo, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
+import { useParams } from 'next/navigation';
+import { fetchUserEvents, ProfileEvent, ProfileTab } from '@services/eventService';
 
-import {
+/* import {
   fetchProfileEventsByTab,
   getAttendeesForEvent,
   getCreatedProfileEvents,
@@ -14,7 +16,7 @@ import {
   getArchivedProfileEvents,
   ProfileEvent,
   ProfileTab,
-} from './mockProfileData';
+} from './mockProfileData'; */
 
 const PROFILE_TABS = ['CREATED', 'GOING', 'ARCHIVED'];
 const SKELETON_CARD_COUNT = 6;
@@ -44,7 +46,31 @@ function ProfileContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const params = useParams<{ id: string }>();
   const activeTab = normalizeTab(searchParams.get('tab'));
+
+  // self-only: canonicalize URL to the authenticated user
+  useEffect(() => {
+    if (authUser && params.id !== authUser.id) {
+      router.replace(`/profiles/${authUser.id}`);
+    }
+  }, [authUser, params.id, router]);
+
+  // cache lists per tab; counts derive from these
+  const [eventsByTab, setEventsByTab] = useState<Record<ProfileTab, ProfileEvent[] | undefined>>({
+    created: undefined,
+    going: undefined,
+    archived: undefined,
+  });
+
+  const isLoading = eventsByTab[activeTab] === undefined;
+  const events = eventsByTab[activeTab] ?? [];
+
+  const authoredEvents = eventsByTab.created?.length ?? 0;
+  const goingToEvents = eventsByTab.going?.length ?? 0;
+  const participatedEvents = eventsByTab.archived?.length ?? 0;
+
+  /*  
 
   const [eventsState, setEventsState] = useState<{ tab: ProfileTab | null; data: ProfileEvent[] }>({
     tab: null,
@@ -52,18 +78,18 @@ function ProfileContent() {
   });
 
   const isLoading = eventsState.tab !== activeTab;
-  const events = isLoading ? [] : eventsState.data;
+  const events = isLoading ? [] : eventsState.data; */
 
   const userFullName = authUser ? `${authUser.firstName} ${authUser.lastName}` : '';
 
-  const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
+  /* const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
     () => ({
       authoredEvents: getCreatedProfileEvents().length,
       goingToEvents: getGoingProfileEvents().length,
       participatedEvents: getArchivedProfileEvents().length,
     }),
     []
-  );
+  ); */
 
   const handleTabChange = (tab: string) => {
     const nextTab = normalizeTab(tab.toLowerCase());
@@ -80,14 +106,10 @@ function ProfileContent() {
 
   const handleEventAction = (event: ProfileEvent) => {
     const action = getActionForEvent(event);
-    console.log(`${action} clicked`, {
-      eventId: event.id,
-      title: event.title,
-      attendees: getAttendeesForEvent(event.id),
-    });
+    console.log(`${action} clicked`, { eventId: event.id, title: event.title });
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     let ignore = false;
 
     fetchProfileEventsByTab(activeTab)
@@ -104,7 +126,26 @@ function ProfileContent() {
     return () => {
       ignore = true;
     };
-  }, [activeTab]);
+  }, [activeTab]); */
+
+  useEffect(() => {
+    if (!authUser || params.id !== authUser.id) return;
+    let ignore = false;
+    (['created', 'going', 'archived'] as ProfileTab[]).forEach((tab) => {
+      fetchUserEvents(tab)
+        .then((data) => {
+          if (!ignore) setEventsByTab((prev) => ({ ...prev, [tab]: data }));
+        })
+        .catch((error) => {
+          if (ignore) return;
+          console.error(`Failed to fetch ${tab} events`, error);
+          setEventsByTab((prev) => ({ ...prev, [tab]: [] }));
+        });
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [authUser, params.id]);
 
   return (
     <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8 md:py-10">
