@@ -1,43 +1,38 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
-import { AUTH_COOKIE_NAME } from '@/lib/authCookie';
+import { backendFetch } from '@/lib/backendClient';
+import { jsonHeaders } from '@/lib/forwardAuthHeaders';
 
-async function getAuthHeaders() {
-  const token = (await cookies()).get(AUTH_COOKIE_NAME)?.value;
-  if (!token) return null;
-  return { Authorization: `Bearer ${token}` };
-}
-
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const authHeaders = await getAuthHeaders();
-  if (!authHeaders) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const apiUrl = await getBackendApiUrl();
-  const backendRes = await fetch(`${apiUrl}/events/${id}`, {
-    headers: authHeaders,
+
+  const backendRes = await backendFetch(req, `/events/${id}`, {
+    method: 'GET',
     cache: 'no-store',
   });
 
   const json = await backendRes.json();
-  return NextResponse.json(json, { status: backendRes.status });
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
 }
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const authHeaders = await getAuthHeaders();
-  if (!authHeaders) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
   const { id } = await params;
-  const apiUrl = await getBackendApiUrl();
-  const body = await req.json();
 
-  const backendRes = await fetch(`${apiUrl}/events/${id}`, {
+  const body = await req.json().catch(() => null);
+
+  const backendRes = await backendFetch(req, `/events/${id}`, {
     method: 'PUT',
-    headers: { ...authHeaders, 'Content-Type': 'application/json' },
+    headers: {
+      ...jsonHeaders,
+    },
     body: JSON.stringify(body),
   });
 
   const json = await backendRes.json();
-  return NextResponse.json(json, { status: backendRes.status });
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
 }
