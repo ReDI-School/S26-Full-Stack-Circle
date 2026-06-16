@@ -7,7 +7,7 @@ const StickyButton = ({ label, icon, ...props }: StickyButtonProps) => {
   return (
     <button className={base()} {...props}>
       {icon && <span className={iconWrapper()}>{icon}</span>}
-      {label}
+      {label} 
     </button>
   );
 };

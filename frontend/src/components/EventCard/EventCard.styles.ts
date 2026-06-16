@@ -2,7 +2,7 @@ import { tv } from 'tailwind-variants';
 
 export const EventCardStyles = tv({
   slots: {
-    wrapper: 'flex flex-col gap-7.5 font-sans',
+    wrapper: 'flex flex-col gap-7.5 font-sans h-full',
     dateContainer: 'flex gap-2 items-center text-ec-tertiary',
     container: 'flex gap-2 items-center text-ec-secondary',
     skeletonContainer: 'flex flex-col gap-2',
