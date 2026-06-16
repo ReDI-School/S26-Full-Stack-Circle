@@ -9,7 +9,7 @@ export class EventService {
 
     const where: Prisma.EventWhereInput | undefined =
       filter === 'upcoming'
-        ? { date: { gt: currentDate } }
+        ? { date: { gte: currentDate } }
         : filter === 'past'
           ? { date: { lt: currentDate } }
           : undefined;
