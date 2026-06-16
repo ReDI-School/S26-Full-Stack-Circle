@@ -10,13 +10,18 @@ export default function EventCreationPage() {
   const { createEvent, isLoading, serverError } = useCreateEvent();
 
   const handleCancel = () => {
-    router.push('/');
+    router.back();
   };
 
   return (
     <>
       <div className="flex items-center justify-start mb-6 lg:mb-12">
-        <LinkButton href="/" icon={<ArrowLeftIcon size={16} />} onClick={handleCancel}>
+        <LinkButton
+          href="/events"
+          icon={<ArrowLeftIcon size={16} />}
+          color="secondary"
+          onClick={handleCancel}
+        >
           GO BACK
         </LinkButton>
       </div>
