@@ -21,6 +21,7 @@ export default function useCreateEvent() {
       };
       const response = await fetch('/api/events', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

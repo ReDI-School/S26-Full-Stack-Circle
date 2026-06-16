@@ -1,27 +1,39 @@
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
-import { AUTH_COOKIE_NAME } from '@/lib/authCookie';
+import { NextRequest, NextResponse } from 'next/server';
+import { backendFetch } from '@/lib/backendClient';
+import { jsonHeaders } from '@/lib/forwardAuthHeaders';
 
-export async function POST(request: Request) {
-  const token = (await cookies()).get(AUTH_COOKIE_NAME)?.value;
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const filter = searchParams.get('filter');
 
-  if (!token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const query = filter ? `/events?filter=${filter}` : '/events';
 
-  const apiUrl = await getBackendApiUrl();
+  const backendRes = await backendFetch(request, query, {
+    method: 'GET',
+    cache: 'no-store',
+  });
+
+  const json = await backendRes.json();
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
+}
+
+export async function POST(request: NextRequest) {
   const body = await request.json();
 
-  const backendRes = await fetch(`${apiUrl}/events`, {
+  const backendRes = await backendFetch(request, '/events', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      ...jsonHeaders,
     },
     body: JSON.stringify(body),
   });
 
   const json = await backendRes.json();
-  return NextResponse.json(json, { status: backendRes.status });
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
 }

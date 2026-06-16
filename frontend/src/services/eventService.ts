@@ -23,6 +23,17 @@ export type RawEvent = {
   isAttending: boolean;
 };
 
+export async function getDashboardEvents(tab: 'all' | 'future' | 'archived') {
+  const filter = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
+  const url = filter ? `/api/events?filter=${filter}` : `/api/events`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('Failed to fetch events');
+
+  const data = await res.json();
+  return Array.isArray(data) ? data : data.events;
+}
+
 export async function fetchEventById(id: string): Promise<RawEvent> {
   const res = await fetch(`/api/events/${id}`, {
     headers: getHeaders(),
@@ -40,7 +51,6 @@ export async function fetchEventById(id: string): Promise<RawEvent> {
 export async function joinEvent(eventId: string): Promise<RawEvent> {
   const res = await fetch(`/api/events/${eventId}/attend`, {
     method: 'POST',
-    headers: getHeaders(),
   });
 
   if (!res.ok) {

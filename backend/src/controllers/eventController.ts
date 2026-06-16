@@ -49,8 +49,8 @@ export class EventController {
         error: 'Invalid event filter',
       });
     }
-
-    const events = await eventService.getEvents(filter);
+    const userId = req.user?.userId || '';
+    const events = await eventService.getEvents(userId, filter);
     return res.json({ events });
   }
 
