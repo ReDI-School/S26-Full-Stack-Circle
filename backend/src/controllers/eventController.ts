@@ -6,6 +6,7 @@ import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 const eventService = new EventService();
 const attendanceService = new AttendanceService();
 type EventFilter = 'upcoming' | 'past';
+const validUserFilters: UserEventFilter[] = ['created', 'attending', 'archived'];
 
 function parseEventFilter(value: unknown): {
   isValid: boolean;
@@ -34,8 +35,8 @@ function parseUserEventFilter(value: unknown): {
   isValid: boolean;
   filter?: UserEventFilter;
 } {
-  if (value === 'created' || value === 'attending' || value === 'archived') {
-    return { isValid: true, filter: value };
+  if (validUserFilters.includes(value as UserEventFilter)) {
+    return { isValid: true, filter: value as UserEventFilter };
   }
   return { isValid: false };
 }

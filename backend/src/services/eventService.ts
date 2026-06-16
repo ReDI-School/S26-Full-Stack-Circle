@@ -136,13 +136,15 @@ export class EventService {
       case 'attending':
         where = { attendances: { some: { userId } }, date: { gte: now } };
         break;
-      default:
+      case 'archived':
         where = {
           date: { lt: now },
           OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
         };
+        break;
+      default:
+        throw new Error(`Invalid filter: ${filter}`);
     }
-
     return prisma.event.findMany({
       where,
       orderBy: { date: filter === 'archived' ? 'desc' : 'asc' },
