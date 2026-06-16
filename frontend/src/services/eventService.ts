@@ -6,6 +6,37 @@ function getHeaders(): HeadersInit {
   };
 }
 
+export type ProfileTab = 'created' | 'going' | 'archived';
+
+const TAB_TO_FILTER: Record<ProfileTab, 'created' | 'attending' | 'archived'> = {
+  created: 'created',
+  going: 'attending',
+  archived: 'archived',
+};
+
+export type RawProfileEvent = {
+  id: string;
+  title: string;
+  description: string | null;
+  date: string;
+  location: string;
+  capacity: number;
+  organizerId: string;
+  organizer: { firstName: string; lastName: string };
+  _count: { attendances: number };
+};
+
+export type ProfileEvent = {
+  id: string;
+  status: ProfileTab;
+  date: Date;
+  title: string;
+  author: string;
+  description: string;
+  attendeeCount: number;
+  maxAttendees: number;
+};
+
 export type RawEvent = {
   id: string;
   title: string;
@@ -22,6 +53,29 @@ export type RawEvent = {
   isOwner: boolean;
   isAttending: boolean;
 };
+
+function toProfileEvent(event: RawProfileEvent, status: ProfileTab): ProfileEvent {
+  return {
+    id: event.id,
+    status,
+    date: new Date(event.date),
+    title: event.title,
+    author: `${event.organizer.firstName} ${event.organizer.lastName}`,
+    description: event.description ?? '',
+    attendeeCount: event._count.attendances,
+    maxAttendees: event.capacity,
+  };
+}
+
+export async function fetchUserEvents(tab: ProfileTab): Promise<ProfileEvent[]> {
+  const res = await fetch(`/api/events/user/events?filter=${TAB_TO_FILTER[tab]}`, {
+    headers: { 'Content-Type': 'application/json' },
+    cache: 'no-store',
+  });
+  if (!res.ok) throw new Error(`Failed to fetch user events: ${res.status}`);
+  const { events } = await res.json();
+  return (events as RawProfileEvent[]).map((e) => toProfileEvent(e, tab));
+}
 
 export async function getDashboardEvents(tab: 'all' | 'future' | 'archived') {
   const filter = tab === 'future' ? 'upcoming' : tab === 'archived' ? 'past' : '';
