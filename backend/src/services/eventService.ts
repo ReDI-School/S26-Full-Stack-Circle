@@ -142,10 +142,14 @@ export class EventService {
           OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
         };
     }
-
+    // each event carries organizer.{firstName,lastName} and _count.attendances, satisfying EventCard
     return prisma.event.findMany({
       where,
       orderBy: { date: filter === 'archived' ? 'desc' : 'asc' },
+      include: {
+        organizer: { select: { firstName: true, lastName: true } },
+        _count: { select: { attendances: true } },
+      },
     });
   }
 }
