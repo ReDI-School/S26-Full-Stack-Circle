@@ -24,6 +24,8 @@ export class AttendanceService {
     if (!event) {
       throw new Error('EVENT_NOT_FOUND');
     }
+    // if (event.organizerId === userId) throw new Error('OWNER_CANNOT_ATTEND');
+    if (event.date.getTime() < Date.now()) throw new Error('EVENT_IN_PAST');
 
     const count = await prisma.attendance.count({ where: { eventId } });
 
@@ -40,15 +42,10 @@ export class AttendanceService {
   }
 
   async cancelAttendance(userId: string, eventId: string) {
-    const deleteResult = await prisma.attendance.deleteMany({
-      where: {
-        userId: userId,
-        eventId: eventId,
-      },
-    });
-
-    if (deleteResult.count === 0) {
-      throw new Error('NOT_REGISTERED');
-    }
+    const event = await prisma.event.findUnique({ where: { id: eventId } });
+    if (!event) throw new Error('EVENT_NOT_FOUND');
+    if (event.date.getTime() < Date.now()) throw new Error('EVENT_IN_PAST');
+    const deleteResult = await prisma.attendance.deleteMany({ where: { userId, eventId } });
+    if (deleteResult.count === 0) throw new Error('NOT_REGISTERED');
   }
 }
