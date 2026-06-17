@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "tsc": "tsc --noEmit"
   },
   "engines": {
     "node": ">=22.0.0"
