@@ -14,6 +14,13 @@ export default function SettingsPage() {
   const [successMessage, setSuccessMessage] = useState<string | undefined>();
 
   const updateUser = async ({ firstName, lastName, newPassword }: UpdateUserInput) => {
+    const nameUnchanged = firstName === authUser?.firstName && lastName === authUser?.lastName;
+    const noPassword = !newPassword;
+
+    if (nameUnchanged && noPassword) {
+      return;
+    }
+
     try {
       setLoading(true);
       setError(undefined);
