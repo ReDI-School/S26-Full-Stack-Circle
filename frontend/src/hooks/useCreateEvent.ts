@@ -1,6 +1,5 @@
 'use client';
 
-import { Temporal } from '@js-temporal/polyfill';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { type CreateEventInput } from '@validators/schemas';
@@ -16,14 +15,21 @@ export default function useCreateEvent() {
     setServerError(undefined);
 
     try {
-     
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      
+
       const payload: CreateEventInput = {
-        ...formData,
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        time: formData.time,
+        capacity: formData.capacity,
         location: 'Online',
         timezone,
       };
+
+      console.log(`date: ${formData.date}`);
+      console.log('FINAL PAYLOAD:', payload);
+      console.log('STRINGIFIED:', JSON.stringify(payload));
       const response = await fetch('/api/events', {
         method: 'POST',
         credentials: 'include',
