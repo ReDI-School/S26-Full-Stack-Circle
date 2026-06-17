@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserSchema, UpdateUserInput } from '@/validators/schemas';
@@ -16,6 +17,12 @@ const UserSettingsForm = ({ onSubmit, isLoading, serverError, successMessage, de
     resolver: zodResolver(updateUserSchema),
     defaultValues: { firstName: defaultValues?.firstName ?? '', lastName: defaultValues?.lastName ?? '' },
   });
+
+  useEffect(() => {
+    if (defaultValues?.firstName || defaultValues?.lastName) {
+      reset({ firstName: defaultValues.firstName ?? '', lastName: defaultValues.lastName ?? '', newPassword: '', confirmPassword: '' });
+    }
+  }, [defaultValues?.firstName, defaultValues?.lastName, reset]);
 
   const handleFormSubmit = async (data: UpdateUserInput) => {
     await onSubmit(data);

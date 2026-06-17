@@ -45,10 +45,6 @@ export default function useAuth() {
     if (authUser) router.push(`/profiles/${authUser.id}`);
   };
 
-  const goToSettings = () => {
-    router.push('/settings');
-  };
-
   return {
     user: authUser,
     loading: loading || isHydrating,
@@ -56,6 +52,5 @@ export default function useAuth() {
     signIn,
     signOut,
     goToProfile,
-    goToSettings,
   };
 }
