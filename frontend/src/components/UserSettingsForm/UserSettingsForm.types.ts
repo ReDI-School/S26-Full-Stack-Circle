@@ -5,4 +5,5 @@ export interface UserSettingsFormProps {
   isLoading?: boolean;
   serverError?: string;
   successMessage?: string;
+  defaultValues?: { firstName?: string; lastName?: string };
 }

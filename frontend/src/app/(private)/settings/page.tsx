@@ -33,6 +33,7 @@ export default function SettingsPage() {
       isLoading={loading}
       serverError={error}
       successMessage={successMessage}
+      defaultValues={{ firstName: authUser?.firstName, lastName: authUser?.lastName }}
     />
   );
 }

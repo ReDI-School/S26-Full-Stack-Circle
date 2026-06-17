@@ -6,13 +6,14 @@ import { Button } from '../Button';
 import { InfoBox } from '../InfoBox';
 import type { UserSettingsFormProps } from './UserSettingsForm.types';
 
-const UserSettingsForm = ({ onSubmit, isLoading, serverError, successMessage }: UserSettingsFormProps) => {
+const UserSettingsForm = ({ onSubmit, isLoading, serverError, successMessage, defaultValues }: UserSettingsFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<UpdateUserInput>({
     resolver: zodResolver(updateUserSchema),
+    defaultValues: { firstName: defaultValues?.firstName ?? '', lastName: defaultValues?.lastName ?? '' },
   });
 
   return (
