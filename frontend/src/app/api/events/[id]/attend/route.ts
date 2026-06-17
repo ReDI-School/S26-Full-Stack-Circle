@@ -1,32 +1,30 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
-import { AUTH_COOKIE_NAME } from '@/lib/authCookie';
+import { backendFetch } from '@/lib/backendClient';
 
-async function proxy(method: string, id: string) {
-  const token = (await cookies()).get(AUTH_COOKIE_NAME)?.value;
-  if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
-  const apiUrl = await getBackendApiUrl();
-  const backendRes = await fetch(`${apiUrl}/events/${id}/attend`, {
-    method,
-    headers: { Authorization: `Bearer ${token}` },
+  const backendRes = await backendFetch(req, `/events/${id}/attend`, { method: 'POST' });
+
+  const json = await backendRes.json();
+
+  return NextResponse.json(json, {
+    status: backendRes.status,
   });
+}
 
-  if (method === 'DELETE' && backendRes.status === 204) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
+  const backendRes = await backendFetch(req, `/events/${id}/attend`, { method: 'DELETE' });
+
+  if (backendRes.status === 204) {
     return new NextResponse(null, { status: 204 });
   }
 
   const json = await backendRes.json();
-  return NextResponse.json(json, { status: backendRes.status });
-}
 
-export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  return proxy('POST', id);
-}
-
-export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  return proxy('DELETE', id);
+  return NextResponse.json(json, {
+    status: backendRes.status,
+  });
 }

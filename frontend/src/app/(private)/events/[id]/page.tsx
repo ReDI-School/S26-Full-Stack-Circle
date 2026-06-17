@@ -29,6 +29,10 @@ export default function EventPage() {
     router.push('/create-event');
   };
 
+  const handleGoBack = () => {
+    router.back();
+  };
+
   if (loading)
     return (
       <div className="w-full">
@@ -46,7 +50,12 @@ export default function EventPage() {
   return (
     <main className="flex flex-col gap-8">
       <div className="flex justify-between">
-        <LinkButton icon={<ArrowLeftIcon />} color="secondary" href="/events">
+        <LinkButton
+          icon={<ArrowLeftIcon />}
+          color="secondary"
+          onClick={handleGoBack}
+          href="/events"
+        >
           GO BACK
         </LinkButton>
         <Button
