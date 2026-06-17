@@ -9,17 +9,8 @@ import { useParams } from 'next/navigation';
 import { fetchUserEvents } from '@services/eventService';
 import { ProfileEvent, ProfileTab } from '@/types/event';
 
-/* import {
-  fetchProfileEventsByTab,
-  getAttendeesForEvent,
-  getCreatedProfileEvents,
-  getGoingProfileEvents,
-  getArchivedProfileEvents,
-  ProfileEvent,
-  ProfileTab,
-} from './mockProfileData'; */
 
-const PROFILE_TABS = ['CREATED', 'GOING', 'ARCHIVED'];
+const PROFILE_TABS = ['CREATED', 'GOING', 'PAST EVENTS'];
 const SKELETON_CARD_COUNT = 6;
 
 const normalizeTab = (tab: string | null): ProfileTab => {
@@ -71,26 +62,10 @@ function ProfileContent() {
   const goingToEvents = eventsByTab.going?.length ?? 0;
   const participatedEvents = eventsByTab.archived?.length ?? 0;
 
-  /*  
 
-  const [eventsState, setEventsState] = useState<{ tab: ProfileTab | null; data: ProfileEvent[] }>({
-    tab: null,
-    data: [],
-  });
-
-  const isLoading = eventsState.tab !== activeTab;
-  const events = isLoading ? [] : eventsState.data; */
 
   const userFullName = authUser ? `${authUser.firstName} ${authUser.lastName}` : '';
 
-  /* const { authoredEvents, goingToEvents, participatedEvents } = useMemo(
-    () => ({
-      authoredEvents: getCreatedProfileEvents().length,
-      goingToEvents: getGoingProfileEvents().length,
-      participatedEvents: getArchivedProfileEvents().length,
-    }),
-    []
-  ); */
 
   const handleTabChange = (tab: string) => {
     const nextTab = normalizeTab(tab.toLowerCase());
@@ -110,24 +85,6 @@ function ProfileContent() {
     console.log(`${action} clicked`, { eventId: event.id, title: event.title });
   };
 
-  /*   useEffect(() => {
-    let ignore = false;
-
-    fetchProfileEventsByTab(activeTab)
-      .then((fetchedEvents) => {
-        if (ignore) return;
-        setEventsState({ tab: activeTab, data: fetchedEvents });
-      })
-      .catch((error) => {
-        if (ignore) return;
-        console.error('Failed to fetch events', error);
-        setEventsState({ tab: activeTab, data: [] });
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [activeTab]); */
 
   useEffect(() => {
     if (!authUser || params.id !== authUser.id) return;
