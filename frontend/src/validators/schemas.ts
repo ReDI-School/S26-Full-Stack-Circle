@@ -82,9 +82,11 @@ const createEventSchema = z.object({
     .int({ error: 'Capacity must be a whole number' })
     .positive({ error: 'Capacity must be a positive number' }),
 
-  date: z.iso.date({ error: errorInvalidField('Date') }), // expected format YYYY-MM-DD from <input type="date">
+  // "YYYY-MM-DD" from <input type="date"> — intentionally z.iso.date(), not datetime:
+  // the form resolver validates raw input; useCreateEvent converts to UTC before sending
+  date: z.iso.date({ error: errorInvalidField('Date') }),
 
-  time: z.iso.time({ error: errorInvalidField('Time') }), // expected format HH:MM from <input type="time">
+  time: z.iso.time({ error: errorInvalidField('Time') }), // "HH:MM" from <input type="time">
 });
 
 const updateEventSchema = createEventSchema.partial();
