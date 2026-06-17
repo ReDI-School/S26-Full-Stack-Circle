@@ -136,11 +136,11 @@ async function main() {
       userId: createdUsers[2].id,
       eventId: createdEvents[0].id,
     },
-    {
-      id: 'abbcc2a9-8c31-4b67-ae54-2f7d9c1e3b6a',
-      userId: createdUsers[1].id,
-      eventId: createdEvents[0].id,
-    },
+    // {
+    //   id: 'abbcc2a9-8c31-4b67-ae54-2f7d9c1e3b6a',
+    //   userId: createdUsers[1].id,
+    //   eventId: createdEvents[0].id,
+    // },
     {
       id: 'aaacc2a9-8c31-4b67-ae54-2f7d9c1e3b6a',
       userId: createdUsers[0].id,

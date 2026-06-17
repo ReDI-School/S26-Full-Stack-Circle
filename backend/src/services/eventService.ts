@@ -109,8 +109,10 @@ export class EventService {
       return null;
     }
 
+    // Owner excluded from attendee responses (read path)
+    const attendances = event.attendances.filter((a) => a.user.id !== event.organizerId);
     const isOwner = event.organizerId === userId;
-    const isAttending = event.attendances.map((attendee) => attendee.user.id).includes(userId);
+    const isAttending = attendances.some((a) => a.user.id === userId);
 
     return {
       ...event,

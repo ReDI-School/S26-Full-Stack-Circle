@@ -1,10 +1,17 @@
 import prisma from '../libs/prisma.js';
 
 export class AttendanceService {
+  // added a guard to exclude to exclude the organizer via Prisma's userId: { not: ... }
   async getAttendees(eventId: string) {
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+      select: { organizerId: true },
+    });
+
     const attendances = await prisma.attendance.findMany({
       where: {
-        eventId: eventId,
+        eventId,
+        ...(event ? { userId: { not: event.organizerId } } : {}),
       },
       include: {
         user: {
