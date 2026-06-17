@@ -55,9 +55,11 @@ export default function useEvent({ id }: { id: string }) {
     loadEvent();
   }, [id]);
 
-  const action: EventCardAction = isOwner ? 'edit' : isAttending ? 'leave' : 'join';
+  const isPastEvent = event ? event.date < new Date() : false;
+  const action: EventCardAction = isOwner ? 'edit' : isPastEvent ? 'archived' : isAttending ? 'leave' : 'join';
 
   const handleAction = async () => {
+    if (action === 'archived') return;
     const previousState = isAttending;
     const previousEvent = event;
 
