@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LinkButton } from '@components/LinkButton';
@@ -32,10 +32,6 @@ export default function EditEventFormClient({
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    setForm(initialEvent);
-  }, [initialEvent]);
 
   const updateField = (field: keyof EditEventFormData, value: string) => {
     setForm((prev: EditEventFormData) => ({
