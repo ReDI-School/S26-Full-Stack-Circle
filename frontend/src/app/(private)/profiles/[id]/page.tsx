@@ -9,8 +9,7 @@ import { useParams } from 'next/navigation';
 import { fetchUserEvents } from '@services/eventService';
 import { ProfileEvent, ProfileTab } from '@/types/event';
 
-
-const PROFILE_TABS = ['CREATED', 'GOING', 'PAST EVENTS'];
+const PROFILE_TABS = ['CREATED', 'GOING', 'ARCHIVED'];
 const SKELETON_CARD_COUNT = 6;
 
 const normalizeTab = (tab: string | null): ProfileTab => {
@@ -62,10 +61,7 @@ function ProfileContent() {
   const goingToEvents = eventsByTab.going?.length ?? 0;
   const participatedEvents = eventsByTab.archived?.length ?? 0;
 
-
-
   const userFullName = authUser ? `${authUser.firstName} ${authUser.lastName}` : '';
-
 
   const handleTabChange = (tab: string) => {
     const nextTab = normalizeTab(tab.toLowerCase());
@@ -84,7 +80,6 @@ function ProfileContent() {
     const action = getActionForEvent(event);
     console.log(`${action} clicked`, { eventId: event.id, title: event.title });
   };
-
 
   useEffect(() => {
     if (!authUser || params.id !== authUser.id) return;
