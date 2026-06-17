@@ -26,6 +26,10 @@ export class AttendanceController {
           res.status(404).json({ error: 'Event not found' });
           return;
         }
+        if (error.message === 'OWNER_CANNOT_ATTEND') {
+          res.status(403).json({ error: 'Organizers cannot join their own event' });
+          return;
+        }
         if (error.message === 'EVENT_FULL') {
           res.status(400).json({ error: 'Event is already at full capacity' });
           return;

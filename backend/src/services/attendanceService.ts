@@ -24,7 +24,7 @@ export class AttendanceService {
     if (!event) {
       throw new Error('EVENT_NOT_FOUND');
     }
-    // if (event.organizerId === userId) throw new Error('OWNER_CANNOT_ATTEND');
+    if (event.organizerId === userId) throw new Error('OWNER_CANNOT_ATTEND');
     if (event.date.getTime() < Date.now()) throw new Error('EVENT_IN_PAST');
 
     const count = await prisma.attendance.count({ where: { eventId } });
