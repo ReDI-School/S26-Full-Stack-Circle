@@ -9,7 +9,6 @@ import { joinEvent, leaveEvent } from '@services/eventService';
 import useAuth from './useAuth';
 import { isPastEvent } from '../utils/utils';
 
-
 export default function useEvent({ id }: { id: string }) {
   const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,14 +17,6 @@ export default function useEvent({ id }: { id: string }) {
   const [isAttending, setIsAtending] = useState<boolean>(false);
   const { user } = useAuth();
   const router = useRouter();
-  const past = event ? isPastEvent(event.date) : false;
-  const action: EventCardAction = isOwner
-  ? 'edit'
-  : past
-    ? 'archived'
-    : isAttending
-      ? 'leave'
-      : 'join';
 
   useEffect(() => {
     if (!id) return;
@@ -65,9 +56,17 @@ export default function useEvent({ id }: { id: string }) {
     loadEvent();
   }, [id]);
 
-  // const action: EventCardAction = isOwner ? 'edit' : isAttending ? 'leave' : 'join';
+  const past = event ? isPastEvent(event.date) : false;
+  const action: EventCardAction = isOwner
+    ? 'edit'
+    : past
+      ? 'archived'
+      : isAttending
+        ? 'leave'
+        : 'join';
 
   const handleAction = async () => {
+    if (action === 'archived') return;
     const previousState = isAttending;
     const previousEvent = event;
 

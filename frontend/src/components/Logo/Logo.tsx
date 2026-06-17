@@ -14,7 +14,7 @@ type LogoVariantsDictionary = {
     width: number;
     height: number;
   };
-}
+};
 
 const LOGO_VARIANTS_DICTIONARY: LogoVariantsDictionary = {
   full: {
@@ -37,7 +37,7 @@ const LOGO_VARIANTS_DICTIONARY: LogoVariantsDictionary = {
 
 const Logo = ({ size = 'full', textColor = 'default' }: LogoProps) => {
   return (
-    <Link href="/" aria-label="Go to homepage">
+    <Link href="/events" aria-label="Go to homepage">
       <Image
         src={LOGO_VARIANTS_DICTIONARY[size].textColor[textColor]}
         alt=""

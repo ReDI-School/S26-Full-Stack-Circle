@@ -23,6 +23,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/events', request.url));
   }
 
+  if (pathname === '/') {
+    return NextResponse.redirect(new URL(token ? '/events' : '/sign-in', request.url));
+  }
+
   return NextResponse.next();
 }
 
