@@ -1,6 +1,7 @@
 import { config } from '@config';
 import { cookies } from 'next/headers';
 import EditEventFormClient from './EditEventFormClient';
+import { getBackendApiUrl } from '@/lib/getBackendApiUrl';
 
 type EditEventPageProps = {
   params?: Promise<{ id: string }>;
@@ -90,7 +91,7 @@ export default async function EditEventPage({ params, searchParams }: EditEventP
       return { ok: false, error: 'Event id is missing' };
     }
 
-    const { apiUrl: actionApiUrl } = await config();
+    const actionApiUrl = await getBackendApiUrl();
     const actionCookieStore = await cookies();
     const actionToken = actionCookieStore.get('token')?.value;
 

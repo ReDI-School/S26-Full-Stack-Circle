@@ -36,17 +36,3 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     status: backendRes.status,
   });
 }
-
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-
-  const backendRes = await backendFetch(req, `/events/${id}`, {
-    method: 'DELETE',
-  });
-
-  const json = await backendRes.json();
-
-  return NextResponse.json(json, {
-    status: backendRes.status,
-  });
-}
