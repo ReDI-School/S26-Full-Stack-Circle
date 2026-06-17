@@ -9,7 +9,7 @@ import { Skeleton } from '@components/Skeleton';
 import { getInitials } from '@/utils/utils';
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const { user, loading, signOut, goToProfile } = useAuth();
+  const { user, loading, signOut, goToProfile, goToSettings } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,6 +42,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
             userName={userFullName}
             avatarInitials={initials}
             onProfile={goToProfile}
+            onSettings={goToSettings}
             onSignOut={signOut}
           />
         )}

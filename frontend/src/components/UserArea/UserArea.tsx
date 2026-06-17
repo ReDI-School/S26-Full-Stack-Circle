@@ -2,13 +2,13 @@
 
 import { UserAreaProps } from './UserArea.types';
 import { Avatar } from '../Avatar';
-import { CaretDownIcon, UserIcon, SignOutIcon } from '@phosphor-icons/react';
+import { CaretDownIcon, UserIcon, GearSixIcon, SignOutIcon } from '@phosphor-icons/react';
 import { userArea } from './UserArea.styles';
 import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 
-const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaProps) => {
+const UserArea = ({ userName, avatarInitials, onProfile, onSettings, onSignOut }: UserAreaProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -69,6 +69,18 @@ const UserArea = ({ userName, avatarInitials, onProfile, onSignOut }: UserAreaPr
           >
             <span>{t('profile')}</span>
             <UserIcon className={styles.icon()} aria-hidden="true" focusable="false" />
+          </button>
+
+          <button
+            type="button"
+            className={styles.item()}
+            onClick={() => {
+              onSettings();
+              setIsExpanded(false);
+            }}
+          >
+            <span>{t('settings')}</span>
+            <GearSixIcon className={styles.icon()} aria-hidden="true" focusable="false" />
           </button>
 
           <LanguageSwitcher />

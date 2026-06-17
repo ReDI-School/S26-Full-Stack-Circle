@@ -13,6 +13,19 @@ const trimmedString = z.string().trim();
 const validatedEmailField = z.email({ error: errorInvalidField('Email') }).toLowerCase();
 
 // Schemas
+const passwordSchema = z
+  .string()
+  .min(8, { error: 'Password must contain at least 8 characters' })
+  .max(100, { error: 'Password must contain at most 100 characters' })
+  .refine(
+    (val) =>
+      /[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val),
+    {
+      error:
+        'Password is weak. Use at least: one uppercase (A-Z), one lowercase (a-z), one digit (0-9), one symbol (!@#…)',
+    }
+  );
+
 const registerSchema = z
   .object({
     email: validatedEmailField,
@@ -21,18 +34,7 @@ const registerSchema = z
 
     lastName: trimmedString.min(1, { error: errorRequiredField('Last name') }),
 
-    password: z
-      .string()
-      .min(8, { error: 'Password must contain at least 8 characters' })
-      .max(100, { error: 'Password must contain at most 100 characters' }) // arbitrary DoS guard for bcrypt
-      .refine(
-        (val) =>
-          /[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val),
-        {
-          error:
-            'Password is weak. Use at least: one uppercase (A-Z), one lowercase (a-z), one digit (0-9), one symbol (!@#…)',
-        }
-      ),
+    password: passwordSchema,
     repeatPassword: z.string().min(1, {
       error: 'Please repeat your password.',
     }),
@@ -54,7 +56,7 @@ const updateUserSchema = z
   .object({
     firstName: trimmedString.min(1, { error: errorRequiredField('First name') }),
     lastName: trimmedString.min(1, { error: errorRequiredField('Last name') }),
-    newPassword: z.string().optional().or(z.literal('')),
+    newPassword: z.union([passwordSchema, z.literal('')]).optional(),
     confirmPassword: z.string().optional().or(z.literal('')),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {

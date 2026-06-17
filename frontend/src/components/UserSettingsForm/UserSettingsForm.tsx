@@ -10,14 +10,20 @@ const UserSettingsForm = ({ onSubmit, isLoading, serverError, successMessage, de
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<UpdateUserInput>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: { firstName: defaultValues?.firstName ?? '', lastName: defaultValues?.lastName ?? '' },
   });
 
+  const handleFormSubmit = async (data: UpdateUserInput) => {
+    await onSubmit(data);
+    reset({ firstName: data.firstName, lastName: data.lastName, newPassword: '', confirmPassword: '' });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full" noValidate>
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-6 w-full" noValidate>
       {serverError && <InfoBox variant="error" message={serverError} />}
       {successMessage && <InfoBox variant="success" message={successMessage} />}
 

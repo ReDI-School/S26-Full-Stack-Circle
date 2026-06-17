@@ -17,8 +17,6 @@ export async function loginRequest(data: LoginInput): Promise<AuthUser> {
     body: JSON.stringify(data),
   });
 
-  console.log(`Respuesta: ${res}`);
-
   const json = await res.json();
 
   if (!res.ok) {
