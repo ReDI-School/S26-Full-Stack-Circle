@@ -163,17 +163,6 @@ export default function EditEventFormClient({
               onChange={(e) => updateField('capacity', e.target.value)}
             />
           </div>
-
-          <div className="mt-6 w-full">
-            <InputField
-              label="Location"
-              required
-              type="text"
-              value={form.location}
-              onChange={(e) => updateField('location', e.target.value)}
-            />
-          </div>
-
           <div className="mt-6 w-full">
             <InputField
               label="Description"

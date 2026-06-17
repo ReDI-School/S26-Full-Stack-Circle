@@ -2,7 +2,6 @@ export interface FormData {
   title: string;
   date: string;
   time: string;
-  timezone: string;
   capacity: number;
   description: string;
 }

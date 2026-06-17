@@ -27,9 +27,6 @@ export default function useCreateEvent() {
         timezone,
       };
 
-      console.log(`date: ${formData.date}`);
-      console.log('FINAL PAYLOAD:', payload);
-      console.log('STRINGIFIED:', JSON.stringify(payload));
       const response = await fetch('/api/events', {
         method: 'POST',
         credentials: 'include',
