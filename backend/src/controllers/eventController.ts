@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
 import { AttendanceService } from '../services/attendanceService.js';
 import { EventService } from '../services/eventService.js';
-import type { UpdateEventData } from '../types/event.js';
+import { EventDateService } from '../services/eventDateService.js';
+import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 
 const eventService = new EventService();
 const attendanceService = new AttendanceService();
 const eventDateService = new EventDateService();
 
 type EventFilter = 'upcoming' | 'past';
+
+const validUserFilters: UserEventFilter[] = ['created', 'attending', 'archived'];
+const DEFAULT_EVENT_TIME_ZONE = 'Europe/Berlin';
 
 function parseEventFilter(value: unknown): {
   isValid: boolean;
@@ -30,6 +34,21 @@ function parseEventFilter(value: unknown): {
   return {
     isValid: false,
   };
+}
+
+function getTimezone(req: Request): string | null {
+  const tz = req.body.timezone;
+  return typeof tz === 'string' ? tz : null;
+}
+
+function parseUserEventFilter(value: unknown): {
+  isValid: boolean;
+  filter?: UserEventFilter;
+} {
+  if (validUserFilters.includes(value as UserEventFilter)) {
+    return { isValid: true, filter: value as UserEventFilter };
+  }
+  return { isValid: false };
 }
 
 export class EventController {
