@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useAuthContext } from '@/contexts/AuthContext';
 import { useParams } from 'next/navigation';
-import { fetchUserEvents } from '@services/eventService';
+import { fetchUserEvents, leaveEvent } from '@services/eventService';
 import { ProfileEvent, ProfileTab } from '@/types/event';
 
 const PROFILE_TABS = ['CREATED', 'GOING', 'ARCHIVED'];
@@ -76,11 +76,20 @@ function ProfileContent() {
     router.push('/create-event');
   };
 
-  const handleEventAction = (event: ProfileEvent) => {
-    const action = getActionForEvent(event);
-    console.log(`${action} clicked`, { eventId: event.id, title: event.title });
+  const handleEventAction = async (event: ProfileEvent) => {
+      const action = getActionForEvent(event);
+      if (action === 'leave') {
+        try {
+          await leaveEvent(event.id);
+          const data = await fetchUserEvents(activeTab);
+          setEventsByTab((prev) => ({ ...prev, [activeTab]: data }));
+        } catch (err) {
+          console.error('Failed to leave event', err);
+        }
+      } else if (action === 'edit') {
+        router.push(`/events/${event.id}/edit`);
+      }
   };
-
   useEffect(() => {
     if (!authUser || params.id !== authUser.id) return;
     let ignore = false;
