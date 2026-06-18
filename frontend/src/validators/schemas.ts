@@ -13,6 +13,19 @@ const trimmedString = z.string().trim();
 const validatedEmailField = z.email({ error: errorInvalidField('Email') }).toLowerCase();
 
 // Schemas
+const passwordSchema = z
+  .string()
+  .min(8, { error: 'Password must contain at least 8 characters' })
+  .max(100, { error: 'Password must contain at most 100 characters' })
+  .refine(
+    (val) =>
+      /[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val),
+    {
+      error:
+        'Password is weak. Use at least: one uppercase (A-Z), one lowercase (a-z), one digit (0-9), one symbol (!@#…)',
+    }
+  );
+
 const registerSchema = z
   .object({
     email: validatedEmailField,
@@ -21,18 +34,7 @@ const registerSchema = z
 
     lastName: trimmedString.min(1, { error: errorRequiredField('Last name') }),
 
-    password: z
-      .string()
-      .min(8, { error: 'Password must contain at least 8 characters' })
-      .max(100, { error: 'Password must contain at most 100 characters' }) // arbitrary DoS guard for bcrypt
-      .refine(
-        (val) =>
-          /[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val),
-        {
-          error:
-            'Password is weak. Use at least: one uppercase (A-Z), one lowercase (a-z), one digit (0-9), one symbol (!@#…)',
-        }
-      ),
+    password: passwordSchema,
     repeatPassword: z.string().min(1, {
       error: 'Please repeat your password.',
     }),
@@ -49,6 +51,18 @@ const loginSchema = z.object({
     .min(1, { error: errorRequiredField('Password') })
     .max(100), // arbitrary DoS guard for bcrypt
 });
+
+const updateUserSchema = z
+  .object({
+    firstName: trimmedString.min(1, { error: errorRequiredField('First name') }),
+    lastName: trimmedString.min(1, { error: errorRequiredField('Last name') }),
+    newPassword: z.union([passwordSchema, z.literal('')]).optional(),
+    confirmPassword: z.string().optional().or(z.literal('')),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    error: 'Passwords do not match.',
+    path: ['confirmPassword'],
+  });
 
 const createEventSchema = z.object({
   title: trimmedString
@@ -81,9 +95,10 @@ const createEventSchema = z.object({
 
 const updateEventSchema = createEventSchema.partial();
 
-export { registerSchema, loginSchema, createEventSchema, updateEventSchema };
+export { registerSchema, loginSchema, updateUserSchema, createEventSchema, updateEventSchema };
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export type CreateEventInput = z.infer<typeof createEventSchema>;
 export type UpdateEventInput = z.infer<typeof updateEventSchema>;

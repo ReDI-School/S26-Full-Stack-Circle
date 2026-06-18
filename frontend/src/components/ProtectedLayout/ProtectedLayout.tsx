@@ -42,6 +42,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
             userName={userFullName}
             avatarInitials={initials}
             onProfile={goToProfile}
+            onSettings={() => router.push('/settings')}
             onSignOut={signOut}
           />
         )}
