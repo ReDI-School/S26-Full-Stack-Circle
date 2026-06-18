@@ -20,6 +20,7 @@ export const userArea = tv({
       'hover:bg-gray-redi-hover',
     ],
     dropdown: [
+      'z-50',
       'absolute',
       'top-full',
       'right-0',

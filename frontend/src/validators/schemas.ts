@@ -74,7 +74,9 @@ const createEventSchema = z.object({
   // the form resolver validates raw input; useCreateEvent converts to UTC before sending
   date: z.iso.date({ error: errorInvalidField('Date') }),
 
-  time: z.iso.time({ error: errorInvalidField('Time') }), // "HH:MM" from <input type="time">
+  time: z.iso.time({ error: errorInvalidField('Time') }), // expected format HH:MM from <input type="time">
+
+  timezone: trimmedString.min(1, { error: errorRequiredField('Timezone') }),
 });
 
 const updateEventSchema = createEventSchema.partial();

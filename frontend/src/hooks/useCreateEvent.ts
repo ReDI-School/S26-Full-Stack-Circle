@@ -1,6 +1,5 @@
 'use client';
 
-import { Temporal } from '@js-temporal/polyfill';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { type CreateEventInput } from '@validators/schemas';
@@ -16,16 +15,18 @@ export default function useCreateEvent() {
     setServerError(undefined);
 
     try {
-      const utcDate = Temporal.PlainDateTime.from(`${formData.date}T${formData.time}`)
-        .toZonedDateTime(Temporal.Now.timeZoneId())
-        .toInstant()
-        .toString();
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
       const payload: CreateEventInput = {
-        ...formData,
-        date: utcDate,
+        title: formData.title,
+        description: formData.description,
+        date: formData.date,
+        time: formData.time,
+        capacity: formData.capacity,
         location: 'Online',
+        timezone,
       };
+
       const response = await fetch('/api/events', {
         method: 'POST',
         credentials: 'include',
@@ -46,7 +47,7 @@ export default function useCreateEvent() {
       if (newEventId) {
         router.push(`/events/${newEventId}`);
       } else {
-        router.push('/');
+        router.push('/events');
       }
 
       return true;

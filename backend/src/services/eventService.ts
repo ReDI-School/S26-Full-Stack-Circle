@@ -56,6 +56,10 @@ export class EventService {
   }
 
   async deleteEvent(id: string) {
+    await prisma.attendance.deleteMany({
+      where: { eventId: id },
+    });
+
     return await prisma.event.delete({
       where: { id },
     });
