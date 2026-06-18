@@ -1,19 +1,22 @@
 import prisma from '../libs/prisma.js';
-import { Prisma } from 'generated/prisma/client.js';
-import type { UpdateEventData } from '../types/event.js';
+import { Prisma, Event } from '../../generated/prisma/client.js';
+import type { UpdateEventData, UserEventFilter } from '../types/event.js';
 export class EventService {
-  async getEvents(filter?: 'upcoming' | 'past') {
+  // List all events, filtering based on the provided criteria.
+  // Receive the currentUserId to determine if the user is the author of any event, which is needed for the frontend to display the correct relationship status (author/joined/none).
+  async getEvents(currentUserId: string, filter?: 'upcoming' | 'past') {
     const currentDate = new Date();
 
     const where: Prisma.EventWhereInput | undefined =
       filter === 'upcoming'
-        ? { date: { gt: currentDate } }
+        ? { date: { gte: currentDate } }
         : filter === 'past'
           ? { date: { lt: currentDate } }
           : undefined;
 
     const events = await prisma.event.findMany({
       where,
+      orderBy: { date: 'asc' },
       include: {
         organizer: {
           select: {
@@ -21,10 +24,30 @@ export class EventService {
             lastName: true,
           },
         },
+        attendances: {
+          select: {
+            userId: true,
+          },
+        },
       },
     });
 
-    return events;
+    return events.map((event) => {
+      const isAuthor = event.organizerId === currentUserId;
+      // Verify if the current user is in the attendances of this event
+      const isJoined = event.attendances?.some((a) => a.userId === currentUserId) || false;
+
+      return {
+        id: event.id,
+        title: event.title,
+        date: event.date,
+        description: event.description || '',
+        relationship: isAuthor ? 'author' : isJoined ? 'joined' : 'none',
+        author: `${event.organizer.firstName} ${event.organizer.lastName}`,
+        attendeeCount: event.attendances?.length || 0,
+        maxAttendees: event.capacity,
+      };
+    });
   }
   async getEvent(id: string) {
     return await prisma.event.findUnique({
@@ -33,6 +56,10 @@ export class EventService {
   }
 
   async deleteEvent(id: string) {
+    await prisma.attendance.deleteMany({
+      where: { eventId: id },
+    });
+
     return await prisma.event.delete({
       where: { id },
     });
@@ -56,24 +83,86 @@ export class EventService {
     });
   }
 
-  async getEventById(id: string) {
-    return await prisma.event.findUnique({
+  async getEventById(id: string, userId: string) {
+    const event = await prisma.event.findUnique({
       where: { id },
       include: {
         organizer: {
           select: {
+            id: true,
             firstName: true,
             lastName: true,
           },
         },
+        attendances: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    if (!event) {
+      return null;
+    }
+
+    // Owner excluded from attendee responses (read path)
+    const attendances = event.attendances.filter((a) => a.user.id !== event.organizerId);
+    const isOwner = event.organizerId === userId;
+    const isAttending = attendances.some((a) => a.user.id === userId);
+
+    return {
+      ...event,
+      isOwner,
+      isAttending,
+    };
   }
 
   async updateEvent(id: string, data: UpdateEventData) {
     return prisma.event.update({
       where: { id },
       data,
+    });
+  }
+
+  async getEventsByUserId(
+    userId: string,
+    filter: UserEventFilter,
+    now: Date = new Date()
+  ): Promise<Event[]> {
+    let where: Prisma.EventWhereInput;
+
+    switch (filter) {
+      case 'created':
+        where = { organizerId: userId, date: { gte: now } };
+        break;
+      case 'attending':
+        where = { attendances: { some: { userId } }, date: { gte: now } };
+        break;
+      case 'archived':
+        where = {
+          date: { lt: now },
+          OR: [{ organizerId: userId }, { attendances: { some: { userId } } }],
+        };
+        break;
+      default:
+        throw new Error(`Invalid filter: ${filter}`);
+    }
+    // each event carries organizer.{firstName,lastName} and _count.attendances, satisfying EventCard
+    return prisma.event.findMany({
+      where,
+      orderBy: { date: filter === 'archived' ? 'desc' : 'asc' },
+      include: {
+        organizer: { select: { firstName: true, lastName: true } },
+        _count: { select: { attendances: true } },
+      },
     });
   }
 }

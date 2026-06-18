@@ -52,6 +52,11 @@ export class UserController {
       return res.status(403).json({ error: 'Forbidden: You can only delete your own account' });
     }
 
+    const userExists = await userService.getUserById(id);
+    if (!userExists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     await userService.deleteUser(id);
     return res.status(204).send();
   }

@@ -9,7 +9,7 @@ import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config(
   [
-    globalIgnores(['.next', 'node_modules']),
+    globalIgnores(['.next', 'node_modules', 'storybook-static']),
     ...nextConfig,
     {
       files: ['**/*.{ts,tsx}'],

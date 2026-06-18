@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import { IntlProvider } from '../components/IntlProvider';
 
 import '../assets/css/reset.css';
 import '../assets/css/global.css';
+
+import AuthProviderWrapper from './AuthProvider';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -22,7 +25,11 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" className={roboto.variable}>
-      <body>{children}</body>
+      <body>
+        <AuthProviderWrapper>
+          <IntlProvider>{children}</IntlProvider>
+        </AuthProviderWrapper>
+      </body>
     </html>
   );
 };

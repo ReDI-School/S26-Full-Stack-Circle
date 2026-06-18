@@ -29,10 +29,10 @@ export class AuthService {
     };
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
-      expiresIn: '10m',
+      expiresIn: '1d',
     });
 
-    return token;
+    return { token, user };
   }
 
   async register(email: string, firstName: string, lastName: string, password: string) {

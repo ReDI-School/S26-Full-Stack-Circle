@@ -5,3 +5,5 @@ export type UpdateEventData = {
   location?: string;
   capacity?: number;
 };
+
+export type UserEventFilter = 'created' | 'attending' | 'archived';

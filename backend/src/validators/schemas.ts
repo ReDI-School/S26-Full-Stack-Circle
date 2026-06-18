@@ -62,9 +62,12 @@ const createEventSchema = z.object({
     .int({ error: 'Capacity must be a whole number' })
     .positive({ error: 'Capacity must be a positive number' }),
 
-  date: z.iso.date({ error: errorInvalidField('Date') }), // expected format YYYY-MM-DD from <input type="date">
+  // Frontend combines date+time into a UTC ISO datetime string before sending
+  date: z.iso.date({ error: errorInvalidField('Date') }),
 
   time: z.iso.time({ error: errorInvalidField('Time') }), // expected format HH:MM from <input type="time">
+
+  timezone: trimmedString.min(1, { error: errorRequiredField('Timezone') }),
 });
 
 const updateEventSchema = createEventSchema.partial();

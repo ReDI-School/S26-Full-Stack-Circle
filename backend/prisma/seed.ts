@@ -76,7 +76,7 @@ async function main() {
       id: 'c1d8e3f6-4b72-4a95-7d01-9e2f4c6b8a3d',
       title: 'Demo day',
       description: 'Meeting for everyone to demonstrate projects',
-      date: new Date('2026-05-17'),
+      date: new Date('2026-05-17T10:00:00.000Z'),
       location: 'Hamburg',
       capacity: 50,
       organizerId: createdUsers[1].id,
@@ -85,7 +85,7 @@ async function main() {
       id: 'c2b8e3f6-4a72-4105-7d01-9e2f4c6b8a3d',
       title: 'AI Webinar',
       description: 'Online meeting to talk about modern AI-features',
-      date: new Date('2026-05-25'),
+      date: new Date('2026-05-25T15:00:00.000Z'),
       location: 'Germany',
       capacity: 60,
       organizerId: createdUsers[0].id,
@@ -94,7 +94,7 @@ async function main() {
       id: '1010e3f6-4172-4105-7d01-9e2f4c6b8a3d',
       title: 'Job Search Webinar',
       description: 'Online meeting to talk about job oportunities in Germany',
-      date: new Date('2026-05-20'),
+      date: new Date('2026-05-20T16:00:00.000Z'),
       location: 'Germany',
       capacity: 60,
       organizerId: createdUsers[0].id,
@@ -134,11 +134,6 @@ async function main() {
     {
       id: 'abcdf2a9-8c31-4b67-ae54-2f7d9c1e3b6a',
       userId: createdUsers[2].id,
-      eventId: createdEvents[0].id,
-    },
-    {
-      id: 'abbcc2a9-8c31-4b67-ae54-2f7d9c1e3b6a',
-      userId: createdUsers[1].id,
       eventId: createdEvents[0].id,
     },
     {

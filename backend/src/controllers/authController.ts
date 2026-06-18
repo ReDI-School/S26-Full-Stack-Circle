@@ -1,9 +1,23 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { AuthService } from '../services/authService.js';
 import { UserDTO } from '../dto/user.dto.js';
+import { UserService } from '../services/userService.js';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+// In production the frontend and API live on different *.vercel.app subdomains.
+// Because `vercel.app` is on the Public Suffix List, the browser treats them
+// as cross-site, so the cookie must be SameSite=None + Secure to be sent.
+// Domain is intentionally omitted (PSL blocks sharing a parent-domain cookie).
+const authCookieOptions: CookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? 'none' : 'lax',
+};
 
 export class AuthController {
   private readonly authService = new AuthService();
+  private readonly userService = new UserService();
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -13,16 +27,15 @@ export class AuthController {
         return res.status(400).json({ error: 'Email and password are required' });
       }
 
-      const token = await this.authService.login(email, password);
+      const { token, user } = await this.authService.login(email, password);
 
       res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 1000 * 60 * 10,
+        ...authCookieOptions,
+        maxAge: 1000 * 60 * 60 * 24,
       });
 
-      return res.json({ ok: true });
+      const userResponse = new UserDTO(user);
+      return res.json({ ok: true, user: userResponse });
     } catch (error) {
       console.error('Error logging in:', error);
       if (error instanceof Error && error.message === 'INVALID_CREDENTIALS') {
@@ -56,5 +69,21 @@ export class AuthController {
   async logout(req: Request, res: Response) {
     res.clearCookie('token', { httpOnly: true });
     res.status(200).json({ success: true, message: 'User logged out successfully' });
+  }
+
+  async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.user!;
+      const user = await this.userService.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const userResponse = new UserDTO(user);
+      return res.json({ user: userResponse });
+    } catch (error) {
+      next(error);
+    }
   }
 }

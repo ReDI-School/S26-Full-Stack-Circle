@@ -1,10 +1,17 @@
-import prisma from 'src/libs/prisma.js';
+import prisma from '../libs/prisma.js';
 
 export class AttendanceService {
+  // added a guard to exclude to exclude the organizer via Prisma's userId: { not: ... }
   async getAttendees(eventId: string) {
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+      select: { organizerId: true },
+    });
+
     const attendances = await prisma.attendance.findMany({
       where: {
-        eventId: eventId,
+        eventId,
+        ...(event ? { userId: { not: event.organizerId } } : {}),
       },
       include: {
         user: {
@@ -24,6 +31,8 @@ export class AttendanceService {
     if (!event) {
       throw new Error('EVENT_NOT_FOUND');
     }
+    if (event.organizerId === userId) throw new Error('OWNER_CANNOT_ATTEND');
+    if (event.date.getTime() < Date.now()) throw new Error('EVENT_IN_PAST');
 
     const count = await prisma.attendance.count({ where: { eventId } });
 
@@ -37,5 +46,13 @@ export class AttendanceService {
     return await prisma.attendance.create({
       data: { userId, eventId },
     });
+  }
+
+  async cancelAttendance(userId: string, eventId: string) {
+    const event = await prisma.event.findUnique({ where: { id: eventId } });
+    if (!event) throw new Error('EVENT_NOT_FOUND');
+    if (event.date.getTime() < Date.now()) throw new Error('EVENT_IN_PAST');
+    const deleteResult = await prisma.attendance.deleteMany({ where: { userId, eventId } });
+    if (deleteResult.count === 0) throw new Error('NOT_REGISTERED');
   }
 }

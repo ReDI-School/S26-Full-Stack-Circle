@@ -1,8 +1,9 @@
 import { Card } from '../Card';
 import { Skeleton } from '../Skeleton';
 import { EventCardStyles } from './EventCard.styles';
+import type { EventCardProps } from './EventCard.types';
 
-export default function EventCardSkeleton() {
+export default function EventCardSkeleton({ variant }: Pick<EventCardProps, 'variant'>) {
   const { wrapper, container, bottomContainer, skeletonContainer } = EventCardStyles();
 
   return (
@@ -14,12 +15,21 @@ export default function EventCardSkeleton() {
         </div>
         <div className={wrapper()}>
           <div className={skeletonContainer()}>
-            <Skeleton height={26} width={193} />
-            <Skeleton height={22} width={124} />
+            <Skeleton
+              height={variant === 'preview' ? 26 : 36}
+              width={variant === 'preview' ? 193 : 223}
+            />
+            <Skeleton height={variant === 'preview' ? 16 : 24} width={124} />
           </div>
           <div className="flex flex-col gap-2.5">
             <Skeleton height={16} width="100%" />
             <Skeleton height={16} width="75%" />
+            {variant === 'fullview' && (
+              <>
+                <Skeleton height={16} width="90%" />
+                <Skeleton height={16} width="60%" />
+              </>
+            )}
           </div>
         </div>
         <div className={bottomContainer()}>
@@ -27,8 +37,18 @@ export default function EventCardSkeleton() {
             <Skeleton height={16} width={16} />
             <Skeleton height={16} width={60} />
           </div>
-          <Skeleton height={32} width={100} />
+          {variant === 'fullview' && <Skeleton height={32} width={100} />}
         </div>
+
+        {variant === 'preview' && (
+          <div className={bottomContainer()}>
+            <div className={container()}>
+              <Skeleton height={16} width={16} />
+              <Skeleton height={16} width={80} />
+            </div>
+            <Skeleton height={32} width={100} />
+          </div>
+        )}
       </div>
     </Card>
   );

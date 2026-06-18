@@ -31,3 +31,5 @@ export const formatTimestamp = (date: Date): string => {
 
   return `${datePart} – ${timePart}`;
 };
+
+export const isPastEvent = (date: Date | string): boolean => new Date(date).getTime() < Date.now();

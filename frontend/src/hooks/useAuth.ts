@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import { loginRequest, logoutRequest } from '@service/authService';
-import { LoginInput } from '@validators/schemas';
-
+import { useState } from 'react';
+import { useAuthContext, useAuthDispatch } from '@/contexts/AuthContext';
+import { loginRequest, logoutRequest } from '@services/authService';
+import type { LoginInput } from '@validators/schemas';
+import { useRouter } from 'next/navigation';
 interface UserData {
   name: string;
   initials: string;
@@ -10,9 +11,14 @@ interface UserData {
 const MOCK_USER: UserData = { name: 'Fabio Rodrigues', initials: 'FR' };
 
 export default function useAuth() {
+  const { authUser, isHydrating } = useAuthContext();
+  const { setAuthUser } = useAuthDispatch();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const [error, setError] = useState<string | undefined>();
   const [user, setUser] = useState<UserData | null>(null);
+  const router = useRouter();
+
   const signOut = async () => {
     try {
       setLoading(true);
@@ -27,20 +33,17 @@ export default function useAuth() {
       }
     } finally {
       setLoading(false);
+      setAuthUser(null);
+      router.push('/sign-in');
     }
   };
 
-  const goToProfile = () => {
-    // TODO: Implement navigation to profile page
-  };
-
-  const signIn = async ({ email, password }: LoginInput) => {
+  const signIn = async (data: LoginInput) => {
     try {
       setLoading(true);
       setError(undefined);
-
-      await loginRequest(email, password);
-
+      const user = await loginRequest(data);
+      setAuthUser(user);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -48,14 +51,22 @@ export default function useAuth() {
       } else {
         setError('An unknown error occurred');
       }
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    setUser(MOCK_USER);
-  }, []);
+  const goToProfile = () => {
+    if (authUser) router.push(`/profiles/${authUser.id}`);
+  };
 
-  return { signIn, loading, error, goToProfile, signOut, user };
+  return {
+    user: authUser,
+    loading: loading || isHydrating,
+    error,
+    signIn,
+    signOut,
+    goToProfile,
+  };
 }
