@@ -72,7 +72,9 @@ export default function useEvent({ id }: { id: string }) {
 
     try {
       if (action === 'edit' && event && user) {
-        router.push(`/events/${id}/edit`);
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const params = new URLSearchParams({ timezone });
+        router.push(`/events/${id}/edit?${params.toString()}`);
       } else if (action === 'join' && event && user) {
         const userTag = `${user.firstName} ${user.lastName}`;
         setIsAtending(true);
