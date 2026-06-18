@@ -62,6 +62,9 @@ export default function EditEventFormClient({
         throw new Error(result.error || 'Failed to update event');
       }
       setSuccessMessage('Changes successfully saved');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      router.push(`/events/${eventId}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -93,7 +96,7 @@ export default function EditEventFormClient({
   };
 
   return (
-    <div className="relative size-full min-h-screen bg-white px-4 py-6 sm:px-6 sm:py-8">
+    <div className="relative min-h-screen px-4 py-6 sm:px-6 sm:py-8">
       <div className="mt-2 flex justify-between items-center w-full">
         <div className="scale-90 origin-left">
           <LinkButton href={eventHref} icon={<ArrowLeftIcon />} color="secondary">
@@ -114,7 +117,7 @@ export default function EditEventFormClient({
         </div>
       </div>
 
-      <div className="mt-6 grid w-full grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_420px]">
+      <div className="mt-6 flex w-full flex-col gap-5 md:flex-row">
         <form
           onSubmit={handleSave}
           className="w-full bg-white p-4 shadow-sm shadow-neutral-200 ring-1 ring-black/3 sm:p-6"
@@ -164,7 +167,7 @@ export default function EditEventFormClient({
               label="Description"
               required
               as="textarea"
-              rows={3}
+              rows={6}
               value={form.description}
               onChange={(e) => updateField('description', e.target.value)}
             />
