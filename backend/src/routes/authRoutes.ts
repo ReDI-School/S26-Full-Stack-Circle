@@ -16,7 +16,6 @@ authRouter.post('/register', validate(registerSchema), (req, res, next) =>
 );
 
 authRouter.get('/me', authenticate, (req, res, next) => authController.me(req, res, next));
-
 authRouter.post('/logout', (req, res) => authController.logout(req, res));
 
 export default authRouter;

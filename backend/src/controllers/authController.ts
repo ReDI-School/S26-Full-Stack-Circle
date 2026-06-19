@@ -66,6 +66,11 @@ export class AuthController {
     }
   }
 
+  async logout(req: Request, res: Response) {
+    res.clearCookie('token', { httpOnly: true });
+    res.status(200).json({ success: true, message: 'User logged out successfully' });
+  }
+
   async me(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.user!;
@@ -80,10 +85,5 @@ export class AuthController {
     } catch (error) {
       next(error);
     }
-  }
-
-  async logout(req: Request, res: Response) {
-    res.clearCookie('token', authCookieOptions);
-    return res.json({ ok: true });
   }
 }

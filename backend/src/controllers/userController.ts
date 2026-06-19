@@ -60,4 +60,9 @@ export class UserController {
     await userService.deleteUser(id);
     return res.status(204).send();
   }
+
+  async deleteMe(req: Request, res: Response) {
+    await userService.deleteUser(req.user!.userId);
+    return res.status(204).send();
+  }
 }

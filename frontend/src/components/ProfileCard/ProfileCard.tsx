@@ -1,8 +1,13 @@
+'use client';
 import { ProfileCardProps } from './ProfileCard.types';
 import { profileCardStyles } from './ProfileCard.styles';
 import Card from '../Card/Card';
 import Avatar from '../Avatar/Avatar';
 import { getInitials } from '../../utils/utils';
+import { TrashIcon } from '@phosphor-icons/react';
+import { deleteMe } from '@service/userService';
+import useAuth from '@hooks/useAuth';
+import { useState } from 'react';
 
 const ProfileCard = ({
   name,
@@ -10,10 +15,24 @@ const ProfileCard = ({
   goingToEvents,
   participatedEvents,
 }: ProfileCardProps) => {
+  const { signOut } = useAuth();
   const nameInitials = getInitials(name);
+  const [isActive, setIsActive] = useState(false);
+  const deleteProfile = async () => {
+    const okay = window.confirm('Do you want to delte your profile?');
+    if (!okay) return;
+    try {
+      await deleteMe();
+      await signOut();
+    } catch (err: unknown) {
+      console.error(err);
+    }
+  };
+  const { base, TrashIconButton } = profileCardStyles();
+
   return (
     <Card>
-      <span className={profileCardStyles()}>
+      <span className={base()}>
         <span className="w-fit">
           <Avatar initials={nameInitials} size="lg" />
         </span>
@@ -30,6 +49,9 @@ const ProfileCard = ({
             </p>
           </span>
         </div>
+        <button onClick={deleteProfile} className={TrashIconButton()}>
+          <TrashIcon className="cursor-pointer" size={32} />
+        </button>
       </span>
     </Card>
   );
